@@ -72,8 +72,6 @@ namespace Chess
 				return GetAvailableAtackPositons(currentPos);
 			}
 
-
-			/// redo 
 			public virtual void ConsolePrintPosition (Position currentPos)
 			{
 
@@ -109,7 +107,7 @@ namespace Chess
 					System.Console.Write("\n");
 				}
 			}
-
+			//load image from file
 			protected virtual void LoadBitmap( string name ) {
 				System.String scolor;
 

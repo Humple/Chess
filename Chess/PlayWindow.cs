@@ -94,8 +94,8 @@ namespace Chess
                 graph.DrawString(Convert.ToString((i - 8) * (-1)), this.Font, pen.Brush, 8, sqSize / 2 - 4 + sqSize * i);
                 ch++;
             }
-            Image img = new Bitmap("C:\\tmp\\lol.png");
-            DrawFigure(new Point(6, 3), img);
+            //Image img = new Bitmap("C:\\tmp\\lol.png");
+            //DrawFigure(new Point(6, 3), img);
         }
 
         private void ReDraw()

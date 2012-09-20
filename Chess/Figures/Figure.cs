@@ -10,9 +10,9 @@ namespace Chess
 		{
 
 			//figure color
-            protected FiguteColor color;
+            protected FigureColor color;
 
-            public FiguteColor Color
+            public FigureColor Color
             {
 				get {
 					return color;
@@ -46,7 +46,7 @@ namespace Chess
 				}
 			}
 
-            public Figure(FiguteColor acolor)
+            public Figure(FigureColor acolor)
 			{
 				this.color = acolor;
 				this.moved = false;
@@ -112,7 +112,7 @@ namespace Chess
 			protected virtual void LoadBitmap( string name ) {
 				System.String scolor;
 
-                if (color == Chess.Figures.FiguteColor.WHITE) 
+                if (color == Chess.Figures.FigureColor.WHITE) 
 					scolor = "white";
 				else 
 					scolor = "black";

@@ -6,7 +6,7 @@ namespace Chess
 	{
 		public class Pawn: Figure
 		{
-            public Pawn(FiguteColor color)
+            public Pawn(FigureColor color)
                 : base(color)
 			{
 				diff = true;
@@ -20,7 +20,7 @@ namespace Chess
 				int m;
 
 				//white figures below
-                if (Color == Chess.Figures.FiguteColor.WHITE)
+                if (Color == Chess.Figures.FigureColor.WHITE)
                 {
 					m=-1;
 				} else {  //black fugures upwardly
@@ -48,7 +48,7 @@ namespace Chess
 
 				int m;
 				//white figures below
-                if (Color == Chess.Figures.FiguteColor.WHITE)
+                if (Color == Chess.Figures.FigureColor.WHITE)
                 {
 					m = -1;
 				} else {  //black fugures upwardly

@@ -7,7 +7,7 @@ namespace Chess
 
 		public class Bishop: Figure
 		{
-            public Bishop(FiguteColor color)
+            public Bishop(FigureColor color)
                 : base(color)
 			{
 				diff = false;

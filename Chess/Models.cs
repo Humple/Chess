@@ -2,7 +2,7 @@ namespace Chess
 {
 	namespace Figures
 	{
-		public enum FiguteColor { BLACK, WHITE };
+		public enum FigureColor { BLACK, WHITE };
 
 		public class Position
 		{

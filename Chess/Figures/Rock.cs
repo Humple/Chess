@@ -7,7 +7,7 @@ namespace Chess
 
 		public class Rock: Figure
 		{
-            public Rock(FiguteColor color)
+            public Rock(FigureColor color)
                 : base(color)
 			{
 				diff = false;

@@ -7,7 +7,7 @@ namespace Chess
 
 		public class Queen: Figure
 		{
-            public Queen(FiguteColor color)
+            public Queen(FigureColor color)
                 : base(color)
 			{
 				diff = false;

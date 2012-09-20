@@ -8,7 +8,7 @@ namespace Chess
 
 		public class King: Figure {
 
-            public King(FiguteColor color)
+            public King(FigureColor color)
                 : base(color)
             {
 				diff = false;

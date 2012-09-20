@@ -2,12 +2,13 @@ using System.Collections.Generic;
 
 namespace Chess
 {
-	namespace Figure
+	namespace Figures
 	{
 
 		public class Queen: Figure
 		{
-			public Queen (Color color): base(color)
+            public Queen(FiguteColor color)
+                : base(color)
 			{
 				diff = false;
 				moved = false;

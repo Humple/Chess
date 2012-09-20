@@ -2,11 +2,12 @@ using System.Collections.Generic;
 
 namespace Chess
 {
-	namespace Figure
+	namespace Figures
 	{
 		public class Pawn: Figure
 		{
-			public Pawn (Color color): base(color)
+            public Pawn(FiguteColor color)
+                : base(color)
 			{
 				diff = true;
 				moved = false;
@@ -19,7 +20,8 @@ namespace Chess
 				int m;
 
 				//white figures below
-				if (Color == Chess.Figure.Color.WHITE) {
+                if (Color == Chess.Figures.FiguteColor.WHITE)
+                {
 					m=-1;
 				} else {  //black fugures upwardly
 					m=1;
@@ -46,7 +48,8 @@ namespace Chess
 
 				int m;
 				//white figures below
-				if (Color == Chess.Figure.Color.WHITE) {
+                if (Color == Chess.Figures.FiguteColor.WHITE)
+                {
 					m = -1;
 				} else {  //black fugures upwardly
 					m = 1;

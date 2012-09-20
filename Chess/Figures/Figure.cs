@@ -4,15 +4,16 @@ using System.Drawing;
 
 namespace Chess
 {
-	namespace Figure
+	namespace Figures
 	{
 		public class Figure
 		{
 
 			//figure color
-			protected Color color;
+            protected FiguteColor color;
 
-			public Color Color {
+            public FiguteColor Color
+            {
 				get {
 					return color;
 				}
@@ -45,7 +46,7 @@ namespace Chess
 				}
 			}
 
-			public Figure (Color acolor)
+            public Figure(FiguteColor acolor)
 			{
 				this.color = acolor;
 				this.moved = false;
@@ -111,7 +112,7 @@ namespace Chess
 			protected virtual void LoadBitmap( string name ) {
 				System.String scolor;
 
-				if(color == Chess.Figure.Color.WHITE) 
+                if (color == Chess.Figures.FiguteColor.WHITE) 
 					scolor = "white";
 				else 
 					scolor = "black";

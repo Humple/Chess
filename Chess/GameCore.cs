@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Chess.Figures;
 
 namespace Chess
 {
@@ -11,16 +12,16 @@ namespace Chess
         public int X;
         public int Y;
         public Color sColor;
-        //public Figure sFigure;
+        public Figure sFigure;
         public bool Highlighted { get; set; }  // Для выделения возможных шагов
         public bool Focused { get; set; }      // Мышь наведена на эту клетку
         public bool Selected { get; set; }
-        public Spot(int x, int y, Color clr/*, Figure fgr*/)
+        public Spot(int x, int y, Color clr, Figure fgr)
         {
             X = x;
             Y = y;
             sColor = clr;
-            //sFigure = fgr;
+            sFigure = fgr;
             Highlighted = false;
             Focused = false;
             Selected = false;
@@ -71,11 +72,11 @@ namespace Chess
                 {
                     if ((i + j) % 2 != 0)
                     {
-                        sMatrix[i, j] = new Spot(i, j, Color.CadetBlue);
+                        sMatrix[i, j] = new Spot(i, j, Color.CadetBlue, null);
                     }
                     else
                     {
-                        sMatrix[i, j] = new Spot(i, j, Color.White);
+                        sMatrix[i, j] = new Spot(i, j, Color.White, null);
                     }
                 }
             }

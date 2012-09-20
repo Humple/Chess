@@ -1,8 +1,8 @@
 namespace Chess
 {
-	namespace Figure
+	namespace Figures
 	{
-		public enum Color { BLACK, WHITE };
+		public enum FiguteColor { BLACK, WHITE };
 
 		public class Position
 		{

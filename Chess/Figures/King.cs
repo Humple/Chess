@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 namespace Chess
 {
-	namespace Figure
+	namespace Figures
 	{
 
 		public class King: Figure {
 
-			public King (Color color): base(color)	{
+            public King(FiguteColor color)
+                : base(color)
+            {
 				diff = false;
 				moved = false; 
 				LoadBitmap("king");

@@ -18,9 +18,9 @@ namespace Chess
 
         private int sqSize { get; set; }   // размер квадрата
         private int offset { get; set; }   // отступ от края формы
-        Graphics graph = null;
-        System.Drawing.Pen pen = null;
-        delegate void ReDrawAsyncDelegate(int delay);
+        private BufferedGraphics graph = null;
+        private BufferedGraphicsContext graphContext = BufferedGraphicsManager.Current;
+        private System.Drawing.Pen pen = null;
 
 
         public PlayWindow()
@@ -32,7 +32,9 @@ namespace Chess
         }
         private void PlayWindow_Shown(object sender, EventArgs e)
         {
-            graph = this.CreateGraphics();
+            graphContext.MaximumBuffer = new System.Drawing.Size(sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
+            graph = graphContext.Allocate(this.CreateGraphics(), new Rectangle(0, 0, sqSize * 8 + offset + 1, sqSize * 8 + offset + 1));
+
             pen = new System.Drawing.Pen(Color.CadetBlue);
 
             mouseTracker = new System.Windows.Forms.Timer();
@@ -40,8 +42,7 @@ namespace Chess
             mouseTracker.Tick += new EventHandler(MouseTracking);
             mouseTracker.Start();
 
-            ReDrawAsyncDelegate dlgt = new ReDrawAsyncDelegate(ReDrawAsync);
-            dlgt.BeginInvoke(100, null, null);
+            ReDraw();
         }
     
 
@@ -49,6 +50,8 @@ namespace Chess
         private void Draw(object sender, EventArgs e)
         {
             Spot tmpSpot;
+            pen.Color = this.BackColor;
+            graph.Graphics.FillRectangle(pen.Brush, 0, 0, sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -71,40 +74,38 @@ namespace Chess
                     if (tmpSpot.Focused)
                     {
                         pen.Color = Color.FromArgb(pen.Color.R - 20, pen.Color.G - 20, pen.Color.B - 20);
-                        graph.FillRectangle(pen.Brush, offset + sqSize * i, sqSize * j, sqSize, sqSize);
+                        graph.Graphics.FillRectangle(pen.Brush, offset + sqSize * i, sqSize * j, sqSize, sqSize);
                         pen.Color = Color.FromArgb(pen.Color.R + 20, pen.Color.G + 20, pen.Color.B + 20);
-                        graph.FillRectangle(pen.Brush, offset + sqSize * i + 10, sqSize * j + 10, sqSize - 20, sqSize - 20);
+                        graph.Graphics.FillRectangle(pen.Brush, offset + sqSize * i + 10, sqSize * j + 10, sqSize - 20, sqSize - 20);
                     }
                     else
                     {
-                        graph.FillRectangle(pen.Brush, offset + sqSize * i, sqSize * j, sqSize, sqSize);
+                        graph.Graphics.FillRectangle(pen.Brush, offset + sqSize * i, sqSize * j, sqSize, sqSize);
                     }
                 }
             }
+            pen.Color = Color.Gray;
+            graph.Graphics.DrawRectangle(pen, offset, 0, sqSize * 8, sqSize * 8);
             pen.Color = Color.Black;
-            graph.DrawRectangle(pen, offset - 1, -1, sqSize * 8 + 1, sqSize * 8 + 1);
             char ch = 'A';
             for (int i = 0; i < 8; i++)
             {//вывод букв
-                graph.DrawString(Convert.ToString(ch), this.Font, pen.Brush, offset - 4 + sqSize / 2 + sqSize * i, sqSize * 8 + 5);
+                graph.Graphics.DrawString(Convert.ToString(ch), this.Font, pen.Brush, offset - 4 + sqSize / 2 + sqSize * i, sqSize * 8 + 5);
                 ch++;
             }
             for (int i = 0; i < 8; i++)
             {//вывод цифр
-                graph.DrawString(Convert.ToString((i - 8) * (-1)), this.Font, pen.Brush, 8, sqSize / 2 - 4 + sqSize * i);
+                graph.Graphics.DrawString(Convert.ToString((i - 8) * (-1)), this.Font, pen.Brush, 8, sqSize / 2 - 4 + sqSize * i);
                 ch++;
             }
+            
             //Image img = new Bitmap("C:\\tmp\\lol.png");
             //DrawFigure(new Point(6, 3), img);
+            graph.Render();
         }
 
         private void ReDraw()
         {
-            Draw(new object(), new EventArgs());
-        }
-        private void ReDrawAsync(int delay)
-        {
-            Thread.Sleep(delay);
             Draw(new object(), new EventArgs());
         }
 
@@ -131,14 +132,14 @@ namespace Chess
         private void SelectSq(Point pt, Color clr)
         {
             pen.Color = clr;
-            graph.FillRectangle(pen.Brush, offset + sqSize * pt.X, sqSize * pt.Y, sqSize, sqSize);
+            graph.Graphics.FillRectangle(pen.Brush, offset + sqSize * pt.X, sqSize * pt.Y, sqSize, sqSize);
         }
 
         private void DrawFigure(Point p, System.Drawing.Image img)
         {
             p.X = p.X * sqSize + offset;
             p.Y = p.Y * sqSize;
-            graph.DrawImage(img, p);
+            graph.Graphics.DrawImage(img, p);
         }
 
         private void PlayWindow_Move(object sender, EventArgs e)

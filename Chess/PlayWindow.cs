@@ -12,7 +12,7 @@ namespace Chess
 {
     public partial class PlayWindow : Form
     {
-        static GameCore core; // Перенести                                      !
+        static GuiMatrix matrix;
 
         System.Windows.Forms.Timer mouseTracker;
 
@@ -26,7 +26,7 @@ namespace Chess
         public PlayWindow()
         {
             InitializeComponent();
-            core = new GameCore(); // перенести                                 !
+            matrix = new GuiMatrix();
             sqSize = 80;
             offset = 25;
         }
@@ -56,7 +56,7 @@ namespace Chess
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    tmpSpot = core.GetSpot(i, j);
+                    tmpSpot = matrix.GetSpot(i, j);
 
                     //Выбор цвета квадрата
                     if (!tmpSpot.Highlighted && !tmpSpot.Selected) pen.Color = tmpSpot.sColor;
@@ -116,7 +116,7 @@ namespace Chess
             pt.X /= sqSize;
             pt.Y /= sqSize;
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) return;
-            if (core.MakeFocused(pt.X, pt.Y)) ReDraw();
+            if (matrix.MakeFocused(pt.X, pt.Y)) ReDraw();
         }
 
         private void PlayWindow_MouseDown(object sender, MouseEventArgs e)
@@ -126,7 +126,7 @@ namespace Chess
             pt.X /= sqSize;
             pt.Y /= sqSize;
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) return;
-            if (core.MakeSelected(pt.X, pt.Y)) ReDraw();
+            if (matrix.MakeSelected(pt.X, pt.Y)) ReDraw();
         }
 
         private void SelectSq(Point pt, Color clr)

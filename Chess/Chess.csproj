@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameCore.cs" />
+    <Compile Include="GuiMatrix.cs" />
     <Compile Include="PlayWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,7 +85,6 @@
     <Compile Include="Figures\Bishop.cs" />
     <Compile Include="Figures\King.cs" />
     <Compile Include="Figures\Knight.cs" />
-    <Compile Include="IGameControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

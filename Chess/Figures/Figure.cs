@@ -20,8 +20,8 @@ namespace Chess
 			}
 
 			//file splite
-			public const char SPLITER='/';
-			public const string PREFIX="images/figures";
+			public const char SPLITER='\\';
+			public const string PREFIX="images\\figures";
 
 			//public static const string PREFIX="images/figures";
 
@@ -39,8 +39,8 @@ namespace Chess
 			}
 
 			//figure image
-			protected Bitmap img;
-			public Bitmap Image { 
+			protected Bitmap img = null;
+			public Bitmap image { 
 				get {
 					return img;
 				}

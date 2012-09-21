@@ -10,21 +10,37 @@ namespace Chess
 			{
 				this.x = x;
 				this.y = y;
+                errFlag = false;
 			}
 
 			public Position()
 			{
-
+                this.x = 0;
+                this.y = 0;
+                errFlag = false;
 			}
 
+            private bool errFlag;
+            public bool errorFlag { 
+                get 
+                {
+                    bool tmp = errFlag;
+                    errFlag = false;
+                    return tmp;
+                }
+            }
 			private int x;
 			public int X {
 				get {
 					return x;
 				}
 				set {
-					if (value < 9 && value > 0)
-						x = value;
+                    if (value < 8 && value >= 0)
+                    {
+                        x = value;
+                        errFlag = false;
+                    }
+                    else errFlag = true;
 				}
 			}
 
@@ -34,8 +50,12 @@ namespace Chess
 					return y;
 				}
 				set {
-					if (value < 9 && value > 0)
-						y = value;
+                    if (value < 8 && value >= 0)
+                    {
+                        y = value;
+                        errFlag = false;
+                    }
+                    else errFlag = true;
 				}
 			}
 
@@ -56,6 +76,10 @@ namespace Chess
 			{
 				return ( X == ((Position) obj).X) && ( Y == ((Position) obj).Y);
 			}
+            public override int GetHashCode()
+            {
+                return 0;
+            }
 
 		}
 	}

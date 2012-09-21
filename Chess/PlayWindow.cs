@@ -13,7 +13,7 @@ namespace Chess
 {
     public partial class PlayWindow : Form
     {
-        public GuiMatrix matrix;
+        public GuiMatrix matrix = null;
         private System.Windows.Forms.Timer mouseTracker;
         private int sqSize { get; set; }   // размер квадрата
         private int offset { get; set; }   // отступ от края формы
@@ -24,11 +24,11 @@ namespace Chess
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
 
-        public PlayWindow(string title, Chess.IGameControl control)
+        public PlayWindow(string title, Chess.IGameControl control, Chess.CoreMatrix coreMatrix)
         {
             this.Text = title;
             InitializeComponent();
-            matrix = new GuiMatrix();
+            matrix = new GuiMatrix(coreMatrix);
             sqSize = 80;
             offset = 25;
 
@@ -54,6 +54,7 @@ namespace Chess
         //draw chess field
         private void Draw(object sender, EventArgs e)
         {
+            if (matrix == null) return;
             Spot tmpSpot;
             pen.Color = this.BackColor;
             graph.Graphics.FillRectangle(pen.Brush, 0, 0, sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
@@ -61,8 +62,7 @@ namespace Chess
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    tmpSpot = matrix.GetSpot(i, j);
-
+                    if ((tmpSpot = matrix.GetSpot(i, j)) == null) continue;
                     //Выбор цвета квадрата
                     if (!tmpSpot.Highlighted && !tmpSpot.Selected) pen.Color = tmpSpot.sColor;
                     else
@@ -87,6 +87,12 @@ namespace Chess
                     {
                         graph.Graphics.FillRectangle(pen.Brush, offset + sqSize * i, sqSize * j, sqSize, sqSize);
                     }
+
+                    //отрисовка изображения фигуры
+                    if (tmpSpot.image != null)
+                    {
+                        DrawFigure(new Position(i, j), tmpSpot.image);
+                    }
                 }
             }
             pen.Color = Color.Gray;
@@ -104,8 +110,6 @@ namespace Chess
                 ch++;
             }
             
-            //Image img = new Bitmap("C:\\tmp\\lol.png");
-            //DrawFigure(new Position(4, 3), img);
             graph.Render();
         }
 

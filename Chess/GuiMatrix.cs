@@ -71,22 +71,38 @@ namespace Chess
             sMatrix[posOld.X, posOld.Y].image = null;
             return true;
         }
-        public GuiMatrix()
+        public GuiMatrix(CoreMatrix coreMatrix)
         {
             oldFocused = new Point(int.MaxValue, int.MaxValue);
             oldSelected = new Point(int.MaxValue, int.MaxValue);
             sMatrix = new Spot[8, 8];
-            for (int i = 0; i < 8; i++)
+            Position pos = new Position();
+            for (pos.X = 0; !pos.errorFlag; pos.X++)
             {
-                for (int j = 0; j < 8; j++)
+                for (pos.Y = 0; !pos.errorFlag; pos.Y++)
                 {
-                    if ((i + j) % 2 != 0)
+                    if ((pos.X + pos.Y) % 2 != 0)
                     {
-                        sMatrix[i, j] = new Spot(i, j, Color.CadetBlue, null);
+                        try
+                        {
+                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.CadetBlue, coreMatrix.GetFigure(pos).image);
+                        }
+                        catch (System.NullReferenceException)
+                        {
+                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.CadetBlue, null);
+                        }
                     }
                     else
                     {
-                        sMatrix[i, j] = new Spot(i, j, Color.White, null);
+                        try
+                        {
+                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.White, coreMatrix.GetFigure(pos).image);
+                        }
+                        catch (System.NullReferenceException)
+                        {
+                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.White, null);
+                        }
+                       
                     }
                 }
             }

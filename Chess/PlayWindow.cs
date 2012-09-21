@@ -19,16 +19,20 @@ namespace Chess
         private int offset { get; set; }   // отступ от края формы
         private BufferedGraphics graph = null;
         private System.Drawing.Pen pen = null;
+		private Chess.IGameControl gameControl;
+
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
 
-        public PlayWindow(string title)
+        public PlayWindow(string title, Chess.IGameControl control)
         {
             this.Text = title;
             InitializeComponent();
             matrix = new GuiMatrix();
             sqSize = 80;
             offset = 25;
+
+			gameControl = control;
         }
 
         private void PlayWindow_Shown(object sender, EventArgs e)

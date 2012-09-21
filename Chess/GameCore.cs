@@ -10,6 +10,12 @@ namespace Chess
     {
 
 		private PlayWindow playWindow;
+		private Figure[,] figuresMatrix;
+
+		public GameCore ()
+		{
+
+		}
 
 		public void InitGame ()
 		{
@@ -20,7 +26,12 @@ namespace Chess
             Application.Run(playWindow);
 		}
 
+		private void StartGame ()
+		{
+				figuresMatrix = new Figure[8,8];
+		}
 
+		//IGameControl
 		public void FigureMoved(Position oldPos, Position newPos)
 		{
 

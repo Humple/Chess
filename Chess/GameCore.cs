@@ -6,6 +6,7 @@ using Chess.Figures;
 
 namespace Chess
 {
+
     class GameCore: IGameControl
     {
 
@@ -23,7 +24,9 @@ namespace Chess
 
 			Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(playWindow);
+
+			playWindow.Show();
+			Application.Run();
 		}
 
 		private void StartGame ()

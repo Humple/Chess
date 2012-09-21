@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="GameCore.cs" />
     <Compile Include="GuiMatrix.cs" />
+    <Compile Include="IGameControl.cs" />
     <Compile Include="PlayWindow.cs">
       <SubType>Form</SubType>
     </Compile>

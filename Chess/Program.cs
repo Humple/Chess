@@ -12,7 +12,7 @@ namespace Chess
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PlayWindow());
+            Application.Run(new PlayWindow("Chess"));
 
 		}
     }

@@ -39,7 +39,6 @@
             this.MaximizeBox = false;
             this.Name = "PlayWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
             this.Activated += new System.EventHandler(this.PlayWindow_Activated);
             this.Deactivate += new System.EventHandler(this.PlayWindow_Deactivate);
             this.Shown += new System.EventHandler(this.PlayWindow_Shown);

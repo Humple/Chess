@@ -23,8 +23,9 @@ namespace Chess
         private System.Drawing.Pen pen = null;
 
 
-        public PlayWindow()
+        public PlayWindow(string title)
         {
+            this.Text = title;
             InitializeComponent();
             matrix = new GuiMatrix();
             sqSize = 80;

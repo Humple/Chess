@@ -31,7 +31,23 @@ namespace Chess
 
 		private void StartGame ()
 		{
-				figuresMatrix = new Figure[8,8];
+			figuresMatrix = new Figure[8, 8];
+				
+			figuresMatrix [0, 7] = new Rock (FigureColor.WHITE);
+			figuresMatrix [7, 7] = new Rock (FigureColor.WHITE);
+
+			figuresMatrix [6, 7] = new Knight (FigureColor.WHITE);
+			figuresMatrix [1, 7] = new Knight (FigureColor.WHITE);
+
+			figuresMatrix [2, 7] = new Bishop (FigureColor.WHITE);
+			figuresMatrix [5, 7] = new Bishop (FigureColor.WHITE);
+
+			figuresMatrix [3, 7] = new King (FigureColor.WHITE);
+			figuresMatrix [4, 7] = new Queen (FigureColor.WHITE);
+
+			for (int i = 0; i<8; i++) {
+				figuresMatrix[i, 6] = new Pawn(FigureColor.WHITE);
+			}
 		}
 
 		//IGameControl

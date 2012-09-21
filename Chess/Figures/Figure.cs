@@ -20,8 +20,8 @@ namespace Chess
 			}
 
 			//file splite
-			public const char SPLITER='\\';
-			public const string PREFIX="images\\figures";
+			public const char SPLITER='/';
+			public const string PREFIX="images/figures";
 
 			//public static const string PREFIX="images/figures";
 

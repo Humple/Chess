@@ -47,13 +47,14 @@ namespace Chess
             mouseTracker.Tick += new EventHandler(MouseTracking);
             mouseTracker.Start();
 
-            ReDraw(true);
+            ReDraw(50);
         }
     
         //draw chess field
         private void Draw(object sender, EventArgs e)
         {
             if (matrix == null) return;
+			if(e != null) Thread.Sleep((int)sender);
             Spot tmpSpot;
             pen.Color = this.BackColor;
             graph.Graphics.FillRectangle(pen.Brush, 0, 0, sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
@@ -116,22 +117,31 @@ namespace Chess
         {
             graph.Graphics.DrawImage(img, p.X * sqSize + offset, p.Y * sqSize);
         }
-
+		
+		// Неасинхроная потрисовка
         private void ReDraw()
         {
-            Draw(new object(), new EventArgs());
+            Draw(null, null);
         }
-
+		
+		// Асинхронная отрисовка при парпметре async == true
         private void ReDraw(bool async)
         {
             if (async)
             {
                 DrawAsyncDelegate d = new DrawAsyncDelegate(Draw);
-                d.BeginInvoke(new object(), new EventArgs(), null, null);
+                d.BeginInvoke(null, null, null, null);
             }
-            else Draw(new object(), new EventArgs());
+            else Draw(null, null);
         }
-
+		
+		//Асинхронная отрисовкай с задержкой на delay милисекунд
+		private void ReDraw(int delay)
+        {
+            DrawAsyncDelegate d = new DrawAsyncDelegate(Draw);
+            d.BeginInvoke(delay, new EventArgs(), null, null);
+        }
+		
         private void MouseTracking(object sender, EventArgs e)
         {
             Point pt = PointToClient(Cursor.Position);

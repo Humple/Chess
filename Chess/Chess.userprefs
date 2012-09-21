@@ -1,14 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PlayWindow.cs">
     <Files>
       <File FileName="Program.cs" Line="7" Column="1" />
-      <File FileName="Figures/King.cs" Line="24" Column="11" />
+      <File FileName="Figures/King.cs" Line="25" Column="32" />
       <File FileName="Models.cs" Line="52" Column="4" />
+      <File FileName="Figures/Figure.cs" Line="19" Column="6" />
+      <File FileName="PlayWindow.cs" Line="80" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" />
+        <State expanded="True">
+          <Node name="Chess" expanded="True">
+            <Node name="Figures" expanded="True" />
+            <Node name="PlayWindow.cs" selected="True" />
+          </Node>
+        </State>
       </Pad>
       <Pad Id="ClassPad">
         <State expanded="True" selected="True" />

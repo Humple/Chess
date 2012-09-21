@@ -9,11 +9,9 @@ namespace Chess
     static class Program
     {
         static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PlayWindow("Chess"));
-
+        {	
+			GameCore game = new GameCore();
+			game.InitGame();
 		}
     }
 }

@@ -18,16 +18,19 @@ namespace Chess
 
 		}
 
-		public void InitGame ()
-		{
-			playWindow = new PlayWindow("Chess");
+        public void InitGame()
+        {
+            playWindow = new PlayWindow("Chess");
+            playWindow.FormClosed += new FormClosedEventHandler(Close);
+            Application.EnableVisualStyles();
+            playWindow.Show();
+            Application.Run();
+        }
 
-			Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-			playWindow.Show();
-			Application.Run();
-		}
+        private void Close(Object o, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
 
 		private void StartGame ()
 		{

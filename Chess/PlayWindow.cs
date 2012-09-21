@@ -13,7 +13,7 @@ namespace Chess
 {
     public partial class PlayWindow : Form
     {
-        public static GuiMatrix matrix;
+        public GuiMatrix matrix;
         private System.Windows.Forms.Timer mouseTracker;
         private int sqSize { get; set; }   // размер квадрата
         private int offset { get; set; }   // отступ от края формы

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreMatrix.cs" />
     <Compile Include="GameCore.cs" />
     <Compile Include="GuiMatrix.cs" />
     <Compile Include="IGameControl.cs" />

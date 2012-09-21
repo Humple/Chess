@@ -12,7 +12,7 @@ namespace Chess
 {
     public partial class PlayWindow : Form
     {
-        static GuiMatrix matrix;
+        public static GuiMatrix matrix;
 
         System.Windows.Forms.Timer mouseTracker;
 
@@ -30,6 +30,7 @@ namespace Chess
             sqSize = 80;
             offset = 25;
         }
+
         private void PlayWindow_Shown(object sender, EventArgs e)
         {
             graphContext.MaximumBuffer = new System.Drawing.Size(sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
@@ -45,7 +46,6 @@ namespace Chess
             ReDraw();
         }
     
-
         //draw chess field
         private void Draw(object sender, EventArgs e)
         {

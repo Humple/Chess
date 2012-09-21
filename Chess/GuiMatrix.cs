@@ -28,7 +28,7 @@ namespace Chess
         }
     }
 
-    class GuiMatrix
+    public class GuiMatrix
     {
         private Point oldFocused;
         private Point oldSelected;
@@ -60,9 +60,19 @@ namespace Chess
             sMatrix[i, j].Selected = true;
             return true;
         }
-
+        public bool SetImage(Image img, Position pos)
+        {
+            sMatrix[pos.X, pos.Y].image = img;
+            return true;
+        }
+        public bool MoveImage(Position posOld, Position posNew)
+        {
+            sMatrix[posNew.X, posNew.Y].image = sMatrix[posOld.X, posOld.Y].image;
+            sMatrix[posOld.X, posOld.Y].image = null;
+            return true;
+        }
         public GuiMatrix()
-        {//Надо будет переделать когда появятся фигуры
+        {
             oldFocused = new Point(int.MaxValue, int.MaxValue);
             oldSelected = new Point(int.MaxValue, int.MaxValue);
             sMatrix = new Spot[8, 8];

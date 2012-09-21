@@ -21,6 +21,7 @@ namespace Chess
         private BufferedGraphics graph = null;
         private BufferedGraphicsContext graphContext = BufferedGraphicsManager.Current;
         private System.Drawing.Pen pen = null;
+        private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
 
         public PlayWindow(string title)
@@ -44,7 +45,7 @@ namespace Chess
             mouseTracker.Tick += new EventHandler(MouseTracking);
             mouseTracker.Start();
 
-            ReDraw();
+            ReDraw(true);
         }
     
         //draw chess field
@@ -110,6 +111,16 @@ namespace Chess
             Draw(new object(), new EventArgs());
         }
 
+        private void ReDraw(bool async)
+        {
+            if (async)
+            {
+                DrawAsyncDelegate d = new DrawAsyncDelegate(Draw);
+                d.BeginInvoke(new object(), new EventArgs(), null, null);
+            }
+            else Draw(new object(), new EventArgs());
+        }
+
         private void MouseTracking(object sender, EventArgs e)
         {
             Point pt = PointToClient(Cursor.Position);
@@ -117,7 +128,7 @@ namespace Chess
             pt.X /= sqSize;
             pt.Y /= sqSize;
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) return;
-            if (matrix.MakeFocused(pt.X, pt.Y)) ReDraw();
+            if (matrix.MakeFocused(pt.X, pt.Y)) ReDraw(true);
         }
 
         private void PlayWindow_MouseDown(object sender, MouseEventArgs e)
@@ -127,7 +138,7 @@ namespace Chess
             pt.X /= sqSize;
             pt.Y /= sqSize;
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) return;
-            if (matrix.MakeSelected(pt.X, pt.Y)) ReDraw();
+            if (matrix.MakeSelected(pt.X, pt.Y)) ReDraw(true);
         }
 
         private void SelectSq(Point pt, Color clr)
@@ -145,19 +156,19 @@ namespace Chess
 
         private void PlayWindow_Move(object sender, EventArgs e)
         {
-            if (graph != null) ReDraw();
+            if (graph != null) ReDraw(true);
         }
 
         private void PlayWindow_Deactivate(object sender, EventArgs e)
         {
             if (mouseTracker != null) mouseTracker.Stop();
-            if(graph != null) ReDraw();
+            if(graph != null) ReDraw(true);
         }
 
         private void PlayWindow_Activated(object sender, EventArgs e)
         {
             if (mouseTracker != null && !mouseTracker.Enabled) mouseTracker.Start();
-            if (graph != null) ReDraw();
+            if (graph != null) ReDraw(true);
         }
 
 

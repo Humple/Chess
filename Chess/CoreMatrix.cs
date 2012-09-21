@@ -49,7 +49,6 @@ namespace Chess
             {
                 sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
             }
-            int j = 0;
         }
         public Figure GetFigure(Position pos)
         {

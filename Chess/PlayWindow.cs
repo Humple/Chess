@@ -7,19 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using Chess.Figures;
 
 namespace Chess
 {
     public partial class PlayWindow : Form
     {
         public static GuiMatrix matrix;
-
-        System.Windows.Forms.Timer mouseTracker;
-
+        private System.Windows.Forms.Timer mouseTracker;
         private int sqSize { get; set; }   // размер квадрата
         private int offset { get; set; }   // отступ от края формы
         private BufferedGraphics graph = null;
-        private BufferedGraphicsContext graphContext = BufferedGraphicsManager.Current;
         private System.Drawing.Pen pen = null;
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
@@ -35,6 +33,7 @@ namespace Chess
 
         private void PlayWindow_Shown(object sender, EventArgs e)
         {
+            BufferedGraphicsContext graphContext = BufferedGraphicsManager.Current;
             graphContext.MaximumBuffer = new System.Drawing.Size(sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
             graph = graphContext.Allocate(this.CreateGraphics(), new Rectangle(0, 0, sqSize * 8 + offset + 1, sqSize * 8 + offset + 1));
 
@@ -101,9 +100,14 @@ namespace Chess
                 ch++;
             }
             
-            //Image img = new Bitmap("C:\\tmp\\lol.png");
-            //DrawFigure(new Point(6, 3), img);
+            Image img = new Bitmap("C:\\tmp\\lol.png");
+            DrawFigure(new Position(4, 3), img);
             graph.Render();
+        }
+
+        private void DrawFigure(Position p, System.Drawing.Image img)
+        {
+            graph.Graphics.DrawImage(img, p.X * sqSize + offset, p.Y * sqSize);
         }
 
         private void ReDraw()
@@ -140,20 +144,7 @@ namespace Chess
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) return;
             if (matrix.MakeSelected(pt.X, pt.Y)) ReDraw(true);
         }
-
-        private void SelectSq(Point pt, Color clr)
-        {
-            pen.Color = clr;
-            graph.Graphics.FillRectangle(pen.Brush, offset + sqSize * pt.X, sqSize * pt.Y, sqSize, sqSize);
-        }
-
-        private void DrawFigure(Point p, System.Drawing.Image img)
-        {
-            p.X = p.X * sqSize + offset;
-            p.Y = p.Y * sqSize;
-            graph.Graphics.DrawImage(img, p);
-        }
-
+        
         private void PlayWindow_Move(object sender, EventArgs e)
         {
             if (graph != null) ReDraw(true);
@@ -170,7 +161,5 @@ namespace Chess
             if (mouseTracker != null && !mouseTracker.Enabled) mouseTracker.Start();
             if (graph != null) ReDraw(true);
         }
-
-
     }
 }

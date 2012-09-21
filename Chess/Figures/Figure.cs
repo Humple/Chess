@@ -123,7 +123,16 @@ namespace Chess
 							+ name 
 							+".png";
 				// images/figures/white_pawn.png
-				img = new Bitmap( path );
+                try
+                {
+                    img = new Bitmap(path);
+                }
+                catch (System.Exception ex)
+                {
+                    img = null;
+                    System.Windows.Forms.MessageBox.Show("File " + path.ToUpper() + " not found. Please, put it to the directory of executable file.", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                }
+				
 			}
 		}
 	}

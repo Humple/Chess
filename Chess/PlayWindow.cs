@@ -24,15 +24,14 @@ namespace Chess
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
 
-        public PlayWindow(string title, Chess.IGameControl control, Chess.CoreMatrix coreMatrix)
+        public PlayWindow(Chess.IGameControl control, string title, Chess.GuiMatrix guiMatrix)
         {
             this.Text = title;
             InitializeComponent();
-            matrix = new GuiMatrix(coreMatrix);
+            matrix = guiMatrix;
+            gameControl = control;
             sqSize = 80;
             offset = 25;
-
-			gameControl = control;
         }
 
         private void PlayWindow_Shown(object sender, EventArgs e)

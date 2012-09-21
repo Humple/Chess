@@ -18,14 +18,13 @@ namespace Chess
 
 		}
 
-        public void InitGame()
+        public void Initialize()
         {
             matrix = new CoreMatrix();
-            playWindow = new PlayWindow("Chess", this, matrix);
+            playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
             playWindow.FormClosed += new FormClosedEventHandler(Close);
             Application.EnableVisualStyles();
-            playWindow.Show();
-            Application.Run();
+            Application.Run(playWindow);
         }
 
         private void Close(Object o, FormClosedEventArgs e)

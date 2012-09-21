@@ -11,7 +11,7 @@ namespace Chess
         static void Main()
         {	
 			GameCore game = new GameCore();
-			game.InitGame();
+			game.Initialize();
 		}
     }
 }

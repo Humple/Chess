@@ -100,8 +100,8 @@ namespace Chess
                 ch++;
             }
             
-            Image img = new Bitmap("C:\\tmp\\lol.png");
-            DrawFigure(new Position(4, 3), img);
+            //Image img = new Bitmap("C:\\tmp\\lol.png");
+            //DrawFigure(new Position(4, 3), img);
             graph.Render();
         }
 

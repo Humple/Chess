@@ -10,6 +10,7 @@ namespace Chess
     public class CoreMatrix: Object
     {
         private Figure[,] sMatrix;
+
         public CoreMatrix()
         {
             //WHITE
@@ -50,9 +51,14 @@ namespace Chess
                 sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
             }
         }
-        public Figure GetFigure(Position pos)
+        public Figure FigureAt(Position pos)
         {
             return sMatrix[pos.X, pos.Y];
         }
+
+		public bool HasFigureAt (Position pos)
+		{
+			return (sMatrix[pos.X, pos.Y] !=null);
+		}
     }
 }

@@ -48,7 +48,7 @@ namespace Chess
                     {
                         try
                         {
-                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.CadetBlue, coreMatrix.GetFigure(pos).image);
+                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.CadetBlue, coreMatrix.FigureAt(pos).image);
                         }
                         catch (System.NullReferenceException)
                         {
@@ -59,7 +59,7 @@ namespace Chess
                     {
                         try
                         {
-                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.White, coreMatrix.GetFigure(pos).image);
+                            sMatrix[pos.X, pos.Y] = new Spot(pos.X, pos.Y, Color.White, coreMatrix.FigureAt(pos).image);
                         }
                         catch (System.NullReferenceException)
                         {
@@ -94,11 +94,21 @@ namespace Chess
 
 		public bool SetHighlighted (List<Position> positions)
 		{
+			UnsetHiglight();
+
 			foreach( Position pos in positions)
 			{
 				SetHighlighted(pos);
 			}
 			return true;
+		}
+
+		public void UnsetHiglight ()
+		{
+			foreach (Spot spot in sMatrix) {
+				spot.Highlighted = false;
+			}
+
 		}
 
 		//Making square selected

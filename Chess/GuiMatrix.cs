@@ -7,7 +7,7 @@ using Chess.Figures;
 
 namespace Chess
 {
-    public class Spot: Object
+    public class Spot
     {
         public int X;
         public int Y;
@@ -28,50 +28,13 @@ namespace Chess
         }
     }
 
-    public class GuiMatrix: Object
+    public class GuiMatrix
     {
         private Point oldFocused;
         private Point oldSelected;
         private Spot [,] sMatrix;
 
-        public Spot GetSpot(int i, int j)
-        {
-            return sMatrix[i, j];
-        }
-        public bool MakeFocused(int i, int j)
-        {
-            if (oldFocused.X == i && oldFocused.Y == j) return false;
-            if (oldFocused.X != int.MaxValue) sMatrix[oldFocused.X, oldFocused.Y].Focused = false;
-            oldFocused.X = i;
-            oldFocused.Y = j;
-            sMatrix[i, j].Focused = true;
-            return true;
-        }
-        public bool MakeSelected(int i, int j)
-        {
-            if (oldSelected.X == i && oldSelected.Y == j)
-            {
-                sMatrix[i, j].Selected = !sMatrix[i, j].Selected;
-                return true;
-            }
-            if (oldSelected.X != int.MaxValue) sMatrix[oldSelected.X, oldSelected.Y].Selected = false;
-            oldSelected.X = i;
-            oldSelected.Y = j;
-            sMatrix[i, j].Selected = true;
-            return true;
-        }
-        public bool SetImage(Image img, Position pos)
-        {
-            sMatrix[pos.X, pos.Y].image = img;
-            return true;
-        }
-        public bool MoveImage(Position posOld, Position posNew)
-        {
-            sMatrix[posNew.X, posNew.Y].image = sMatrix[posOld.X, posOld.Y].image;
-            sMatrix[posOld.X, posOld.Y].image = null;
-            return true;
-        }
-        public GuiMatrix(CoreMatrix coreMatrix)
+		public GuiMatrix(CoreMatrix coreMatrix)
         {
             oldFocused = new Point(int.MaxValue, int.MaxValue);
             oldSelected = new Point(int.MaxValue, int.MaxValue);
@@ -108,5 +71,69 @@ namespace Chess
             }
         }
 
+        public Spot GetSpot(int i, int j)
+        {
+            return sMatrix[i, j];
+        }
+        
+		public bool SetFocused(int i, int j)
+        {
+            if (oldFocused.X == i && oldFocused.Y == j) return false;
+            if (oldFocused.X != int.MaxValue) sMatrix[oldFocused.X, oldFocused.Y].Focused = false;
+            oldFocused.X = i;
+            oldFocused.Y = j;
+            sMatrix[i, j].Focused = true;
+            return true;
+        }
+
+		public bool SetHighlighted (Position pos)
+		{
+			GetSpot(pos.X, pos.Y).Highlighted = true;
+			return true;
+		}
+
+		public bool SetHighlighted (List<Position> positions)
+		{
+			foreach( Position pos in positions)
+			{
+				SetHighlighted(pos);
+			}
+			return true;
+		}
+
+		//Making square selected
+        public bool SetSelected(int i, int j)
+        {
+            if (oldSelected.X == i && oldSelected.Y == j)
+            {
+                sMatrix[i, j].Selected = !sMatrix[i, j].Selected;
+                return true;
+            }
+            if (oldSelected.X != int.MaxValue) sMatrix[oldSelected.X, oldSelected.Y].Selected = false;
+            oldSelected.X = i;
+            oldSelected.Y = j;
+            sMatrix[i, j].Selected = true;
+            return true;
+        }
+
+		public bool SetSelected(Position pos)
+        {
+			return SetSelected(pos.X, pos.Y);
+        }
+		//
+
+		//Set up image
+        public bool SetImage(Image img, Position pos)
+        {
+            sMatrix[pos.X, pos.Y].image = img;
+            return true;
+        }
+		//Move image from one square to another
+        public bool MoveImage(Position posOld, Position posNew)
+        {
+            sMatrix[posNew.X, posNew.Y].image = sMatrix[posOld.X, posOld.Y].image;
+            sMatrix[posOld.X, posOld.Y].image = null;
+            return true;
+        }
     }
 }

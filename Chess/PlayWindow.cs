@@ -14,6 +14,7 @@ namespace Chess
     public partial class PlayWindow : Form
     {
         public GuiMatrix matrix = null;
+
         private System.Windows.Forms.Timer mouseTracker;
         private int sqSize { get; set; }   // размер квадрата
         private int offset { get; set; }   // отступ от края формы
@@ -22,7 +23,6 @@ namespace Chess
 		private Chess.IGameControl control;
 
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
-
 
         public PlayWindow(Chess.IGameControl gameControl, string title, Chess.GuiMatrix guiMatrix)
         {
@@ -33,23 +33,7 @@ namespace Chess
             sqSize = 80;
             offset = 25;
         }
-
-        private void PlayWindow_Shown(object sender, EventArgs e)
-        {
-            BufferedGraphicsContext graphContext = BufferedGraphicsManager.Current;
-            graphContext.MaximumBuffer = new System.Drawing.Size(sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
-            graph = graphContext.Allocate(this.CreateGraphics(), new Rectangle(0, 0, sqSize * 8 + offset + 1, sqSize * 8 + offset + 1));
-
-            pen = new System.Drawing.Pen(Color.CadetBlue);
-
-            mouseTracker = new System.Windows.Forms.Timer();
-            mouseTracker.Interval = 40;
-            mouseTracker.Tick += new EventHandler(MouseTracking);
-            mouseTracker.Start();
-
-            ReDraw(50);
-        }
-    
+  
         //draw chess field
         private void Draw(object sender, EventArgs e)
         {
@@ -112,19 +96,17 @@ namespace Chess
             
             graph.Render();
         }
-
-        private void DrawFigure(Position p, System.Drawing.Image img)
+        //draw image on field in p position
+		private void DrawFigure(Position p, System.Drawing.Image img)
         {
             graph.Graphics.DrawImage(img, p.X * sqSize + offset, p.Y * sqSize);
         }
-		
-		// Неасинхроная потрисовка
-        private void ReDraw()
-        {
-            Draw(null, null);
-        }
-		
-		// Асинхронная отрисовка при парпметре async == true
+		// Sync redrawing
+        private void ReDraw ()
+		{
+			Draw (null, null);
+		}
+		// Manual synced/asynced redrawing
         private void ReDraw(bool async)
         {
             if (async)
@@ -134,45 +116,70 @@ namespace Chess
             }
             else Draw(null, null);
         }
-		
 		//Асинхронная отрисовкай с задержкой на delay милисекунд
 		private void ReDraw(int delay)
         {
             DrawAsyncDelegate d = new DrawAsyncDelegate(Draw);
             d.BeginInvoke(delay, new EventArgs(), null, null);
         }
-		
-        private void MouseTracking(object sender, EventArgs e)
+		//Window shown event handler
+		private void PlayWindow_Shown(object sender, EventArgs e)
         {
-            Point pt = PointToClient(Cursor.Position);
-            pt.X -= offset;
-            pt.X /= sqSize;
-            pt.Y /= sqSize;
-            if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) return;
-            if (matrix.MakeFocused(pt.X, pt.Y)) ReDraw(true);
-        }
+            BufferedGraphicsContext graphContext = BufferedGraphicsManager.Current;
+            graphContext.MaximumBuffer = new System.Drawing.Size(sqSize * 8 + offset + 1, sqSize * 8 + offset + 1);
+            graph = graphContext.Allocate(this.CreateGraphics(), new Rectangle(0, 0, sqSize * 8 + offset + 1, sqSize * 8 + offset + 1));
 
-        private void PlayWindow_MouseDown(object sender, MouseEventArgs e)
+            pen = new System.Drawing.Pen(Color.CadetBlue);
+
+            mouseTracker = new System.Windows.Forms.Timer();
+            mouseTracker.Interval = 40;
+            mouseTracker.Tick += new EventHandler(PlayWindow_MouseTracking);
+            mouseTracker.Start();
+
+            ReDraw(50);
+        }
+		//Cursor moved event
+        private void PlayWindow_MouseTracking(object sender, EventArgs e)
         {
             Point pt = PointToClient(Cursor.Position);
             pt.X -= offset;
             pt.X /= sqSize;
             pt.Y /= sqSize;
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) return;
-            if (matrix.MakeSelected(pt.X, pt.Y)) ReDraw(true);
+            if (matrix.SetFocused(pt.X, pt.Y)) ReDraw(true);
         }
-        
+		//Mouse down event handler
+        private void PlayWindow_MouseDown (object sender, MouseEventArgs e)
+		{
+			Point pt = PointToClient (Cursor.Position);
+
+			pt.X -= offset;
+			pt.X /= sqSize;
+			pt.Y /= sqSize;
+
+			if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0) 
+				return;
+			Position mouseClickedPos = new Position (pt.X, pt.Y);
+            
+			if (matrix.SetSelected (pt.X, pt.Y)) {
+				//invoke interface method
+				control.SpotSelected(mouseClickedPos);
+				ReDraw (true);
+			}
+		}
+		//If window moved. Window events handlers
         private void PlayWindow_Move(object sender, EventArgs e)
         {
-            if (graph != null) ReDraw(true);
+            if (graph != null) 
+				ReDraw(true);
         }
-
+		//If window deactivated
         private void PlayWindow_Deactivate(object sender, EventArgs e)
         {
             if (mouseTracker != null) mouseTracker.Stop();
             if(graph != null) ReDraw(true);
         }
-
+		//If windows activated
         private void PlayWindow_Activated(object sender, EventArgs e)
         {
             if (mouseTracker != null && !mouseTracker.Enabled) mouseTracker.Start();

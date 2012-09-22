@@ -35,7 +35,7 @@ namespace Chess
         private void ReInitialize()
         {
             matrix = new CoreMatrix();
-            playWindow.FieldMatrix = new GuiMatrix(matrix);
+            playWindow.matrix = new GuiMatrix(matrix);
             playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
             playWindow.FormClosed += new FormClosedEventHandler(PlayWindowClose);
 
@@ -84,7 +84,7 @@ namespace Chess
 				Figure figure  = matrix.FigureAt(spotPos);
 				if( figure.Color == runColor ) {
 					figure.ConsolePrintPosition(spotPos);
-					playWindow.FieldMatrix.SetHighlighted( figure.GetAvailableMovePossitons(spotPos) );
+					playWindow.matrix.SetHighlighted( figure.GetAvailableMovePossitons(spotPos) );
 				}
 			}
 		}

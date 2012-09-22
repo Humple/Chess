@@ -35,7 +35,7 @@ namespace Chess
 				if (!IsMoved) {
 					Position pos2 = new Position ();
 					pos2.X = currentPos.X;
-					pos2.Y = currentPos.Y + 2+m;
+					pos2.Y = currentPos.Y + 2*m;
 					available.Add (pos2);
 				}
 
@@ -56,7 +56,6 @@ namespace Chess
 				}
 
 				int y = currentPos.Y + 1 * m;
-
 				int x1 = currentPos.X + 1;
 				int x2 = currentPos.X - 1;
 

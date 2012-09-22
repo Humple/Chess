@@ -50,6 +50,12 @@
     <Compile Include="GameCore.cs" />
     <Compile Include="GuiMatrix.cs" />
     <Compile Include="IGameControl.cs" />
+    <Compile Include="InviteWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InviteWindow.Designer.cs">
+      <DependentUpon>InviteWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlayWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +64,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InviteWindow.resx">
+      <DependentUpon>InviteWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PlayWindow.resx">
       <DependentUpon>PlayWindow.cs</DependentUpon>
     </EmbeddedResource>

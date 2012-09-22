@@ -7,7 +7,7 @@ using Chess.Figures;
 
 namespace Chess
 {
-    public class CoreMatrix
+    public class CoreMatrix: Object
     {
         private Figure[,] sMatrix;
         public CoreMatrix()

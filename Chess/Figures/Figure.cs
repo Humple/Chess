@@ -6,7 +6,7 @@ namespace Chess
 {
 	namespace Figures
 	{
-		public class Figure
+		public class Figure: Object
 		{
 
 			//figure color
@@ -127,7 +127,7 @@ namespace Chess
                 {
                     img = new Bitmap(path);
                 }
-                catch (System.Exception ex)
+                catch (System.Exception)
                 {
                     img = null;
                     System.Windows.Forms.MessageBox.Show("File " + path.ToUpper() + " not found. Please, put it to the directory of executable file.", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);

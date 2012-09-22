@@ -1,10 +1,12 @@
+using System;
+
 namespace Chess
 {
 	namespace Figures
 	{
 		public enum FigureColor { BLACK, WHITE };
 
-		public class Position
+		public class Position: Object
 		{
 			public Position (int x, int y)
 			{

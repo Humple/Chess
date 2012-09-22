@@ -7,7 +7,7 @@ using Chess.Figures;
 
 namespace Chess
 {
-    public class Spot
+    public class Spot: Object
     {
         public int X;
         public int Y;
@@ -28,7 +28,7 @@ namespace Chess
         }
     }
 
-    public class GuiMatrix
+    public class GuiMatrix: Object
     {
         private Point oldFocused;
         private Point oldSelected;

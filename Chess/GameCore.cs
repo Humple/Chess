@@ -11,25 +11,58 @@ namespace Chess
     {
 
 		private PlayWindow playWindow;
+        private InviteWindow inviteWindow;
         private CoreMatrix matrix;
 
 		public GameCore ()
 		{
-
+            Application.EnableVisualStyles();
+            
 		}
 
         public void Initialize()
         {
             matrix = new CoreMatrix();
             playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
-            playWindow.FormClosed += new FormClosedEventHandler(Close);
-            Application.EnableVisualStyles();
-            Application.Run(playWindow);
+            playWindow.FormClosed += new FormClosedEventHandler(PlayWindowClose);
+            inviteWindow = new InviteWindow();
+            inviteWindow.FormClosed += new FormClosedEventHandler(InviteWindowClose);
+            inviteWindow.Show();
+            Application.Run();
         }
 
-        private void Close(Object o, FormClosedEventArgs e)
+        private void ReInitialize()
         {
-            Application.Exit();
+            matrix = new CoreMatrix();
+            playWindow.matrix = new GuiMatrix(matrix);
+            playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
+            playWindow.FormClosed += new FormClosedEventHandler(PlayWindowClose);
+            inviteWindow = new InviteWindow();
+            inviteWindow.FormClosed += new FormClosedEventHandler(InviteWindowClose);
+            inviteWindow.Show();
+        }
+
+        private void PlayWindowClose(Object o, FormClosedEventArgs e)
+        {
+            ReInitialize();
+        }
+        private void InviteWindowClose(Object o, FormClosedEventArgs e)
+        {
+            switch (inviteWindow.returnValue)
+            {
+                case "Offline":
+                {
+                    playWindow.Show();
+                } break;
+                case "Online":
+                {
+                    Application.Exit();
+                } break;
+                default:
+                {
+                    Application.Exit();
+                } break;
+            }
         }
 
 		private void StartGame ()

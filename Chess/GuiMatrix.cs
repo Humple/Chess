@@ -88,7 +88,7 @@ namespace Chess
 
 		public bool SetHighlighted (Position pos)
 		{
-			GetSpot(pos.X, pos.Y).Highlighted = true;
+			sMatrix[pos.X, pos.Y].Highlighted = true;
 			return true;
 		}
 

@@ -18,7 +18,7 @@ namespace Chess
 		public GameCore ()
 		{
             Application.EnableVisualStyles();
-            
+            runColor = FigureColor.WHITE;
 		}
 
         public void Initialize()
@@ -38,6 +38,7 @@ namespace Chess
             playWindow.FieldMatrix = new GuiMatrix(matrix);
             playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
             playWindow.FormClosed += new FormClosedEventHandler(PlayWindowClose);
+
             inviteWindow = new InviteWindow();
             inviteWindow.FormClosed += new FormClosedEventHandler(InviteWindowClose);
             inviteWindow.Show();
@@ -80,13 +81,17 @@ namespace Chess
 		public void SpotSelected(Position spotPos)
 		{
 			if(matrix.HasFigureAt(spotPos)){
-				//playWindow.FieldMatrix.SetHighlighted( matrix.FigureAt(spotPos).GetAvailableMovePossitons(spotPos));
+				Figure figure  = matrix.FigureAt(spotPos);
+				if( figure.Color == runColor ) {
+					figure.ConsolePrintPosition(spotPos);
+					playWindow.FieldMatrix.SetHighlighted( figure.GetAvailableMovePossitons(spotPos) );
+				}
 			}
 		}
 
 		public void StartButtonClicked()
 		{
-			runColor = FigureColor.WHITE;
+
 		}
 
 		public void StopButtonClicked()

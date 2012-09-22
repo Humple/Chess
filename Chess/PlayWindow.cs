@@ -15,7 +15,8 @@ namespace Chess
 	{
 		//Field 
 		public GuiMatrix FieldMatrix = null;
-		public const int HiglightDelta = 100;
+		public readonly Color ColorSelected = Color.PaleGoldenrod;
+
 		private System.Windows.Forms.Timer mouseTracker;
 
 		private int sqSize { get; set; }   // размер квадрата
@@ -49,22 +50,27 @@ namespace Chess
             
 			for (int i = 0; i < 8; i++) {
 				for (int j = 0; j < 8; j++) {
+
 					if ((tmpSpot = FieldMatrix.GetSpot (i, j)) == null) 
 						continue;
 
 					//Выбор цвета квадрата
 
-					if (tmpSpot.Highlighted)	//highlighted spot
-						pen.Color = Color.FromArgb (Color.CadetBlue.R - HiglightDelta, Color.CadetBlue.G, Color.CadetBlue.B);
-					else if (tmpSpot.Selected) 	//selected spot
-						pen.Color = Color.PaleGoldenrod;
+					if ( tmpSpot.Highlighted )	//highlighted spot
+						if(tmpSpot.sColor.R!=255)
+							pen.Color = Color.FromArgb (50, 100, 50);
+						else
+							pen.Color = Color.FromArgb (100, 255, 100);
+					else if ( tmpSpot.Selected ) 	//selected spot
+						pen.Color = ColorSelected;
 					else 						//simple spot
 						pen.Color = tmpSpot.sColor;
 
 					//отрисовка квадрата
-					if (tmpSpot.Focused) {
+					if ( tmpSpot.Focused ) {
 						pen.Color = Color.FromArgb (pen.Color.R - 20, pen.Color.G - 20, pen.Color.B - 20);
 						graph.Graphics.FillRectangle (pen.Brush, offset + sqSize * i, sqSize * j, sqSize, sqSize);
+
 						pen.Color = Color.FromArgb (pen.Color.R + 20, pen.Color.G + 20, pen.Color.B + 20);
 						graph.Graphics.FillRectangle (pen.Brush, offset + sqSize * i + 10, sqSize * j + 10, sqSize - 20, sqSize - 20);
 					} else {

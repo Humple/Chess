@@ -114,10 +114,13 @@ namespace Chess
 		//Making square selected
         public bool SetSelected(int i, int j)
         {
+            UnsetHiglight();
             if (oldSelected.X == i && oldSelected.Y == j)
             {
                 sMatrix[i, j].Selected = !sMatrix[i, j].Selected;
-                return true;
+                oldSelected.X = int.MaxValue;
+                oldSelected.Y = int.MaxValue;
+                return false;
             }
             if (oldSelected.X != int.MaxValue) sMatrix[oldSelected.X, oldSelected.Y].Selected = false;
             oldSelected.X = i;

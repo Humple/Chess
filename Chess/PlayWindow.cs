@@ -60,9 +60,9 @@ namespace Chess
 
                     if (tmpSpot.Highlighted)	//highlighted spot
                         if (tmpSpot.sColor.R != 255)
-                            pen.Color = Color.FromArgb(50, 100, 50);
+                            pen.Color = Color.FromArgb(50, 100, 75);
                         else
-                            pen.Color = Color.FromArgb(100, 255, 100);
+                            pen.Color = Color.FromArgb(100, 255, 125);
                     else if (tmpSpot.Selected) 	//selected spot
                         pen.Color = ColorSelected;
                     else 						//simple spot
@@ -180,8 +180,8 @@ namespace Chess
             {
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);
-                ReDraw(true);
             }
+            ReDraw(true);
         }
         //If window moved. Window events handlers
         private void PlayWindow_Move(object sender, EventArgs e)

@@ -89,9 +89,9 @@ namespace Chess
                     case FigureColor.BLACK:
                         {
                             if (IsInField(currentPos.X - 1, currentPos.Y + 1) && matrix.FigureAt(currentPos.X - 1, currentPos.Y + 1) != null && matrix.FigureAt(currentPos.X - 1, currentPos.Y + 1).Color != this.Color)
-                                available.Add(new Position(currentPos.X - 1, currentPos.Y - 1));
+                                available.Add(new Position(currentPos.X - 1, currentPos.Y + 1));
                             if (IsInField(currentPos.X + 1, currentPos.Y + 1) && matrix.FigureAt(currentPos.X + 1, currentPos.Y + 1) != null && matrix.FigureAt(currentPos.X + 1, currentPos.Y + 1).Color != this.Color)
-                                available.Add(new Position(currentPos.X + 1, currentPos.Y - 1));
+                                available.Add(new Position(currentPos.X + 1, currentPos.Y + 1));
                         } break;
                 }
                 return available;

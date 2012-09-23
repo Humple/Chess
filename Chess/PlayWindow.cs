@@ -184,11 +184,6 @@ namespace Chess
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);
             }
-            else if (matrix.GetSpot(mouseClickedPos) != null && matrix.GetSpot(mouseClickedPos).Highlighted)
-            {
-                //Метод передвижения фигуры
-                MessageBox.Show("Фигура передвинута", "DEBUG");
-            }
             ReDraw(true);
         }
         //If window moved. Window events handlers

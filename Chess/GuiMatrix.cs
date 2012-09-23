@@ -75,6 +75,10 @@ namespace Chess
         {
             return sMatrix[i, j];
         }
+        public Spot GetSpot(Position pos)
+        {
+            return sMatrix[pos.X, pos.Y];
+        }
         
 		public bool SetFocused(int i, int j)
         {

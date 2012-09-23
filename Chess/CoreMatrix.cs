@@ -56,6 +56,12 @@ namespace Chess
             return sMatrix[pos.X, pos.Y];
         }
 
+		public void MoveFigure (Position oldPos, Position newPos)
+		{
+			sMatrix[newPos.X, newPos.Y ] = sMatrix[ oldPos.X, oldPos.Y ];
+			sMatrix[oldPos.X, oldPos.Y ] = null;
+		}
+
 		public bool HasFigureAt (Position pos)
 		{
 			return (sMatrix[pos.X, pos.Y] !=null);

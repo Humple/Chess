@@ -14,6 +14,7 @@ namespace Chess
         private InviteWindow inviteWindow;
         private CoreMatrix matrix;
 		private Chess.Figures.FigureColor runColor;
+		private Position figurePos;
 
 		public GameCore ()
 		{
@@ -77,27 +78,34 @@ namespace Chess
 
 		}
 
-		public void SpotSelected(Position spotPos)
+		public void SpotSelected (Position spotPos)
 		{
-			if(matrix.HasFigureAt(spotPos)){
-				Figure figure  = matrix.FigureAt(spotPos);
-				if( figure.Color == runColor ) {
-					figure.ConsolePrintPosition(spotPos);
-					playWindow.matrix.SetHighlighted( figure.GetAvailableMovePossitons(spotPos) );
+			if (matrix.HasFigureAt (spotPos)) {
+				Figure figure = matrix.FigureAt (spotPos);
+
+				if (figure.Color == runColor) {
+					figure.ConsolePrintPosition (spotPos);
+
+					playWindow.matrix.SetHighlighted (figure.GetAvailableMovePossitons (spotPos));
+					figurePos = spotPos;
 				}
+			}
+
+			if (playWindow.matrix.GetSpot (spotPos).Highlighted && figurePos != null ) {
+				Console.WriteLine( "Moving figure from: " +figurePos.X +' ' +figurePos.Y
+				                  + " to " + spotPos.X +' ' +spotPos.Y);
+				matrix.MoveFigure( figurePos, spotPos);
+				playWindow.matrix.MoveImage( figurePos, spotPos );
 			}
 		}
         public bool SpotFocused(Position spotPos)
         {
-            try
-            {
-                if (matrix.FigureAt(spotPos).Color == runColor) return true;
-                else return false;
-            }
-            catch (System.Exception)
-            {
-                return false;
-            }
+				//зачем тут ловить ошибки, я без понятия
+				
+                if (matrix.HasFigureAt(spotPos) && matrix.FigureAt(spotPos).Color == runColor) 
+					return true;
+                else 
+					return false;
         }
 
 		public void StartButtonClicked()

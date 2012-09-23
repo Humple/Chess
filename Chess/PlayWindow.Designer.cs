@@ -1,4 +1,4 @@
-﻿namespace Chess
+namespace Chess
 {
     partial class PlayWindow
     {
@@ -44,7 +44,7 @@
             this.Activated += new System.EventHandler(this.PlayWindow_Activated);
             this.Deactivate += new System.EventHandler(this.PlayWindow_Deactivate);
             this.Shown += new System.EventHandler(this.PlayWindow_Shown);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PlayWindow_MouseDown);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PlayWindow_LeftClick);
             this.Move += new System.EventHandler(this.PlayWindow_Move);
             this.ResumeLayout(false);
 

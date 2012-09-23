@@ -103,6 +103,8 @@ namespace Chess
 				matrix.MoveFigure( figurePos, spotPos);
 				playWindow.matrix.MoveImage( figurePos, spotPos );
                 playWindow.matrix.ResetAllAttribures();
+
+				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
 			}
 		}
         public bool SpotFocused(Position spotPos)

@@ -98,7 +98,7 @@ namespace Chess
 
 						if( available.Contains(new Position(j, i)) )
 						   System.Console.Write ('+');
-						else if( new Position(i, j) == currentPos )
+						else if( new Position(j, i) == currentPos )
 							System.Console.Write ('^');
 						else
 							System.Console.Write('0');

@@ -7,6 +7,7 @@ namespace Chess
 	{
 		void FigureMoved(Position oldPos, Position newPos);
 		void SpotSelected(Position spotPos);
+        bool SpotFocused(Position spotPos);
 		void StartButtonClicked();
 		void StopButtonClicked();
 	}

@@ -158,7 +158,9 @@ namespace Chess
             pt.X -= offset;
             pt.X /= sqSize;
             pt.Y /= sqSize;
-            if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0)
+            if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0 || 
+                !(control.SpotFocused(new Position(pt.X, pt.Y)) ||
+                (matrix.GetSpot(pt.X, pt.Y) != null && matrix.GetSpot(pt.X, pt.Y).Highlighted)))
                 return;
             if (matrix.SetFocused(pt.X, pt.Y))
                 ReDraw(true);
@@ -176,10 +178,16 @@ namespace Chess
                 return;
             Position mouseClickedPos = new Position(pt.X, pt.Y);
 
-            if (matrix.SetSelected(pt.X, pt.Y))
+
+            if (control.SpotFocused(mouseClickedPos) && matrix.SetSelected(pt.X, pt.Y))
             {
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);
+            }
+            else if (matrix.GetSpot(mouseClickedPos) != null && matrix.GetSpot(mouseClickedPos).Highlighted)
+            {
+                //Метод передвижения фигуры
+                MessageBox.Show("Фигура передвинута", "DEBUG");
             }
             ReDraw(true);
         }

@@ -87,6 +87,18 @@ namespace Chess
 				}
 			}
 		}
+        public bool SpotFocused(Position spotPos)
+        {
+            try
+            {
+                if (matrix.FigureAt(spotPos).Color == runColor) return true;
+                else return false;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
 
 		public void StartButtonClicked()
 		{

@@ -61,19 +61,6 @@ namespace Chess
 				}
 			}
 
-
-			public static bool operator==(Position first, Position second)
-			{
-				return ( first.X == second.X && first.Y == second.Y);
-			
-			}
-
-			public static bool operator!=(Position first, Position second)
-			{
-				return ( first.X != second.X || first.Y != second.Y);
-			
-			}
-
 			public override bool Equals (object obj)
 			{
 				return ( X == ((Position) obj).X) && ( Y == ((Position) obj).Y);

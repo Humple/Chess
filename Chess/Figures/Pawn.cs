@@ -14,7 +14,7 @@ namespace Chess
 				LoadBitmap ("pawn");
 			}
 
-			public override List<Position> GetAvailableMovePossitons (Position currentPos)
+            public override List<Position> GetAvailableMovePossitons(Position currentPos)
 			{
 				List<Position> available = new List<Position> ();
 				int m;
@@ -42,9 +42,9 @@ namespace Chess
 				return available;
 			}
 
-			public override List<Position> GetAvailableAtackPositons (Position currentPos)
+			public override List<Position> GetAvailableAtackPositons (Position currentPos, CoreMatrix matrix)
 			{
-				List<Position> atack = GetAvailableMovePossitons (currentPos);
+                List<Position> atack = GetAvailableMovePossitons(currentPos);
 
 				int m;
 				//white figures below

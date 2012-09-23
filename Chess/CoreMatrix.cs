@@ -55,6 +55,10 @@ namespace Chess
         {
             return sMatrix[pos.X, pos.Y];
         }
+        public Figure FigureAt(int x, int y)
+        {
+            return sMatrix[x, y];
+        }
 
 		public void MoveFigure (Position oldPos, Position newPos)
 		{

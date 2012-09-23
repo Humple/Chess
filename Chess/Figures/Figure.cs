@@ -68,9 +68,9 @@ namespace Chess
 				return available;
 			}
 
-			public virtual List<Position> GetAvailableAtackPositons (Position currentPos)
+            public virtual List<Position> GetAvailableAtackPositons(Position currentPos, CoreMatrix matrix)
 			{
-				return GetAvailableAtackPositons(currentPos);
+				return GetAvailableMovePossitons(currentPos);
 			}
 
 			public virtual void ConsolePrintPosition (Position currentPos)

@@ -90,7 +90,8 @@ namespace Chess
 				if (figure.Color == runColor) {
 					figure.ConsolePrintPosition (spotPos);
 
-					playWindow.matrix.SetHighlighted (figure.GetAvailableMovePossitons (spotPos));
+                    if(playWindow.matrix.SetSelected(spotPos))
+                        playWindow.matrix.SetHighlighted(figure.GetAvailableAtackPositons(spotPos, matrix));
 					figurePos = spotPos;
 				}
 			}
@@ -101,6 +102,7 @@ namespace Chess
 				                  + " to " + spotPos.X +' ' +spotPos.Y);
 				matrix.MoveFigure( figurePos, spotPos);
 				playWindow.matrix.MoveImage( figurePos, spotPos );
+                playWindow.matrix.ResetAllAttribures();
 			}
 		}
         public bool SpotFocused(Position spotPos)

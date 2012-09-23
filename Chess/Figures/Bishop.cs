@@ -15,7 +15,7 @@ namespace Chess
 				LoadBitmap("bishop");
 			}
 
-			public override List<Position> GetAvailableMovePossitons (Position currentPos)
+            public override List<Position> GetAvailableMovePossitons(Position currentPos)
 			{
 				List<Position> available = new List<Position> ();
 

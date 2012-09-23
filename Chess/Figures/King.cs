@@ -15,9 +15,9 @@ namespace Chess
 				moved = false; 
 				LoadBitmap("king");
 			}
-		
 
-			public override List<Position> GetAvailableMovePossitons (Position currentPos)
+
+            public override List<Position> GetAvailableMovePossitons(Position currentPos)
 			{
 				List<Position> available = new List<Position> ();
 
@@ -32,7 +32,7 @@ namespace Chess
 				return available;
 			}
 
-			public override List<Position> GetAvailableAtackPositons (Position currentPos) {
+			public override List<Position> GetAvailableAtackPositons (Position currentPos, CoreMatrix matrix) {
 				return GetAvailableMovePossitons(currentPos);
 			}
 		}

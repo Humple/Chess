@@ -112,8 +112,16 @@ namespace Chess
 			foreach (Spot spot in sMatrix) {
 				spot.Highlighted = false;
 			}
-
 		}
+
+        public void ResetAllAttribures()
+        {
+            foreach (Spot spot in sMatrix)
+            {
+                spot.Highlighted = false;
+                spot.Selected = false;
+            }
+        }
 
 		//Making square selected
         public bool SetSelected(int i, int j)
@@ -137,7 +145,6 @@ namespace Chess
         {
 			return SetSelected(pos.X, pos.Y);
         }
-		//
 
 		//Set up image
         public bool SetImage(Image img, Position pos)

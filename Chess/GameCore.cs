@@ -80,6 +80,10 @@ namespace Chess
 
 		public void SpotSelected (Position spotPos)
 		{
+			Console.WriteLine("Square selected: " + spotPos.X +' ' + spotPos.Y);
+
+
+			//select a figure and highlig
 			if (matrix.HasFigureAt (spotPos)) {
 				Figure figure = matrix.FigureAt (spotPos);
 
@@ -91,6 +95,7 @@ namespace Chess
 				}
 			}
 
+			//moving figure to new position
 			if (playWindow.matrix.GetSpot (spotPos).Highlighted && figurePos != null ) {
 				Console.WriteLine( "Moving figure from: " +figurePos.X +' ' +figurePos.Y
 				                  + " to " + spotPos.X +' ' +spotPos.Y);
@@ -102,7 +107,9 @@ namespace Chess
         {
 				//зачем тут ловить ошибки, я без понятия
 				
-                if (matrix.HasFigureAt(spotPos) && matrix.FigureAt(spotPos).Color == runColor) 
+                if ( (matrix.HasFigureAt(spotPos) && matrix.FigureAt(spotPos).Color == runColor)
+			    || playWindow.matrix.GetSpot(spotPos).Highlighted ) 
+
 					return true;
                 else 
 					return false;

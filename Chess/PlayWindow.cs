@@ -158,6 +158,7 @@ namespace Chess
             pt.X -= offset;
             pt.X /= sqSize;
             pt.Y /= sqSize;
+
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0 || 
                 !(control.SpotFocused(new Position(pt.X, pt.Y)) ||
                 (matrix.GetSpot(pt.X, pt.Y) != null && matrix.GetSpot(pt.X, pt.Y).Highlighted)))
@@ -176,10 +177,10 @@ namespace Chess
 
             if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0)
                 return;
+
             Position mouseClickedPos = new Position(pt.X, pt.Y);
 
-
-            if (control.SpotFocused(mouseClickedPos) && matrix.SetSelected(pt.X, pt.Y))
+            if ( control.SpotFocused(mouseClickedPos) )
             {
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);

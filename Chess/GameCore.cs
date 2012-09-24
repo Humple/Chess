@@ -35,6 +35,7 @@ namespace Chess
 
         private void ReInitialize()
         {
+            runColor = FigureColor.WHITE;
             matrix = new CoreMatrix();
             playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
             playWindow.FormClosed += new FormClosedEventHandler(PlayWindowClose);

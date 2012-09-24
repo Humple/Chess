@@ -14,6 +14,7 @@ namespace Chess
     public partial class PlayWindow : Form
     {
         //Field 
+        int kk = 0;
         public GuiMatrix matrix = null;
         public readonly Color ColorSelected = Color.PaleGoldenrod;
 
@@ -165,7 +166,20 @@ namespace Chess
                 return;
             if (matrix.SetFocused(pt.X, pt.Y))
                 ReDraw(true);
+            
         }
+
+        public void PrintToConsoleLn(string str, Color clr)
+        {
+            gameConsole.SelectionColor = clr;
+            gameConsole.AppendText(str + Environment.NewLine);
+        }
+        public void PrintToConsole(string str, Color clr)
+        {
+            gameConsole.SelectionColor = clr;
+            gameConsole.AppendText(str);
+        }
+
         //Mouse down event handler
         private void PlayWindow_LeftClick(object sender, MouseEventArgs e)
         {
@@ -209,6 +223,21 @@ namespace Chess
                 mouseTracker.Start();
             if (graph != null)
                 ReDraw(true);
+        }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            PrintToConsole("Player1: ", Color.Green);
+            PrintToConsoleLn(commandLine.Text, Color.FromArgb(64, 128, 255));
+            commandLine.Text = "";
+        }
+
+        private void commandLine_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 13)
+            {
+                sendButton_Click(sender, e);
+            }
         }
     }
 }

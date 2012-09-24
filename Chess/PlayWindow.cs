@@ -172,12 +172,15 @@ namespace Chess
         public void PrintToConsoleLn(string str, Color clr)
         {
             gameConsole.SelectionColor = clr;
-            gameConsole.AppendText(str + Environment.NewLine);
+            gameConsole.AppendText(str);
+            gameConsole.ScrollToCaret();
         }
         public void PrintToConsole(string str, Color clr)
         {
             gameConsole.SelectionColor = clr;
-            gameConsole.AppendText(str);
+            if(gameConsole.Text != "") gameConsole.AppendText(Environment.NewLine + str);
+            else gameConsole.AppendText(str);
+            gameConsole.ScrollToCaret();
         }
 
         //Mouse down event handler

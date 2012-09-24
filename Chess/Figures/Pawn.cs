@@ -6,16 +6,6 @@ namespace Chess
     {
         public class Pawn : Figure
         {
-            private bool firstStepFlag = true;
-            protected bool FirstStepFlag
-            {
-                get
-                {
-                    bool tmp = firstStepFlag;
-                    firstStepFlag = false;
-                    return tmp;
-                }
-            }
             public Pawn(FigureColor color)
                 : base(color)
             {
@@ -59,9 +49,9 @@ namespace Chess
             {
                 List<Position> available = new List<Position>();
                 int i, j = 0;
-                if (FirstStepFlag) i = 2;
+                if (firstStepFlag) i = 2;
                 else i = 1;
-                while (j++ != i)
+                while (j++ < i)
                 {
                     switch (this.Color)
                     {
@@ -69,11 +59,13 @@ namespace Chess
                             {
                                 if (IsInField(currentPos.X, currentPos.Y - j) && matrix.FigureAt(currentPos.X, currentPos.Y - j) == null)
                                     available.Add(new Position(currentPos.X, currentPos.Y - j));
+                                else j++;
                             } break;
                         case FigureColor.BLACK:
                             {
                                 if (IsInField(currentPos.X, currentPos.Y + j) && matrix.FigureAt(currentPos.X, currentPos.Y + j) == null)
                                     available.Add(new Position(currentPos.X, currentPos.Y + j));
+                                else j++;
                             } break;
                     }
                 }

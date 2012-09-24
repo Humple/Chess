@@ -62,6 +62,7 @@ namespace Chess
 
 		public void MoveFigure (Position oldPos, Position newPos)
 		{
+            sMatrix[oldPos.X, oldPos.Y].ResetFirstStepFlag();
 			sMatrix[newPos.X, newPos.Y ] = sMatrix[ oldPos.X, oldPos.Y ];
 			sMatrix[oldPos.X, oldPos.Y ] = null;
 		}

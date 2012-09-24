@@ -140,6 +140,10 @@ namespace Chess
                 }
 				
 			}
+            public virtual string ToString()
+            {
+                return "figure";
+            }
 		}
 	}
 }

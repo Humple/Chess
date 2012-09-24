@@ -89,6 +89,10 @@ namespace Chess
                 return available;
             }
 
+            public override string ToString()
+            {
+                return "pawn";
+            }
         }
     }
 }

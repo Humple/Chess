@@ -19,6 +19,12 @@ namespace Chess
 				}
 			}
 
+            protected bool firstStepFlag = true;
+            public void ResetFirstStepFlag()
+            {
+                firstStepFlag = false;
+            }
+
 			//file splite
 			public const char SPLITER='/';
 			public const string PREFIX="images/figures";

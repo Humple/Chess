@@ -35,6 +35,7 @@ namespace Chess
 
         private void ReInitialize()
         {
+            runColor = FigureColor.WHITE;
             matrix = new CoreMatrix();
             playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
             playWindow.FormClosed += new FormClosedEventHandler(PlayWindowClose);
@@ -103,10 +104,25 @@ namespace Chess
 
 			//moving figure to new position
 			if (playWindow.matrix.GetSpot (spotPos).Highlighted && figurePos != null ) {
-				Console.WriteLine( "Moving figure from: " +figurePos.X +' ' +figurePos.Y
-				                  + " to " + spotPos.X +' ' +spotPos.Y);
+                Console.WriteLine("Moving figure from: " + figurePos.X + ' ' + figurePos.Y + " to " + spotPos.X + ' ' + spotPos.Y);
+
+                if (runColor == FigureColor.WHITE)
+                {
+                    playWindow.PrintToConsole("System: ", System.Drawing.Color.Red);
+                    playWindow.PrintToConsoleLn("Player1 moved " + matrix.FigureAt(figurePos).ToString() + " from " +
+                    (char)('A' + figurePos.X) + Convert.ToString(8 - figurePos.Y) + " to " +
+                    (char)('A' + spotPos.X) + Convert.ToString(8 - spotPos.Y), System.Drawing.Color.FromArgb(64, 128, 255));
+                }
+                else
+                {
+                    playWindow.PrintToConsole("System: ", System.Drawing.Color.Red);
+                    playWindow.PrintToConsoleLn("Player2 moved " + matrix.FigureAt(figurePos).ToString() + " from " +
+                    (char)('A' + figurePos.X) + Convert.ToString(8 - figurePos.Y) + " to " +
+                    (char)('A' + spotPos.X) + Convert.ToString(8 - spotPos.Y), System.Drawing.Color.FromArgb(128, 64, 255));
+                }
+
 				matrix.MoveFigure( figurePos, spotPos);
-				playWindow.matrix.MoveImage( figurePos, spotPos );
+                playWindow.matrix.MoveImage( figurePos, spotPos );
                 playWindow.matrix.ResetAllAttribures();
 
 				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);

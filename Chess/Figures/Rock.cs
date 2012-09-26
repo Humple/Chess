@@ -38,6 +38,7 @@ namespace Chess
                         available.Add(new Position(i, currentPos.Y));
                         break;
                     }
+                    else break;
                 }
                 for (int i = currentPos.X - 1; i >= 0; i--)
                 {
@@ -47,6 +48,7 @@ namespace Chess
                         available.Add(new Position(i, currentPos.Y));
                         break;
                     }
+                    else break;
                 }
                 for (int j = currentPos.Y + 1; j < 8; j++)
                 {
@@ -56,6 +58,7 @@ namespace Chess
                         available.Add(new Position(currentPos.X, j));
                         break;
                     }
+                    else break;
                 }
                 for (int j = currentPos.Y - 1; j >= 0; j--)
                 {
@@ -68,6 +71,11 @@ namespace Chess
                     else break;
                 }
                 return available;
+            }
+
+            public override string ToString()
+            {
+                return "rock";
             }
         }
     }

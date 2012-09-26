@@ -47,6 +47,17 @@ namespace Chess
 
 		private void CheckForMate ()
 		{
+				for (int i=0; i<8; i++) { //y
+					for (int j=0; j<8; j++) { //x
+					Position currentPos = new Position(j, i);
+
+					if( matrix.HasFigureAt(currentPos)) {
+						Figure currentFigure = matrix.FigureAt(currentPos);
+
+						FigureColor enemyColor =(currentFigure.Color == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
+					}
+					}
+				}
 		}
 
         private void PlayWindowClose(Object o, FormClosedEventArgs e)
@@ -125,14 +136,15 @@ namespace Chess
                 playWindow.matrix.MoveImage( figurePos, spotPos );
                 playWindow.matrix.ResetAllAttribures();
 
+				FigureMoved(figurePos, spotPos);
+				CheckForMate();
+
 				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
 			}
 		}
         
 		public bool SpotFocused(Position spotPos)
-        {
-				//зачем тут ловить ошибки, я без понятия
-				
+        {				
                 if ( (matrix.HasFigureAt(spotPos) && matrix.FigureAt(spotPos).Color == runColor)
 			    || playWindow.matrix.GetSpot(spotPos).Highlighted ) 
 

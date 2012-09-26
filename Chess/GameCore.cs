@@ -44,11 +44,16 @@ namespace Chess
             inviteWindow.Show();
         }
 
+		private void CheckForMate ()
+		{
+		}
+
         private void PlayWindowClose(Object o, FormClosedEventArgs e)
         {
             ReInitialize();
         }
-        private void InviteWindowClose(Object o, FormClosedEventArgs e)
+        
+		private void InviteWindowClose(Object o, FormClosedEventArgs e)
         {
             switch (inviteWindow.returnValue)
             {
@@ -107,7 +112,8 @@ namespace Chess
 				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
 			}
 		}
-        public bool SpotFocused(Position spotPos)
+        
+		public bool SpotFocused(Position spotPos)
         {
 				//зачем тут ловить ошибки, я без понятия
 				

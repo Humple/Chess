@@ -9,17 +9,20 @@ namespace Chess
 
     class GameCore: IGameControl
     {
-
 		private PlayWindow playWindow;
         private InviteWindow inviteWindow;
         private CoreMatrix matrix;
 		private Chess.Figures.FigureColor runColor;
 		private Position figurePos;
+		private PlayersState pState;
 
 		public GameCore ()
 		{
             Application.EnableVisualStyles();
             runColor = FigureColor.WHITE;
+			pState = new PlayersState();
+			pState.Black = PlayerState.NORMAL;
+			pState.White = PlayerState.NORMAL;
 		}
 
         public void Initialize()
@@ -47,14 +50,33 @@ namespace Chess
 
 		private void CheckForMate ()
 		{
-				for (int i=0; i<8; i++) { //y
-					for (int j=0; j<8; j++) { //x
+				for (int i=0; i<8; i++) { 		//y
+					for (int j=0; j<8; j++) { 	//x
 					Position currentPos = new Position(j, i);
 
-					if( matrix.HasFigureAt(currentPos)) {
+					if( matrix.HasFigureAt(currentPos) ) {
 						Figure currentFigure = matrix.FigureAt(currentPos);
+						FigureColor currentColor = currentFigure.Color;
+						FigureColor enemyColor =(currentColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
 
-						FigureColor enemyColor =(currentFigure.Color == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
+						Position kingPos = matrix.GetKing (enemyColor);
+						Console.WriteLine ("King position is " + kingPos.X +' ' +kingPos.Y);  
+						List<Position> atack = currentFigure.GetAvailableAtackPositons(currentPos, matrix);
+
+						if( atack.Contains(kingPos) ) {
+							string message;
+
+							Console.Write("Warning:");
+							if(runColor == enemyColor )	{
+								message = "Shah";
+							}
+							else
+							{
+								message = "Checkmate";
+							}
+
+							Console.WriteLine(message);
+						}
 					}
 					}
 				}
@@ -136,10 +158,9 @@ namespace Chess
                 playWindow.matrix.MoveImage( figurePos, spotPos );
                 playWindow.matrix.ResetAllAttribures();
 
-				FigureMoved(figurePos, spotPos);
-				CheckForMate();
-
 				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
+				CheckForMate();
+				FigureMoved(figurePos, spotPos);
 			}
 		}
         

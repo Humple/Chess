@@ -10,15 +10,9 @@ namespace Chess
     public class CoreMatrix: Object
     {
 
-		public Position KingWhite {
-			get;
-			set;
-		}
+		public Position KingWhite;
 
-		public Position KingBlack {
-			get;
-			set;
-		}
+		public Position KingBlack;
 
         private Figure[,] sMatrix;
 
@@ -59,7 +53,7 @@ namespace Chess
             sMatrix[4, 0] = new King(FigureColor.BLACK);
             sMatrix[3, 0] = new Queen(FigureColor.BLACK);
 
-			KingWhite = new Position(4, 0);
+			KingBlack = new Position(4, 0);
 
             for (int i = 0; i < 8; i++)
             {
@@ -83,7 +77,8 @@ namespace Chess
 				throw (new NullReferenceException ("I don't have figure at " + oldPos.X + ' ' + oldPos.Y));
 
 			//changing king position
-			if (FigureAt (oldPos).ToString() == "King") {
+			if (FigureAt (oldPos).ToString() == "king") {
+
 				if(FigureAt (oldPos).Color == FigureColor.WHITE )
 				{
 					KingWhite = newPos;
@@ -103,5 +98,13 @@ namespace Chess
 			return (sMatrix[pos.X, pos.Y] !=null);
 		}
   
+		public Position GetKing (FigureColor color)
+		{
+			if (color == FigureColor.WHITE) {
+				return KingWhite;
+			} else {
+				return KingBlack;
+			}
+		}
 	}
 }

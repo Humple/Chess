@@ -81,7 +81,7 @@ namespace Chess
 		public enum PlayerState
 		{
 			NORMAL,
-			SHAH,
+			CHECK,
 			CHECKMATE }
 		;
 
@@ -90,6 +90,7 @@ namespace Chess
 			public PlayersState ()
 			{
 				black = PlayerState.NORMAL;
+				white = PlayerState.NORMAL;
 			}
 
 			private PlayerState black;
@@ -102,6 +103,21 @@ namespace Chess
 				} else {
 					return black;
 				}
+			}
+
+			public void SetState(FigureColor color, PlayerState state)
+			{
+				if (color == FigureColor.WHITE) {
+					white = state;
+				} else {
+					black = state;
+				}
+			}
+
+			public void ResetGameState ()
+			{
+				white = PlayerState.NORMAL;
+				black = PlayerState.NORMAL;
 			}
 
 

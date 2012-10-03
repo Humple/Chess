@@ -21,8 +21,6 @@ namespace Chess
             Application.EnableVisualStyles();
             runColor = FigureColor.WHITE;
 			pState = new PlayersState();
-			pState.Black = PlayerState.NORMAL;
-			pState.White = PlayerState.NORMAL;
 		}
 
         public void Initialize()
@@ -50,6 +48,8 @@ namespace Chess
 
 		private void CheckForMate ()
 		{
+			pState.ResetGameState();
+
 				for (int i=0; i<8; i++) { 		//y
 					for (int j=0; j<8; j++) { 	//x
 					Position currentPos = new Position(j, i);
@@ -66,21 +66,25 @@ namespace Chess
 						if( atack.Contains(kingPos) ) {
 							string message;
 
-							Console.Write("Warning:");
 							if(runColor == enemyColor )	{
-								message = "Shah";
+								message = "Check!";
+								pState.SetState(enemyColor, PlayerState.CHECK );
 							}
-							else
-							{
-								message = "Checkmate";
+							else{
+								pState.SetState(enemyColor, PlayerState.CHECKMATE );
+								message = "CheckMate!";
 							}
 
-							Console.WriteLine(message);
+							MessageBox.Show(message, "Information");
 						}
 					}
 					}
 				}
-		}
+
+				if( pState.GetState(FigureColor.BLACK) == PlayerState.CHECKMATE ||
+			   pState.GetState(FigureColor.WHITE) == PlayerState.CHECKMATE )
+				GameEnd ();
+		}	
 
         private void PlayWindowClose(Object o, FormClosedEventArgs e)
         {
@@ -110,6 +114,12 @@ namespace Chess
 		{
             
 		}
+
+		private void GameEnd()
+		{
+			//TODO: we shoud will do something in playwindow
+		}
+
 
 		//IGameControl
 		public void FigureMoved(Position oldPos, Position newPos)

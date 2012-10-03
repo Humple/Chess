@@ -89,6 +89,7 @@ namespace Chess
 				}
 			}
 
+            sMatrix[oldPos.X, oldPos.Y].ResetFirstStepFlag();
 			sMatrix [newPos.X, newPos.Y] = sMatrix [oldPos.X, oldPos.Y];
 			sMatrix [oldPos.X, oldPos.Y] = null;
 		}

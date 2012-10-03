@@ -9,17 +9,18 @@ namespace Chess
 
     class GameCore: IGameControl
     {
-
 		private PlayWindow playWindow;
         private InviteWindow inviteWindow;
         private CoreMatrix matrix;
 		private Chess.Figures.FigureColor runColor;
 		private Position figurePos;
+		private PlayersState pState;
 
 		public GameCore ()
 		{
             Application.EnableVisualStyles();
             runColor = FigureColor.WHITE;
+			pState = new PlayersState();
 		}
 
         public void Initialize()
@@ -45,11 +46,52 @@ namespace Chess
             inviteWindow.Show();
         }
 
+		private void CheckForMate ()
+		{
+			pState.ResetGameState();
+
+				for (int i=0; i<8; i++) { 		//y
+					for (int j=0; j<8; j++) { 	//x
+					Position currentPos = new Position(j, i);
+
+					if( matrix.HasFigureAt(currentPos) ) {
+						Figure currentFigure = matrix.FigureAt(currentPos);
+						FigureColor currentColor = currentFigure.Color;
+						FigureColor enemyColor =(currentColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
+
+						Position kingPos = matrix.GetKing (enemyColor);
+						Console.WriteLine ("King position is " + kingPos.X +' ' +kingPos.Y);  
+						List<Position> atack = currentFigure.GetAvailableAtackPositons(currentPos, matrix);
+
+						if( atack.Contains(kingPos) ) {
+							string message;
+
+							if(runColor == enemyColor )	{
+								message = "Check!";
+								pState.SetState(enemyColor, PlayerState.CHECK );
+							}
+							else{
+								pState.SetState(enemyColor, PlayerState.CHECKMATE );
+								message = "CheckMate!";
+							}
+
+							MessageBox.Show(message, "Information");
+						}
+					}
+					}
+				}
+
+				if( pState.GetState(FigureColor.BLACK) == PlayerState.CHECKMATE ||
+			   pState.GetState(FigureColor.WHITE) == PlayerState.CHECKMATE )
+				GameEnd ();
+		}	
+
         private void PlayWindowClose(Object o, FormClosedEventArgs e)
         {
             ReInitialize();
         }
-        private void InviteWindowClose(Object o, FormClosedEventArgs e)
+        
+		private void InviteWindowClose(Object o, FormClosedEventArgs e)
         {
             switch (inviteWindow.returnValue)
             {
@@ -72,6 +114,12 @@ namespace Chess
 		{
             
 		}
+
+		private void GameEnd()
+		{
+			//TODO: we shoud will do something in playwindow
+		}
+
 
 		//IGameControl
 		public void FigureMoved(Position oldPos, Position newPos)
@@ -121,12 +169,13 @@ namespace Chess
                 playWindow.matrix.ResetAllAttribures();
 
 				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
+				CheckForMate();
+				FigureMoved(figurePos, spotPos);
 			}
 		}
-        public bool SpotFocused(Position spotPos)
-        {
-				//зачем тут ловить ошибки, я без понятия
-				
+        
+		public bool SpotFocused(Position spotPos)
+        {				
                 if ( (matrix.HasFigureAt(spotPos) && matrix.FigureAt(spotPos).Color == runColor)
 			    || playWindow.matrix.GetSpot(spotPos).Highlighted ) 
 

@@ -52,6 +52,7 @@
             this.OfflineGameButton.TabIndex = 0;
             this.OfflineGameButton.Text = "Start offline game";
             this.OfflineGameButton.UseVisualStyleBackColor = true;
+            this.OfflineGameButton.Click += new System.EventHandler(this.OfflineGameButton_Click);
             // 
             // OnlineGameButton
             // 
@@ -63,6 +64,7 @@
             this.OnlineGameButton.TabIndex = 1;
             this.OnlineGameButton.Text = "Start online game";
             this.OnlineGameButton.UseVisualStyleBackColor = true;
+            this.OnlineGameButton.Click += new System.EventHandler(this.OnlineGameButton_Click);
             // 
             // ExitButton
             // 
@@ -74,6 +76,7 @@
             this.ExitButton.TabIndex = 2;
             this.ExitButton.Text = "Exit";
             this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // layoutPanel
             // 
@@ -89,7 +92,7 @@
             this.layoutPanel.Controls.Add(this.ConnectButton);
             this.layoutPanel.Controls.Add(this.CancelButton);
             this.layoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.layoutPanel.Location = new System.Drawing.Point(12, 8);
+            this.layoutPanel.Location = new System.Drawing.Point(6, 8);
             this.layoutPanel.Name = "layoutPanel";
             this.layoutPanel.Size = new System.Drawing.Size(131, 126);
             this.layoutPanel.TabIndex = 5;
@@ -104,6 +107,7 @@
             this.StartServerButton.TabIndex = 5;
             this.StartServerButton.Text = "Start Server";
             this.StartServerButton.UseVisualStyleBackColor = true;
+            this.StartServerButton.Click += new System.EventHandler(this.StartServerButton_Click);
             // 
             // StartClientButton
             // 
@@ -115,6 +119,7 @@
             this.StartClientButton.TabIndex = 5;
             this.StartClientButton.Text = "Start Client";
             this.StartClientButton.UseVisualStyleBackColor = true;
+            this.StartClientButton.Click += new System.EventHandler(this.StartClientButton_Click);
             // 
             // label1
             // 
@@ -143,6 +148,7 @@
             this.ConnectButton.TabIndex = 5;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = true;
+            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
             // CancelButton
             // 
@@ -154,12 +160,13 @@
             this.CancelButton.TabIndex = 6;
             this.CancelButton.Text = "Canсel";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // InviteWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(155, 142);
+            this.ClientSize = new System.Drawing.Size(143, 142);
             this.Controls.Add(this.layoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

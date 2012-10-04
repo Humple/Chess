@@ -39,18 +39,6 @@ namespace Chess
             Close();
         }
 
-        private void OnmineGameButton_Click(object sender, EventArgs e)
-        {
-            rv = "Online";
-
-            OfflineGameButton.Visible = false;
-            OnlineGameButton.Visible = false;
-            ExitButton.Visible = false;
-
-            StartServerButton.Visible = true;
-            StartClientButton.Visible = true;
-        }
-
         private void ExitButton_Click(object sender, EventArgs e)
         {
             Close();
@@ -91,6 +79,18 @@ namespace Chess
             IPBox.Visible = true;
             ConnectButton.Visible = true;
             CancelButton.Visible = true;
+        }
+
+        private void OnlineGameButton_Click(object sender, EventArgs e)
+        {
+            rv = "Online";
+
+            OfflineGameButton.Visible = false;
+            OnlineGameButton.Visible = false;
+            ExitButton.Visible = false;
+
+            StartServerButton.Visible = true;
+            StartClientButton.Visible = true;
         }
     }
 }

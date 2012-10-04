@@ -174,7 +174,6 @@
             this.Name = "InviteWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chess";
-            this.Load += new System.EventHandler(this.InviteForm_Load);
             this.layoutPanel.ResumeLayout(false);
             this.layoutPanel.PerformLayout();
             this.ResumeLayout(false);

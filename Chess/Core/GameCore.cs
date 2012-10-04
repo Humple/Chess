@@ -15,6 +15,7 @@ namespace Chess
 		private Chess.Figures.FigureColor runColor;
 		private Position figurePos;
 		private PlayersState pState;
+        private bool gameEnd;
 
 		public GameCore ()
 		{
@@ -67,6 +68,8 @@ namespace Chess
 							string message;
 
 							if(runColor == enemyColor )	{
+                                playWindow.matrix.SetChecked(currentPos);
+                                playWindow.matrix.SetChecked(kingPos);
 								message = "Check!";
 								pState.SetState(enemyColor, PlayerState.CHECK );
 							}
@@ -112,12 +115,13 @@ namespace Chess
 
 		private void StartGame ()
 		{
-            
+            gameEnd = false;
 		}
 
 		private void GameEnd()
 		{
 			//TODO: we shoud will do something in playwindow
+            gameEnd = true;
 		}
 
 
@@ -129,6 +133,9 @@ namespace Chess
 
 		public void SpotSelected (Position spotPos)
 		{
+            if (gameEnd)
+                return;
+
 			Console.WriteLine("Square selected: " + spotPos.X +' ' + spotPos.Y);
 
 
@@ -175,7 +182,10 @@ namespace Chess
 		}
         
 		public bool SpotFocused(Position spotPos)
-        {				
+        {
+            if (gameEnd)
+                return false;
+
                 if ( (matrix.HasFigureAt(spotPos) && matrix.FigureAt(spotPos).Color == runColor)
 			    || playWindow.matrix.GetSpot(spotPos).Highlighted ) 
 
@@ -186,12 +196,12 @@ namespace Chess
 
 		public void StartButtonClicked()
 		{
-
+            StartGame();
 		}
 
 		public void StopButtonClicked()
 		{
-
+            GameEnd();
 		}
     }
 }

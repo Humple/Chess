@@ -124,7 +124,6 @@ namespace Chess
             gameEnd = true;
 		}
 
-
 		//IGameControl
 		public void FigureMoved(Position oldPos, Position newPos)
 		{

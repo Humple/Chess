@@ -30,6 +30,7 @@ namespace Chess
 		public NetworkClient (INetworkSupport isuppport)
 		{
 			inetsupport = isuppport;
+			connected = false;
 		}
 
 		public void ConnetcToServer (string ip)

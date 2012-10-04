@@ -7,7 +7,7 @@ using Chess.Figures;
 namespace Chess
 {
 
-    class GameCore: IGameControl
+    class GameCore: IGameControl, INetworkSupport
     {
 		private PlayWindow playWindow;
         private InviteWindow inviteWindow;
@@ -16,6 +16,9 @@ namespace Chess
 		private Position figurePos;
 		private PlayersState pState;
         private bool gameEnd;
+
+		private NetworkServer nServer;
+		private NetworkClient nClient;
 
 		public GameCore ()
 		{
@@ -89,7 +92,43 @@ namespace Chess
 				GameEnd ();
 		}	
 
-        private void PlayWindowClose(Object o, FormClosedEventArgs e)
+		private void StartGame ()
+		{
+            gameEnd = false;
+		}
+
+		private void GameEnd()
+		{
+			//TODO: we shoud will do something in playwindow
+            gameEnd = true;
+		}
+
+		private void MoveFigure (Position oldPos, Position newPos)
+		{
+				matrix.MoveFigure( oldPos, newPos);
+                playWindow.matrix.MoveImage( oldPos, newPos );
+                playWindow.matrix.ResetAllAttribures();
+
+				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
+				CheckForMate();
+		}
+
+		private void InitServer ()
+		{
+			nServer = new NetworkServer(this);
+			nServer.StartServer();
+		}
+
+		private void InitClient ()
+		{
+			string ip="";
+			nClient = new NetworkClient(this);
+			nClient.ConnetcToServer(ip);
+
+		}
+
+		#region gui delegates
+		private void PlayWindowClose(Object o, FormClosedEventArgs e)
         {
             ReInitialize();
         }
@@ -104,7 +143,7 @@ namespace Chess
                 } break;
                 case "Online":
                 {
-                    Application.Exit();
+                    //...
                 } break;
                 default:
                 {
@@ -112,19 +151,35 @@ namespace Chess
                 } break;
             }
         }
+		#endregion
 
-		private void StartGame ()
+		#region INetworkSupport implementation
+		public void ChessMoved (Position oldPos, Position newPos)
 		{
-            gameEnd = false;
+			MoveFigure( oldPos, newPos );
 		}
 
-		private void GameEnd()
+		public void Connected ()
 		{
-			//TODO: we shoud will do something in playwindow
-            gameEnd = true;
+			#if DEBUG
+			System.Console.WriteLine ("GameCore.Connected():");
+			#endif
 		}
 
-		//IGameControl
+		public void Disconnected ()
+		{
+			#if DEBUG
+			System.Console.WriteLine ("GameCore.Disonnected():");
+			#endif
+		}
+
+		public void MessageReceived (string mes)
+		{
+			playWindow.PrintToConsole("Network message: " +mes, System.Drawing.Color.Green);
+		}
+		#endregion
+
+		#region IGameControl implementation
 		public void FigureMoved(Position oldPos, Position newPos)
 		{
 
@@ -170,12 +225,7 @@ namespace Chess
                     (char)('A' + spotPos.X) + Convert.ToString(8 - spotPos.Y), System.Drawing.Color.FromArgb(128, 64, 255));
                 }
 
-				matrix.MoveFigure( figurePos, spotPos);
-                playWindow.matrix.MoveImage( figurePos, spotPos );
-                playWindow.matrix.ResetAllAttribures();
-
-				runColor = (runColor == FigureColor.WHITE)?(FigureColor.BLACK):(FigureColor.WHITE);
-				CheckForMate();
+				MoveFigure( figurePos, spotPos);
 				FigureMoved(figurePos, spotPos);
 			}
 		}
@@ -202,5 +252,6 @@ namespace Chess
 		{
             GameEnd();
 		}
-    }
+   		#endregion
+	}
 }

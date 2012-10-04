@@ -9,6 +9,11 @@ namespace Chess
 {
     public class CoreMatrix: Object
     {
+
+		public Position KingWhite;
+
+		public Position KingBlack;
+
         private Figure[,] sMatrix;
 
         public CoreMatrix()
@@ -28,6 +33,8 @@ namespace Chess
             sMatrix[4, 7] = new King(FigureColor.WHITE);
             sMatrix[3, 7] = new Queen(FigureColor.WHITE);
 
+			KingWhite = new Position( 4, 7);
+
             for (int i = 0; i < 8; i++)
             {
                 sMatrix[i, 6] = new Pawn(FigureColor.WHITE);
@@ -46,29 +53,59 @@ namespace Chess
             sMatrix[4, 0] = new King(FigureColor.BLACK);
             sMatrix[3, 0] = new Queen(FigureColor.BLACK);
 
+			KingBlack = new Position(4, 0);
+
             for (int i = 0; i < 8; i++)
             {
                 sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
             }
         }
-        public Figure FigureAt(Position pos)
+        
+		public Figure FigureAt(Position pos)
         {
             return sMatrix[pos.X, pos.Y];
         }
-        public Figure FigureAt(int x, int y)
+        
+		public Figure FigureAt(int x, int y)
         {
             return sMatrix[x, y];
         }
 
 		public void MoveFigure (Position oldPos, Position newPos)
 		{
-			sMatrix[newPos.X, newPos.Y ] = sMatrix[ oldPos.X, oldPos.Y ];
-			sMatrix[oldPos.X, oldPos.Y ] = null;
+			if (! HasFigureAt (oldPos))
+				throw (new NullReferenceException ("I don't have figure at " + oldPos.X + ' ' + oldPos.Y));
+
+			//changing king position
+			if (FigureAt (oldPos).ToString() == "king") {
+
+				if(FigureAt (oldPos).Color == FigureColor.WHITE )
+				{
+					KingWhite = newPos;
+				}
+				else
+				{
+					KingBlack = newPos;
+				}
+			}
+
+            sMatrix[oldPos.X, oldPos.Y].ResetFirstStepFlag();
+			sMatrix [newPos.X, newPos.Y] = sMatrix [oldPos.X, oldPos.Y];
+			sMatrix [oldPos.X, oldPos.Y] = null;
 		}
 
 		public bool HasFigureAt (Position pos)
 		{
 			return (sMatrix[pos.X, pos.Y] !=null);
 		}
-    }
+  
+		public Position GetKing (FigureColor color)
+		{
+			if (color == FigureColor.WHITE) {
+				return KingWhite;
+			} else {
+				return KingBlack;
+			}
+		}
+	}
 }

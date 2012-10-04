@@ -16,6 +16,7 @@ namespace Chess
         public bool Highlighted { get; set; }  // Для выделения возможных шагов
         public bool Focused { get; set; }      // Мышь наведена на эту клетку
         public bool Selected { get; set; }
+        public bool Check { get; set; }
         public Spot(int x, int y, Color clr, Image img)
         {
             X = x;
@@ -96,6 +97,11 @@ namespace Chess
 			return true;
 		}
 
+        public bool SetChecked(Position pos)
+        {
+            sMatrix[pos.X, pos.Y].Check = true;
+            return true;
+        }
 		public bool SetHighlighted (List<Position> positions)
 		{
 			UnsetHiglight();
@@ -111,6 +117,7 @@ namespace Chess
 		{
 			foreach (Spot spot in sMatrix) {
 				spot.Highlighted = false;
+                spot.Check = false;
 			}
 		}
 

@@ -48,28 +48,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreMatrix.cs" />
-    <Compile Include="GameCore.cs" />
-    <Compile Include="GuiMatrix.cs" />
-    <Compile Include="IGameControl.cs" />
-    <Compile Include="InviteWindow.cs">
+    <Compile Include="Core\CoreMatrix.cs" />
+    <Compile Include="Core\GameCore.cs" />
+    <Compile Include="GUI\GuiMatrix.cs" />
+    <Compile Include="Core\IGameControl.cs" />
+    <Compile Include="GUI\InviteWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InviteWindow.Designer.cs">
+    <Compile Include="GUI\InviteWindow.Designer.cs">
       <DependentUpon>InviteWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlayWindow.cs">
+    <Compile Include="Network\INetworkSupport.cs" />
+    <Compile Include="Network\NetworkServer.cs" />
+    <Compile Include="GUI\PlayWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PlayWindow.Designer.cs">
+    <Compile Include="GUI\PlayWindow.Designer.cs">
       <DependentUpon>PlayWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="InviteWindow.resx">
+    <EmbeddedResource Include="GUI\InviteWindow.resx">
       <DependentUpon>InviteWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PlayWindow.resx">
+    <EmbeddedResource Include="GUI\PlayWindow.resx">
       <DependentUpon>PlayWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -82,7 +84,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -92,7 +93,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Models.cs" />
+    <Compile Include="Core\Models.cs" />
     <Compile Include="Figures\Figure.cs" />
     <Compile Include="Figures\Queen.cs" />
     <Compile Include="Figures\Rock.cs" />
@@ -100,6 +101,8 @@
     <Compile Include="Figures\Bishop.cs" />
     <Compile Include="Figures\King.cs" />
     <Compile Include="Figures\Knight.cs" />
+    <Compile Include="Network\NetworkClient.cs" />
+    <Compile Include="Network\NetworkDef.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -112,4 +115,5 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
   </ItemGroup>
+  <ItemGroup />
 </Project>

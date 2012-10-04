@@ -24,6 +24,7 @@ namespace Chess
         private BufferedGraphics graph = null;
         private System.Drawing.Pen pen = null;
         private Chess.IGameControl control;
+        private bool formBusy = false;
 
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
@@ -35,11 +36,15 @@ namespace Chess
             control = gameControl;
             sqSize = 80;
             offset = 25;
+
+            control.StartButtonClicked();
         }
 
         //draw chess field
         private void Draw(object sender, EventArgs e)
         {
+            while (formBusy) Thread.Sleep(1);
+            formBusy = true;
             if (matrix == null)
                 return;
             if (e != null)
@@ -57,16 +62,19 @@ namespace Chess
                         continue;
 
                     //Выбор цвета квадрата
-
-                    if (tmpSpot.Highlighted)	//highlighted spot
-                        if (tmpSpot.sColor.R != 255)
-                            pen.Color = Color.FromArgb(50, 100, 75);
-                        else
-                            pen.Color = Color.FromArgb(100, 255, 125);
-                    else if (tmpSpot.Selected) 	//selected spot
-                        pen.Color = ColorSelected;
-                    else 						//simple spot
-                        pen.Color = tmpSpot.sColor;
+                    if (tmpSpot.Check)
+                    {
+                        if (tmpSpot.sColor != Color.White) pen.Color = Color.FromArgb(255, 100, 100);
+                        else pen.Color = Color.FromArgb(255, 150, 150);
+                    }
+                    else if (tmpSpot.Highlighted)	//highlighted spot
+                    {
+                        if (tmpSpot.sColor != Color.White) pen.Color = Color.FromArgb(50, 100, 75);
+                        else pen.Color = Color.FromArgb(100, 255, 125);
+                    }
+                    else if(tmpSpot.Selected) pen.Color = ColorSelected;	//selected spot
+                    else pen.Color = tmpSpot.sColor;						//simple spot
+                        
 
                     //отрисовка квадрата
                     if (tmpSpot.Focused)
@@ -107,6 +115,8 @@ namespace Chess
             }
 
             graph.Render();
+
+            formBusy = false;
         }
         //draw image on field in p position
         private void DrawFigure(Position p, System.Drawing.Image img)
@@ -159,13 +169,29 @@ namespace Chess
             pt.X /= sqSize;
             pt.Y /= sqSize;
 
-            if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0 || 
+            if (pt.X >= 8 || pt.Y >= 8 || pt.X < 0 || pt.Y < 0 ||
                 !(control.SpotFocused(new Position(pt.X, pt.Y)) ||
                 (matrix.GetSpot(pt.X, pt.Y) != null && matrix.GetSpot(pt.X, pt.Y).Highlighted)))
                 return;
             if (matrix.SetFocused(pt.X, pt.Y))
                 ReDraw(true);
+
         }
+
+        public void PrintToConsoleLn(string str, Color clr)
+        {
+            gameConsole.SelectionColor = clr;
+            gameConsole.AppendText(str);
+            gameConsole.ScrollToCaret();
+        }
+        public void PrintToConsole(string str, Color clr)
+        {
+            gameConsole.SelectionColor = clr;
+            if (gameConsole.Text != "") gameConsole.AppendText(Environment.NewLine + str);
+            else gameConsole.AppendText(str);
+            gameConsole.ScrollToCaret();
+        }
+
         //Mouse down event handler
         private void PlayWindow_LeftClick(object sender, MouseEventArgs e)
         {
@@ -180,7 +206,7 @@ namespace Chess
 
             Position mouseClickedPos = new Position(pt.X, pt.Y);
 
-            if ( control.SpotFocused(mouseClickedPos) )
+            if (control.SpotFocused(mouseClickedPos))
             {
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);
@@ -209,6 +235,21 @@ namespace Chess
                 mouseTracker.Start();
             if (graph != null)
                 ReDraw(true);
+        }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            PrintToConsole("Player1: ", Color.Green);
+            PrintToConsoleLn(commandLine.Text, Color.FromArgb(64, 128, 255));
+            commandLine.Text = "";
+        }
+
+        private void commandLine_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 13)
+            {
+                sendButton_Click(sender, e);
+            }
         }
     }
 }

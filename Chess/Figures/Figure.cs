@@ -19,6 +19,12 @@ namespace Chess
 				}
 			}
 
+            protected bool firstStepFlag = true;
+            public void ResetFirstStepFlag()
+            {
+                firstStepFlag = false;
+            }
+
 			//file splite
 			public const char SPLITER='/';
 			public const string PREFIX="images/figures";
@@ -98,7 +104,7 @@ namespace Chess
 
 						if( available.Contains(new Position(j, i)) )
 						   System.Console.Write ('+');
-						else if( new Position(i, j) == currentPos )
+						else if( new Position(j, i) == currentPos )
 							System.Console.Write ('^');
 						else
 							System.Console.Write('0');
@@ -134,6 +140,10 @@ namespace Chess
                 }
 				
 			}
+            public virtual string ToString()
+            {
+                return "figure";
+            }
 		}
 	}
 }

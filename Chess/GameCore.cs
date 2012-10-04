@@ -120,7 +120,6 @@ namespace Chess
 			//TODO: we shoud will do something in playwindow
 		}
 
-
 		//IGameControl
 		public void FigureMoved(Position oldPos, Position newPos)
 		{

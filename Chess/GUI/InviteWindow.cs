@@ -13,10 +13,19 @@ namespace Chess
     {
         private Bitmap pict = null;
         private delegate void DrawImgageDelegate(Image ing, int x, int y);
-        public string returnValue = null;
+        private string rv = null;
+        public string returnValue { get { return rv; } }
+        private string ip = null;
+        public string IP { get { return ip; } }
+
+
         public InviteWindow()
         {
             InitializeComponent();
+            label1.Visible = false;
+            IPBox.Visible = false;
+            ConnectButton.Visible = false;
+            CancelButton.Visible = false;
         }
 
         private void InviteForm_Load(object sender, EventArgs e)
@@ -50,19 +59,48 @@ namespace Chess
 
         private void OfflineGameButton_Click(object sender, EventArgs e)
         {
-            returnValue = "Offline";
+            rv = "Offline";
             Close();
         }
 
         private void OnmineGameButton_Click(object sender, EventArgs e)
         {
-            returnValue = "Online";
-            Close();
+            rv = "Online";
+
+            OfflineGameButton.Visible = false;
+            OnlineGameButton.Visible = false;
+            ExitButton.Visible = false;
+
+            label1.Visible = true;
+            IPBox.Visible = true;
+            ConnectButton.Visible = true;
+            CancelButton.Visible = true;
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void ConnectButton_Click(object sender, EventArgs e)
+        {
+            ip = IPBox.Text;
+            ip.Replace(',', '.');
+            ip.Replace(" ", "");
+            // вызов кода подключения;
+            Close();
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            label1.Visible = false;
+            IPBox.Visible = false;
+            ConnectButton.Visible = false;
+            CancelButton.Visible = false;
+
+            OfflineGameButton.Visible = true;
+            OnlineGameButton.Visible = true;
+            ExitButton.Visible = true;
         }
     }
 }

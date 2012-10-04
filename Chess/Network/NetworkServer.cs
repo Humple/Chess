@@ -72,8 +72,8 @@ namespace Chess
 			Console.WriteLine("ReceiveCommand(): readed " + bytes );
 #endif
 			string readed = System.Text.Encoding.UTF8.GetString(buffer);
-
-			return readed;
+			string r = readed.Split('\n')[0];
+			return r;
 		}
 
 		private void SendCommand (string command)

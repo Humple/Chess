@@ -59,6 +59,7 @@ namespace Chess
             this.commandLine.Name = "commandLine";
             this.commandLine.Size = new System.Drawing.Size(242, 20);
             this.commandLine.TabIndex = 0;
+            this.commandLine.Visible = false;
             this.commandLine.KeyDown += new System.Windows.Forms.KeyEventHandler(this.commandLine_KeyDown);
             // 
             // sendButton
@@ -70,6 +71,7 @@ namespace Chess
             this.sendButton.TabIndex = 1;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
+            this.sendButton.Visible = false;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
             // PlayWindow

@@ -26,6 +26,19 @@ namespace Chess
         private Chess.IGameControl control;
         private bool formBusy = false;
 
+        public bool NetworkEnabled  {
+            set  {
+                if (value == true) {
+                    commandLine.Visible = true;
+                    sendButton.Visible = true;
+                }
+                else  {
+                    commandLine.Visible = false;
+                    sendButton.Visible = false;
+                }
+            }
+        }
+
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
         public PlayWindow(Chess.IGameControl gameControl, string title, Chess.GuiMatrix guiMatrix)

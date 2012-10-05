@@ -45,7 +45,7 @@ namespace Chess
 			string r = readed.Split('\n')[0];
 			
 			#if DEBUG
-			Console.WriteLine(this.ToString() +": ReceiveCommand(): readed " + bytes +' ' +r );
+			Console.WriteLine(this.ToString() +": ReceiveCommand(): readed '" +r +"'");
 			#endif
 			return r;
 		}

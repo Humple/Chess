@@ -45,11 +45,7 @@ namespace Chess
 			while (IsConnected) {
 
 				String received = ReceiveCommand();
-				if( received == NetworkDef.OK )	{
-				}
-				else{
-					Disconnect();
-				}
+
 			}
 		}
 }

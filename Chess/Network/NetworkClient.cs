@@ -36,17 +36,19 @@ namespace Chess
 
 		protected override void SocketIO ()
 		{
-			if (ReceiveCommand () == NetworkDef.VERSION) {
-				iNetwork.Connected ();
+				
+			string r = ReceiveCommand ();
+
+			if (r.Equals( NetworkDef.VERSION )) {
 				SendCommand (NetworkDef.OK);
 			}
 			else
 			{
-				iNetwork.Connected ();
-				SendCommand (NetworkDef.OK);
+				SendCommand (NetworkDef.ERROR);
 				Disconnect();
 				return;
 			}
+
 			while (IsConnected) {
 				string s = ReceiveCommand();
 			}

@@ -36,17 +36,13 @@ namespace Chess
 
 			if (ReceiveCommand () == NetworkDef.OK) {
 				iNetwork.Connected ();
-			}
-			else {
+			} else {
 				Disconnect ();
 				return;
 			}
 
-			while (IsConnected) {
-
-				String received = ReceiveCommand();
-
-			}
+			DataProcessing();
 		}
+			
 }
 }

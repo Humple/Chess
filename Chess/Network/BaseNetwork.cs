@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Chess.Figures;
 
 namespace Chess
 {
@@ -41,8 +42,9 @@ namespace Chess
 
 			while(bytes == 0)
 				bytes = socket.Receive(buffer);
+
 			string readed = System.Text.Encoding.UTF8.GetString(buffer);
-			string r = readed.Split('\n')[0];
+			string r = readed.Split(NetworkDef.SPLITTER)[0];
 			
 			#if DEBUG
 			Console.WriteLine(this.ToString() +": ReceiveCommand(): readed '" +r +"'");
@@ -52,7 +54,7 @@ namespace Chess
 
 		protected void SendCommand (string command)
 		{
-			byte[] buffer = System.Text.Encoding.UTF8.GetBytes(command);
+			byte[] buffer = System.Text.Encoding.UTF8.GetBytes(command +NetworkDef.SPLITTER);
 			socket.Send (buffer);
 		}
 
@@ -67,6 +69,30 @@ namespace Chess
 				socket.Shutdown (SocketShutdown.Both);
 				socket.Close ();
 				iNetwork.Disconnected();
+			}
+		}
+
+		protected void DataProcesing()
+		{
+			while (IsConnected) {
+
+				String received = ReceiveCommand();
+
+				if(received.StartsWith(NetworkDef.MOVE))
+				{
+					Position oldPos;
+					Position newPos;
+
+					iNetwork.ChessMoved(oldPos, newPos);
+				}
+				else if(received.StartsWith(NetworkDef.MSG))
+				{
+
+				}
+				else if(received.StartsWith(NetworkDef.END))
+				{
+					iNetwork.MessageReceived(NetworkDef.END);
+				}
 			}
 		}
 	}

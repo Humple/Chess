@@ -36,6 +36,22 @@ namespace Chess
             Application.Run();
         }
 
+		public void Initialize(string ip)
+        {
+
+			matrix = new CoreMatrix();
+            playWindow = new PlayWindow(this, "Chess", new GuiMatrix(matrix));
+            playWindow.FormClosed += new FormClosedEventHandler(PlayWindowClose);
+
+
+	  		if(ip =="0.0.0.0")
+				InitServer();
+			else
+				InitClient(ip);
+
+			Application.Run ();
+        }
+
         private void ReInitialize()
         {
             runColor = FigureColor.WHITE;
@@ -163,7 +179,6 @@ namespace Chess
                     InitClient(e.IP);
                     break;
                 case OnChoiceEventArgs.ConnectionType.EXIT:
-
                     Application.Exit();
                     break;
             }
@@ -173,14 +188,16 @@ namespace Chess
         #region INetworkSupport implementation
         public void ChessMoved(Position oldPos, Position newPos)
         {
+			strokeLock = !strokeLock;
             MoveFigure(oldPos, newPos);
         }
 
         public void Connected()
         {
-#if DEBUG
-            System.Console.WriteLine("GameCore.Connected():");
-#endif
+            System.Console.WriteLine("GameCore.Connected(): ");
+			if(inviteWindow != null ) 
+				inviteWindow.Close ();
+			playWindow.Show();
         }
 
         public void Disconnected()

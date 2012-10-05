@@ -13,6 +13,7 @@ namespace Chess
     {
         public delegate void OnChoiceEventHandler(object sender, OnChoiceEventArgs e);
         public event OnChoiceEventHandler OnChoice;
+        private bool choiceMade = false;
 
         public InviteWindow()
         {
@@ -28,21 +29,30 @@ namespace Chess
         private void OfflineGameButton_Click(object sender, EventArgs e)
         {
             if (OnChoice != null)
+            {
                 OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.OFFLINE, null));
+                choiceMade = true;
+            }
             Close();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
             if (OnChoice != null)
+            {
                 OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.EXIT, null));
+                choiceMade = true;
+            }
             Close();
         }
 
         private void ConnectButton_Click(object sender, EventArgs e)
         {
             if (OnChoice != null)
+            {
                 OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.CLIENT, IPBox.Text));
+                choiceMade = true;
+            }
             Close();
         }
 
@@ -61,7 +71,10 @@ namespace Chess
         private void StartServerButton_Click(object sender, EventArgs e)
         {
             if (OnChoice != null)
-                OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.SERVER, null));
+            {
+                OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.SERVER, null)); 
+                choiceMade = true;
+            }
             Close();
         }
 
@@ -84,6 +97,13 @@ namespace Chess
 
             StartServerButton.Visible = true;
             StartClientButton.Visible = true;
+        }
+
+        private void InviteWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!choiceMade && OnChoice != null)
+                OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.EXIT, null));
+            choiceMade = false;
         }
     }
 

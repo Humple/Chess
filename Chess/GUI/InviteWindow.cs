@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Chess
 {
@@ -14,6 +15,8 @@ namespace Chess
         public delegate void OnChoiceEventHandler(object sender, OnChoiceEventArgs e);
         public event OnChoiceEventHandler OnChoice;
         private bool choiceMade = false;
+        private delegate void LoadingDelegate(int delay);
+        private LoadingDelegate loading;
 
         public InviteWindow()
         {
@@ -24,6 +27,22 @@ namespace Chess
             CancelButton.Visible = false;
             StartServerButton.Visible = false;
             StartClientButton.Visible = false;
+            loading = new LoadingDelegate(Loading);
+        }
+        void Loading(int delay)
+        {
+            while (choiceMade)
+            {
+                status.Text = "Connecting";
+                Thread.Sleep(delay);
+                status.Text = "Connecting.";
+                Thread.Sleep(delay);
+                status.Text = "Connecting..";
+                Thread.Sleep(delay);
+                status.Text = "Connecting...";
+                Thread.Sleep(delay);
+            }
+            status.Text = "Cancelled";
         }
 
         private void OfflineGameButton_Click(object sender, EventArgs e)
@@ -53,7 +72,7 @@ namespace Chess
                 OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.CLIENT, IPBox.Text));
                 choiceMade = true;
             }
-            Close();
+            loading.BeginInvoke(500, null, null);
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
@@ -62,20 +81,24 @@ namespace Chess
             IPBox.Visible = false;
             ConnectButton.Visible = false;
             CancelButton.Visible = false;
+            StartServerButton.Visible = false;
+            StartClientButton.Visible = false;
 
             OfflineGameButton.Visible = true;
             OnlineGameButton.Visible = true;
             ExitButton.Visible = true;
+            choiceMade = false;
         }
 
         private void StartServerButton_Click(object sender, EventArgs e)
         {
+            StartClientButton.Visible = false;
             if (OnChoice != null)
             {
                 OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.SERVER, null)); 
                 choiceMade = true;
             }
-            Close();
+            loading.BeginInvoke(500, null, null);
         }
 
         private void StartClientButton_Click(object sender, EventArgs e)
@@ -97,6 +120,7 @@ namespace Chess
 
             StartServerButton.Visible = true;
             StartClientButton.Visible = true;
+            CancelButton.Visible = true;
         }
 
         private void InviteWindow_FormClosed(object sender, FormClosedEventArgs e)

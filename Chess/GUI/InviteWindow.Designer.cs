@@ -39,6 +39,7 @@
             this.IPBox = new System.Windows.Forms.TextBox();
             this.ConnectButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.status = new System.Windows.Forms.Label();
             this.layoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,7 +134,6 @@
             // IPBox
             // 
             this.IPBox.Location = new System.Drawing.Point(134, 47);
-            //this.IPBox.Mask = "###.###.###.###";
             this.IPBox.Name = "IPBox";
             this.IPBox.Size = new System.Drawing.Size(125, 20);
             this.IPBox.TabIndex = 4;
@@ -162,11 +162,21 @@
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
+            // status
+            // 
+            this.status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.status.AutoSize = true;
+            this.status.Location = new System.Drawing.Point(1, 169);
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(0, 13);
+            this.status.TabIndex = 6;
+            // 
             // InviteWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(184, 184);
+            this.Controls.Add(this.status);
             this.Controls.Add(this.layoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -179,6 +189,7 @@
             this.layoutPanel.ResumeLayout(false);
             this.layoutPanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -194,6 +205,7 @@
         private System.Windows.Forms.TextBox IPBox;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Label status;
 
     }
 }

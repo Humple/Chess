@@ -36,7 +36,7 @@
             this.StartServerButton = new System.Windows.Forms.Button();
             this.StartClientButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.IPBox = new System.Windows.Forms.MaskedTextBox();
+            this.IPBox = new System.Windows.Forms.TextBox();
             this.ConnectButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.layoutPanel.SuspendLayout();
@@ -133,7 +133,7 @@
             // IPBox
             // 
             this.IPBox.Location = new System.Drawing.Point(134, 47);
-            this.IPBox.Mask = "###.###.###.###";
+            //this.IPBox.Mask = "###.###.###.###";
             this.IPBox.Name = "IPBox";
             this.IPBox.Size = new System.Drawing.Size(125, 20);
             this.IPBox.TabIndex = 4;
@@ -191,7 +191,7 @@
         private System.Windows.Forms.Button StartServerButton;
         private System.Windows.Forms.Button StartClientButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.MaskedTextBox IPBox;
+        private System.Windows.Forms.TextBox IPBox;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Button CancelButton;
 

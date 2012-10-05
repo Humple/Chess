@@ -170,12 +170,15 @@ namespace Chess
             switch (e.Type)
             {
                 case OnChoiceEventArgs.ConnectionType.OFFLINE:
-                    playWindow.Show();
+					playWindow.NetworkEnabled = false;
+					playWindow.Show();
                     break;
                 case OnChoiceEventArgs.ConnectionType.SERVER:
+					playWindow.NetworkEnabled = true;
                     InitServer();
                     break;
                 case OnChoiceEventArgs.ConnectionType.CLIENT:
+					playWindow.NetworkEnabled = true;
                     InitClient(e.IP);
                     break;
                 case OnChoiceEventArgs.ConnectionType.EXIT:
@@ -202,9 +205,7 @@ namespace Chess
 
         public void Disconnected()
         {
-#if DEBUG
-            System.Console.WriteLine("GameCore.Disonnected():");
-#endif
+			System.Console.WriteLine(this.ToString() + ": Disconnected()");
         }
 
         public void MessageReceived(string mes)

@@ -194,7 +194,7 @@ namespace Chess
 
         public void Connected()
         {
-            System.Console.WriteLine("GameCore.Connected(): ");
+            System.Console.WriteLine(this.ToString() + ": Connected()");
 			if(inviteWindow != null ) 
 				inviteWindow.Close ();
 			playWindow.Show();

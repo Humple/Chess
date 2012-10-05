@@ -65,6 +65,7 @@ namespace Chess
 				thread.Join ();
 				socket.Shutdown (SocketShutdown.Both);
 				socket.Close ();
+				iNetwork.Disconnected();
 			}
 		}
 	}

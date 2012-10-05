@@ -30,10 +30,21 @@ namespace Chess
 		{
 			socket = tcpListener.Accept ();
 			tcpListener.Close ();
+
+
+			SendCommand (NetworkDef.VERSION);
+
+			if (ReceiveCommand () == NetworkDef.OK)
+				Console.WriteLine (" Version accepted");
+			else {
+				Disconnect ();
+				return;
+			}
+
 			iNetwork.Connected ();
 
-
 			while (IsConnected) {
+
 				String received = ReceiveCommand();
 				if( received == NetworkDef.OK )	{
 				}

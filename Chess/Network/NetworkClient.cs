@@ -34,8 +34,19 @@ namespace Chess
 			thread.Start ();
 		}
 
-		protected override void SocketIO()
+		protected override void SocketIO ()
 		{
+			if( ReceiveCommand() == NetworkDef.VERSION )
+				iNetwork.Connected();
+			else
+			{
+				Disconnect();
+				return;
+			}
+			while (IsConnected) {
+				string s = ReceiveCommand();
+				Console.WriteLine(" SocketIO(): " +s);
+			}
 		}
 	}
 }

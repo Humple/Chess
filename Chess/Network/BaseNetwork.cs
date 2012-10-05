@@ -41,12 +41,12 @@ namespace Chess
 
 			while(bytes == 0)
 				bytes = socket.Receive(buffer);
-
-			#if DEBUG
-			Console.WriteLine("ReceiveCommand(): readed " + bytes );
-			#endif
 			string readed = System.Text.Encoding.UTF8.GetString(buffer);
 			string r = readed.Split('\n')[0];
+			
+			#if DEBUG
+			Console.WriteLine(this.ToString() +": ReceiveCommand(): readed " + bytes +' ' +r );
+			#endif
 			return r;
 		}
 
@@ -58,9 +58,10 @@ namespace Chess
 
 		public void Disconnect ()
 		{
-			if (IsConnected) {
+			if (!IsConnected) {
 				return;
 			} else {
+				Console.WriteLine( this.ToString() + ": Socket disconecting...");
 				connected = false;
 				thread.Join ();
 				socket.Shutdown (SocketShutdown.Both);

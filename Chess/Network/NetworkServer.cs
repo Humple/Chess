@@ -34,14 +34,13 @@ namespace Chess
 
 			SendCommand (NetworkDef.VERSION);
 
-			if (ReceiveCommand () == NetworkDef.OK)
-				Console.WriteLine (" Version accepted");
+			if (ReceiveCommand () == NetworkDef.OK) {
+				iNetwork.Connected ();
+			}
 			else {
 				Disconnect ();
 				return;
 			}
-
-			iNetwork.Connected ();
 
 			while (IsConnected) {
 

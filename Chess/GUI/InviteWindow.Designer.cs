@@ -92,7 +92,7 @@
             this.layoutPanel.Controls.Add(this.ConnectButton);
             this.layoutPanel.Controls.Add(this.CancelButton);
             this.layoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.layoutPanel.Location = new System.Drawing.Point(6, 8);
+            this.layoutPanel.Location = new System.Drawing.Point(27, 17);
             this.layoutPanel.Name = "layoutPanel";
             this.layoutPanel.Size = new System.Drawing.Size(131, 126);
             this.layoutPanel.TabIndex = 5;
@@ -166,11 +166,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(143, 142);
+            this.ClientSize = new System.Drawing.Size(184, 161);
+            this.ControlBox = false;
             this.Controls.Add(this.layoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(200, 200);
             this.Name = "InviteWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chess";

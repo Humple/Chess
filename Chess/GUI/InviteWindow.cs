@@ -14,11 +14,6 @@ namespace Chess
         public delegate void OnChoiceEventHandler(object sender, OnChoiceEventArgs e);
         public event OnChoiceEventHandler OnChoice;
 
-        private string rv = null;
-        public string returnValue { get { return rv; } }
-        private string ip = null;
-
-
         public InviteWindow()
         {
             InitializeComponent();
@@ -34,7 +29,6 @@ namespace Chess
         {
             if (OnChoice != null)
                 OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.OFFLINE, null));
-            rv = "Offline";
             Close();
         }
 
@@ -47,12 +41,8 @@ namespace Chess
 
         private void ConnectButton_Click(object sender, EventArgs e)
         {
-            ip = IPBox.Text;
-            ip.Replace(',', '.');
-            ip.Replace(" ", "");
             if (OnChoice != null)
-                OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.CLIENT, ip));
-            // вызов кода подключения;
+                OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.CLIENT, IPBox.Text));
             Close();
         }
 

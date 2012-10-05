@@ -103,6 +103,7 @@
     <Compile Include="Figures\Knight.cs" />
     <Compile Include="Network\NetworkClient.cs" />
     <Compile Include="Network\NetworkDef.cs" />
+    <Compile Include="Network\BaseNetwork.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

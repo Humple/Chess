@@ -72,22 +72,24 @@ namespace Chess
 			}
 		}
 
-		protected void DataProcesing()
+		protected void DataProcessing()
 		{
+
+			//TODO: parse string
 			while (IsConnected) {
 
 				String received = ReceiveCommand();
 
 				if(received.StartsWith(NetworkDef.MOVE))
 				{
-					Position oldPos;
-					Position newPos;
+					Position oldPos = new Position(0, 0);
+					Position newPos = new Position(0, 0);
 
 					iNetwork.ChessMoved(oldPos, newPos);
 				}
 				else if(received.StartsWith(NetworkDef.MSG))
 				{
-
+					iNetwork.MessageReceived("TODO:");
 				}
 				else if(received.StartsWith(NetworkDef.END))
 				{

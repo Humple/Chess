@@ -79,6 +79,56 @@ namespace Chess
 				return GetAvailableMovePossitons(currentPos);
 			}
 
+			//get all available positions for current figure in shah mode
+			public virtual List<Position> GetAvailableOnShahPositons (Position currentPos, CoreMatrix matrix)
+			{
+				List<Position> availlablePos = GetAvailableAtackPositons (currentPos, matrix);
+				List<Position> validPos = new List<Position>();
+
+				CoreMatrix tmpMatrix;
+
+				foreach (Position pos in availlablePos) {
+
+					tmpMatrix = (CoreMatrix) matrix.Clone (); 
+					tmpMatrix.MoveFigure(currentPos, pos);
+
+					Position kingPos = tmpMatrix.GetKing(color);
+
+					if( !King.IsShahState(tmpMatrix, color) )
+						validPos.Add(pos);
+
+				}
+
+				return validPos;
+			}
+
+			public static bool IsShahState (CoreMatrix matrix, FigureColor color)
+			{
+				//get the king position
+				Position kingPos = matrix.GetKing (color);
+				//searching for unsafe enemy figure
+				for (int i = 0; i < 8; i++) { 		//y
+					for (int j = 0; j < 8; j++) { 	//x
+						Position currentPos = new Position (j, i);
+
+						if (matrix.HasFigureAt (currentPos)) {
+							Figure currentFigure = matrix.FigureAt (currentPos);
+							//current figure has same color
+							//continue cycle
+							if( currentFigure.Color == color )
+								continue;
+							//get the available atack posions for current enemy figure
+							List<Position> atack = currentFigure.GetAvailableAtackPositons (currentPos, matrix);
+							//if exist atack position same as king position
+							if( atack.Contains(kingPos) )
+								return true;
+						}
+					}
+				}
+
+				return false;
+			}
+
 			public virtual void ConsolePrintPosition (Position currentPos)
 			{
 
@@ -140,7 +190,8 @@ namespace Chess
                 }
 				
 			}
-            public virtual string ToString()
+            
+			public virtual string ToString()
             {
                 return "figure";
             }

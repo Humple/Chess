@@ -7,12 +7,12 @@ using Chess.Figures;
 
 namespace Chess
 {
-    public class CoreMatrix: Object
+    public class CoreMatrix: ICloneable
     {
 
-		public Position KingWhite;
+		private Position KingWhite;
 
-		public Position KingBlack;
+		private Position KingBlack;
 
         private Figure[,] sMatrix;
 
@@ -106,6 +106,20 @@ namespace Chess
 			} else {
 				return KingBlack;
 			}
+		}
+
+		public Object Clone()
+		{
+			CoreMatrix clone = new CoreMatrix();
+
+			for(int i=0; i<8; i++)
+				for(int j=0; j<8; j++)
+					clone.sMatrix[i, j] = sMatrix[i, j];
+
+			clone.KingBlack = KingBlack;
+			clone.KingWhite = KingWhite;
+
+			return clone;
 		}
 	}
 }

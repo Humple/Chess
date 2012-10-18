@@ -97,6 +97,11 @@ namespace Chess
 			return true;
 		}
 
+		public bool IsHighlighted (Position pos)
+		{
+			return sMatrix[pos.X, pos.Y].Highlighted;
+		}
+
         public bool SetChecked(Position pos)
         {
             sMatrix[pos.X, pos.Y].Check = true;

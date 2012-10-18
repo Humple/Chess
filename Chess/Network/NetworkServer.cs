@@ -23,6 +23,7 @@ namespace Chess
 			thread = new Thread(SocketIO);
 			thread.Name = "ServerThread";
 			thread.IsBackground = true;
+			thread.Priority = ThreadPriority.BelowNormal;
 			thread.Start();
 		}
 
@@ -30,7 +31,6 @@ namespace Chess
 		{
 			socket = tcpListener.Accept ();
 			tcpListener.Close ();
-
 
 			SendCommand (NetworkDef.VERSION);
 
@@ -41,7 +41,17 @@ namespace Chess
 				return;
 			}
 
-			DataProcessing();
+
+			while (socket.Connected) {
+				if(socket.Available > 0 )
+				{
+					ReceiveData();
+				}
+				else
+				{
+					SendCommand();
+				}
+			}
 		}
 			
 }

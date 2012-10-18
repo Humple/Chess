@@ -15,8 +15,7 @@ namespace Chess
         private Position figurePos;
         private PlayersState pState;
         private bool endGameLock, strokeLock;
-        private NetworkServer nServer;
-        private NetworkClient nClient;
+		private BaseNetwork network;
 
         public GameCore()
         {
@@ -45,9 +44,9 @@ namespace Chess
 
 
 	  		if(ip =="0.0.0.0")
-				InitServer();
+				StartServer();
 			else
-				InitClient(ip);
+				StartClient(ip);
 
 			Application.Run ();
         }
@@ -112,15 +111,22 @@ namespace Chess
                 EndGame();
         }
 
-        private void StartGame()
+        private void StartLocal()
         {
-            endGameLock = false;
+            	playWindow.NetworkEnabled = false;
+				strokeLock = false;
+				endGameLock = false;
+				playWindow.Show();
         }
 
-        private void EndGame()
-        {
-            //TODO: we shoud will do something in playwindow
-            endGameLock = true;
+        private void EndGame ()
+		{
+			endGameLock = true;
+
+			if (network != null) {
+				network.Disconnect ();
+				network = null;
+			}
         }
 
         private void MoveFigure(Position oldPos, Position newPos)
@@ -133,28 +139,37 @@ namespace Chess
             CheckForMate();
         }
 
-        private void InitServer()
-        {
-#if DEBUG
-            System.Console.WriteLine("Init server");
-#endif
-            strokeLock = false;
-            nServer = new NetworkServer(this);
-            nServer.StartServer();
+        private void StartServer ()
+		{
+			playWindow.NetworkEnabled = true;
+			strokeLock = false;
+			endGameLock = false;
+			System.Console.WriteLine (this.ToString () + " InitServer() ");
+			try {
+				network = new NetworkServer (this);
+				((NetworkServer)network).StartServer ();
+			} catch (Exception e) {
+				MessageBox.Show (e.Message, "Server Error");
+			}
+
         }
 
-        private void InitClient(string ip)
+        private void StartClient(string ip)
         {
+			playWindow.NetworkEnabled = true;
+			strokeLock = false;
+			endGameLock = false;
+
             System.Console.WriteLine("Connecting to server: " + ip);
             try
             {
                 strokeLock = true;
-                nClient = new NetworkClient(this);
-                nClient.ConnetcToServer(ip);
+               network = new NetworkClient(this);
+                ((NetworkClient) network).ConnetcToServer(ip);
             }
             catch (Exception e)
             {
-                MessageBox.Show(" Can't connect to server: " + ip, "Error");
+                MessageBox.Show(e.Message, "Error");
                 Console.WriteLine(e.Message);
             }
         }
@@ -170,16 +185,13 @@ namespace Chess
             switch (e.Type)
             {
                 case OnChoiceEventArgs.ConnectionType.OFFLINE:
-					playWindow.NetworkEnabled = false;
-					playWindow.Show();
+					StartLocal();
                     break;
                 case OnChoiceEventArgs.ConnectionType.SERVER:
-					playWindow.NetworkEnabled = true;
-                    InitServer();
+                    StartServer();
                     break;
                 case OnChoiceEventArgs.ConnectionType.CLIENT:
-					playWindow.NetworkEnabled = true;
-                    InitClient(e.IP);
+                    StartClient(e.IP);
                     break;
                 case OnChoiceEventArgs.ConnectionType.EXIT:
                     Application.Exit();
@@ -200,6 +212,7 @@ namespace Chess
             System.Console.WriteLine(this.ToString() + ": Connected()");
 			if(inviteWindow != null ) 
 				inviteWindow.Close ();
+
 			playWindow.Show();
         }
 
@@ -280,15 +293,6 @@ namespace Chess
                 return false;
         }
 
-        public void StartButtonClicked()
-        {
-            StartGame();
-        }
-
-        public void StopButtonClicked()
-        {
-            EndGame();
-        }
         #endregion
     }
 }

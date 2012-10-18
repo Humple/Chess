@@ -3,13 +3,17 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using Chess.Figures;
+using System.Collections.Generic;
 
 namespace Chess
 {
 	public class BaseNetwork
 	{
+		//out stack 
+		Queue<String> outCommands;
 		//network thread
 		protected Thread thread;
+		//network callback interface
 		protected INetworkSupport iNetwork;
 		//io socket
 		protected Socket socket;
@@ -27,11 +31,18 @@ namespace Chess
 		public BaseNetwork (INetworkSupport _iNetwork)
 		{
 			connected = false;
+			outCommands = new Queue<String>();
 			iNetwork = _iNetwork;
 		}
 
 		protected virtual void SocketIO ()
 		{
+		}
+
+		public bool ReceiveData ()
+		{
+			DataProcessing( ReceiveCommand() );
+			return true;
 		}
 
 		protected String ReceiveCommand ()
@@ -58,6 +69,11 @@ namespace Chess
 			socket.Send (buffer);
 		}
 
+		protected void SendCommand()
+		{
+			SendCommand( GetCommand() );
+		}
+
 		public void Disconnect ()
 		{
 			if (!IsConnected) {
@@ -72,14 +88,16 @@ namespace Chess
 			}
 		}
 
-		protected void DataProcessing()
+		protected void WaitCommand ()
 		{
+			while (outCommands.Count < 0) {
+				Thread.Sleep(100);
+				System.Console.Write (this.ToString() +": Wait for command");
+			}
+		}
 
-			//TODO: parse string
-			while (IsConnected) {
-
-				String received = ReceiveCommand();
-
+		protected void DataProcessing(string received)
+		{
 				if(received.StartsWith(NetworkDef.MOVE))
 				{
 					Position oldPos = new Position(0, 0);
@@ -95,6 +113,41 @@ namespace Chess
 				{
 					iNetwork.MessageReceived(NetworkDef.END);
 				}
+		}
+
+		public void Add_MoveFigure (Position oldPos, Position newPos)
+		{
+			string command = NetworkDef.MOVE +' ' +oldPos.X + ' ' +oldPos.Y
+				+' ' +newPos.X +' ' +newPos.Y;
+
+			lock (outCommands) {
+				outCommands.Enqueue(command);
+			}
+		}
+
+		public void Add_Message (string mes)
+		{
+			string command = NetworkDef.MSG +' ' +mes;
+
+			lock (outCommands) {
+				outCommands.Enqueue(command);
+			}
+		}
+	
+		public void Add_End (string mes)
+		{
+			string command = NetworkDef.END;
+
+			lock (outCommands) {
+				outCommands.Enqueue(command);
+			}
+		}
+
+		protected string GetCommand()
+		{
+			lock (outCommands) {
+				string r = outCommands.Dequeue();
+				return r;
 			}
 		}
 	}

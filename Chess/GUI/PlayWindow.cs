@@ -41,17 +41,16 @@ namespace Chess
 
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
-        public PlayWindow(Chess.IGameControl gameControl, string title, Chess.GuiMatrix guiMatrix)
-        {
-            this.Text = title;
-            InitializeComponent();
-            matrix = guiMatrix;
-            control = gameControl;
-            sqSize = 80;
-            offset = 25;
-
-            control.StartButtonClicked();
-        }
+        public PlayWindow (Chess.IGameControl gameControl, string title, Chess.GuiMatrix guiMatrix)
+		{
+			this.Text = title;
+			InitializeComponent ();
+			matrix = guiMatrix;
+			control = gameControl;
+			sqSize = 80;
+			offset = 25;
+		}
+          
 
         //draw chess field
         private void Draw(object sender, EventArgs e)

@@ -27,9 +27,9 @@ namespace Chess
 
 			//invoke intrerface notify
 			connected = true;
-			iNetwork.Connected();
 			thread = new Thread( SocketIO );
 			thread.IsBackground = true;
+			thread.Priority = ThreadPriority.BelowNormal;
 			thread.Name = "ClientThread";
 			thread.Start ();
 		}
@@ -41,6 +41,7 @@ namespace Chess
 
 			if (r.Equals( NetworkDef.VERSION )) {
 				SendCommand (NetworkDef.OK);
+				iNetwork.Connected();
 			}
 			else
 			{
@@ -49,9 +50,6 @@ namespace Chess
 				return;
 			}
 
-			while (IsConnected) {
-				string s = ReceiveCommand();
-			}
 		}
 	}
 }

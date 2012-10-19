@@ -11,53 +11,53 @@ namespace Chess
 		{
 
 			//figure color
-            protected FigureColor color;
+			protected FigureColor color;
 
-            public FigureColor Color
-            {
+			public FigureColor Color {
 				get {
 					return color;
 				}
 			}
 
-            protected bool firstStepFlag = true;
+			protected bool firstStepFlag = true;
+
 			public bool IsMoved{ get { return !firstStepFlag; } }
-            public void ResetFirstStepFlag()
-            {
-                firstStepFlag = false;
-            }
+
+			public void ResetFirstStepFlag ()
+			{
+				firstStepFlag = false;
+			}
 
 			//file splite
-			public const char SPLITER='/';
-			public const string PREFIX="images/figures";
+			public const char SPLITER = '/';
+			public const string PREFIX = "images/figures";
 
 			//public static const string PREFIX="images/figures";
-
-
-
 			//atack and move has differents directions
 			protected bool diff;
+
 			public bool HasDifferentDirections {
-				get{ 
+				get { 
 					return diff;
 				} 
 			}
 
 			//figure image
 			protected Bitmap img = null;
+
 			public Bitmap image { 
 				get {
 					return img;
 				}
 			}
 
-            public Figure(FigureColor acolor)
+			public Figure (FigureColor acolor)
 			{
 				this.color = acolor;
 				this.diff = true;
 			}
 
-			protected bool IsInField (int x, int y)
+			public static bool IsInField (int x, int y)
 			{
 				if (x < 8 && y < 8 && y > -1 && x > -1)
 					return true;
@@ -65,37 +65,49 @@ namespace Chess
 					return false;
 			}
 
-			public virtual List<Position> GetAvailableMovePossitons(Position currentPos)
+			protected bool CanMove (int x, int y, CoreMatrix matrix)
 			{
-				List<Position> available = new List<Position>();
-				available.Add (currentPos );
+				if (IsInField (x, y)) {
+					if(matrix.HasFigureAt( new Position(x, y))) {
+						return (matrix.FigureAt( new Position(x, y)).color != Color );
+					
+					}else
+						return true;
+				}else 
+					return false;
+			}
+
+			public virtual List<Position> GetAvailableMovePossitons (Position currentPos)
+			{
+				List<Position> available = new List<Position> ();
+				available.Add (currentPos);
 				return available;
 			}
 
-            public virtual List<Position> GetAvailableAtackPositons(Position currentPos, CoreMatrix matrix)
+			public virtual List<Position> GetAvailableAtackPositons (Position currentPos, CoreMatrix matrix)
 			{
-				return GetAvailableMovePossitons(currentPos);
+				return GetAvailableMovePossitons (currentPos);
 			}
 
 			//get all available positions for current figure in shah mode
 			public virtual List<Position> GetAvailableOnCheckPositons (Position currentPos, CoreMatrix matrix)
 			{
 				List<Position> availlablePos = GetAvailableAtackPositons (currentPos, matrix);
-				List<Position> validPos = new List<Position>();
+				List<Position> validPos = new List<Position> ();
 
 				CoreMatrix tmpMatrix;
-				tmpMatrix = (CoreMatrix) matrix.Clone (); 
+				tmpMatrix = (CoreMatrix)matrix.Clone (); 
 
 				foreach (Position pos in availlablePos) {
 
-					tmpMatrix.MoveFigure(currentPos, pos);
+					tmpMatrix.MoveFigure (currentPos, pos);
 
-					Position kingPos = tmpMatrix.GetKing(color);
+					Position kingPos = tmpMatrix.GetKing (color);
 
-					if( !King.IsCheckState(tmpMatrix, color) )
-						validPos.Add(pos);
+					if (!King.IsCheckState (tmpMatrix, color))
+						validPos.Add (pos);
 
-					tmpMatrix.MoveFigure( pos, currentPos );
+					tmpMatrix.MoveFigure (pos, currentPos);
 				}
 
 				return validPos;
@@ -114,12 +126,12 @@ namespace Chess
 							Figure currentFigure = matrix.FigureAt (currentPos);
 							//current figure has same color
 							//continue cycle
-							if( currentFigure.Color == color )
+							if (currentFigure.Color == color)
 								continue;
 							//get the available atack posions for current enemy figure
 							List<Position> atack = currentFigure.GetAvailableAtackPositons (currentPos, matrix);
 							//if exist atack position same as king position
-							if( atack.Contains(kingPos) )
+							if (atack.Contains (kingPos))
 								return true;
 						}
 					}
@@ -133,7 +145,7 @@ namespace Chess
 
 				List<Position> available = GetAvailableMovePossitons (currentPos);
 
-				System.Console.WriteLine ( ToString() +' ' +currentPos.X + ' ' +currentPos.Y );
+				System.Console.WriteLine (ToString () + ' ' + currentPos.X + ' ' + currentPos.Y);
 
 				System.Console.Write ("\t");
 
@@ -145,55 +157,53 @@ namespace Chess
 				System.Console.Write ('\n');
 
 				for (int i=0; i<8; i++) {
-						System.Console.Write( i );
-						System.Console.Write ('\t');
+					System.Console.Write (i);
+					System.Console.Write ('\t');
 
 					for (int j=0; j<8; j++) {
 	
 
-						if( available.Contains(new Position(j, i)) )
-						   System.Console.Write ('+');
-						else if( new Position(j, i) == currentPos )
+						if (available.Contains (new Position (j, i)))
+							System.Console.Write ('+');
+						else if (new Position (j, i) == currentPos)
 							System.Console.Write ('^');
 						else
-							System.Console.Write('0');
+							System.Console.Write ('0');
 
 						System.Console.Write ('\t');
 					}
-					System.Console.Write("\n");
+					System.Console.Write ("\n");
 				}
 			}
 			//load image from file
-			protected virtual void LoadBitmap( string name ) {
+			protected virtual void LoadBitmap (string name)
+			{
 				System.String scolor;
 
-                if (color == Chess.Figures.FigureColor.WHITE) 
+				if (color == Chess.Figures.FigureColor.WHITE) 
 					scolor = "white";
 				else 
 					scolor = "black";
 					 
 				String path = PREFIX + SPLITER 
-							+ scolor
-							+ '_'
-							+ name 
-							+".png";
+					+ scolor
+					+ '_'
+					+ name 
+					+ ".png";
 				// images/figures/white_pawn.png
-                try
-                {
-                    img = new Bitmap(path);
-                }
-                catch (System.Exception)
-                {
-                    img = null;
-                    System.Windows.Forms.MessageBox.Show("File " + path.ToUpper() + " not found. Please, put it to the directory of executable file.", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                }
+				try {
+					img = new Bitmap (path);
+				} catch (System.Exception) {
+					img = null;
+					System.Windows.Forms.MessageBox.Show ("File " + path.ToUpper () + " not found. Please, put it to the directory of executable file.", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+				}
 				
 			}
             
-			public virtual string ToString()
-            {
-                return "figure";
-            }
+			public virtual string ToString ()
+			{
+				return "figure";
+			}
 		}
 	}
 }

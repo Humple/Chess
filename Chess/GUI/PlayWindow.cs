@@ -14,14 +14,14 @@ namespace Chess.GUI
 {
     public partial class PlayWindow : Form
     {
+        private const int sqSize = 80;   // размер квадрата
+        private const int offset = 25;   // отступ от края формы
         //Field 
         public GuiMatrix matrix = null;
         public readonly Color ColorSelected = Color.PaleGoldenrod;
 
         private System.Windows.Forms.Timer mouseTracker;
 
-        private int sqSize { get; set; }   // размер квадрата
-        private int offset { get; set; }   // отступ от края формы
         private BufferedGraphics graph = null;
         private System.Drawing.Pen pen = null;
         private IGameControl control;
@@ -40,7 +40,7 @@ namespace Chess.GUI
             }
         }
 
-        private delegate void DrawAsyncDelegate(object sender, EventArgs e);
+        public delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
         public PlayWindow (IGameControl gameControl, string title, GuiMatrix guiMatrix)
 		{
@@ -48,8 +48,6 @@ namespace Chess.GUI
 			InitializeComponent ();
 			matrix = guiMatrix;
 			control = gameControl;
-			sqSize = 80;
-			offset = 25;
 		}
           
 
@@ -136,12 +134,12 @@ namespace Chess.GUI
         {
             graph.Graphics.DrawImage(img, p.X * sqSize + offset, p.Y * sqSize);
         }
-        // Sync redrawing
+        // Sync drawing
         private void ReDraw()
         {
             Draw(null, null);
         }
-        // Manual synced/asynced redrawing
+        // Manual sync/async drawing
         private void ReDraw(bool async)
         {
             if (async)
@@ -224,9 +222,12 @@ namespace Chess.GUI
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);
             }
-            //FigureChoiceWindow w = new FigureChoiceWindow(Cursor.Position);
+            //Point wpt = Cursor.Position;
+            //if (pt.X > 4) wpt.X -= 2 * sqSize;
+            //if (pt.Y > 4) wpt.Y -= 2 * sqSize;
+            //FigureChoiceWindow w = new FigureChoiceWindow(wpt, FigureColor.BLACK);
             //w.ShowDialog(this);
-            //w.Dispose();
+            //MessageBox.Show(w.Result.ToString());
             ReDraw(true);
         }
         //If window moved. Window events handlers

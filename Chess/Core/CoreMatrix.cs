@@ -1,5 +1,4 @@
 ﻿#define TEST
-#define ROCK_CHANGE
 
 using System;
 using System.Collections.Generic;
@@ -63,7 +62,7 @@ namespace Chess.Core
             }
 #endif 
 
-#if ROCK_CHANGE
+#if TEST
 		    sMatrix = new Figure[8, 8];
 
             sMatrix[0, 7] = new Rock(FigureColor.WHITE);
@@ -74,6 +73,20 @@ namespace Chess.Core
 
 			sMatrix[4, 0] = new King(FigureColor.BLACK);
             sMatrix[3, 0] = new Queen(FigureColor.BLACK);
+
+			sMatrix[0, 0] = new Rock(FigureColor.BLACK);
+            sMatrix[7, 0] = new Rock(FigureColor.BLACK);
+
+			for (int i = 0; i < 4; i++)
+            {
+                sMatrix[i, 6] = new Pawn(FigureColor.WHITE);
+            }
+
+
+			for (int i = 3; i < 8; i++)
+            {
+                sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
+            }
 #endif
 
 			KingBlack = new Position(4, 0);

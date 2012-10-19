@@ -109,18 +109,18 @@ namespace Chess.Core
 
 			if (black == PlayerState.CHECK) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
-				playWindow.PrintToConsoleLn("Player 2: check!", System.Drawing.Color.Black);
+				playWindow.PrintToConsoleLn ("Player 2: check!", System.Drawing.Color.Black);
 			} else if (black == PlayerState.CHECKMATE) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
-				playWindow.PrintToConsoleLn("Player 2: mate!", System.Drawing.Color.Black);
+				playWindow.PrintToConsoleLn ("Player 2: mate!", System.Drawing.Color.Black);
 			}
 
 			if (white == PlayerState.CHECK) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
-				playWindow.PrintToConsoleLn("Player 2: check!", System.Drawing.Color.Black);
+				playWindow.PrintToConsoleLn ("Player 2: check!", System.Drawing.Color.Black);
 			} else if (white == PlayerState.CHECKMATE) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
-				playWindow.PrintToConsoleLn("Player 1: mate!", System.Drawing.Color.Black);
+				playWindow.PrintToConsoleLn ("Player 1: mate!", System.Drawing.Color.Black);
 			}
 
 			if (pState.GetState (FigureColor.BLACK) == PlayerState.CHECKMATE ||
@@ -152,49 +152,51 @@ namespace Chess.Core
 			playWindow.Cursor = Cursors.WaitCursor;
 
 			//rock change implementation
-			if ( newPos.Equals( matrix.GetKing (runColor) ) && !matrix.FigureAt( matrix.GetKing( runColor )).IsMoved) {
+			if (newPos.Equals (matrix.GetKing (runColor)) && !matrix.FigureAt (matrix.GetKing (runColor)).IsMoved) {
 
 				int dx = oldPos.X - newPos.X;
-				dx = ( dx > 0 )?(1):(-1);
+				dx = (dx > 0) ? (1) : (-1);
 
-				Position kingPos = new Position(newPos.X + dx*2, newPos.Y);
-				Position rockPos = new Position(newPos.X + dx, newPos.Y);
+				Position kingPos = new Position (newPos.X + dx * 2, newPos.Y);
+				Position rockPos = new Position (newPos.X + dx, newPos.Y);
 
-				matrix.MoveFigure( newPos, kingPos);
-				matrix.FigureAt( kingPos ).ResetFirstStepFlag();
+				matrix.MoveFigure (newPos, kingPos);
+				matrix.FigureAt (kingPos).ResetFirstStepFlag ();
 				playWindow.matrix.MoveImage (newPos, kingPos);
 
-				matrix.MoveFigure( oldPos, rockPos );
-				matrix.FigureAt( rockPos ).ResetFirstStepFlag();
-				playWindow.matrix.MoveImage (oldPos, rockPos );
+				matrix.MoveFigure (oldPos, rockPos);
+				matrix.FigureAt (rockPos).ResetFirstStepFlag ();
+				playWindow.matrix.MoveImage (oldPos, rockPos);
 
 				//print message in system log console
-				playWindow.PrintToConsoleLn ("System: King-rock change", System.Drawing.Color.Green );
+				playWindow.PrintToConsoleLn ("System: King-rock change", System.Drawing.Color.Green);
 
 			} else { //simple figure move
-				matrix.MoveFigure (oldPos, newPos);
-				matrix.FigureAt (newPos ).ResetFirstStepFlag();
-				playWindow.matrix.MoveImage (oldPos, newPos);
-
 				//print message in system log console
 				if (runColor == FigureColor.WHITE) {
-				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
-				playWindow.PrintToConsoleLn ("Player1 moved " + matrix.FigureAt (oldPos).ToString () + " from " +
-					(char)('A' + oldPos.X) + Convert.ToString (8 - oldPos.Y) + " to " +
-					(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (64, 128, 255));
+					playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
+					playWindow.PrintToConsoleLn ("Player1 moved " + matrix.FigureAt (oldPos).ToString () + " from " +
+						(char)('A' + oldPos.X) + Convert.ToString (8 - oldPos.Y) + " to " +
+						(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (64, 128, 255));
 				} else {
-				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
-				playWindow.PrintToConsoleLn ("Player2 moved " + matrix.FigureAt (oldPos).ToString () + " from " +
-					(char)('A' + oldPos.X) + Convert.ToString (8 - oldPos.Y) + " to " +
-					(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (128, 64, 255));
-			}
-			}
+					playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
+					playWindow.PrintToConsoleLn ("Player2 moved " + matrix.FigureAt (oldPos).ToString () + " from " +
+						(char)('A' + oldPos.X) + Convert.ToString (8 - oldPos.Y) + " to " +
+						(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (128, 64, 255));
 
-			playWindow.matrix.ResetAllAttribures ();
+				}
+				matrix.MoveFigure (oldPos, newPos);
+				matrix.FigureAt (newPos).ResetFirstStepFlag ();
+				playWindow.matrix.MoveImage (oldPos, newPos);
+				
+			}
 			//changing color changing
 			runColor = (runColor == FigureColor.WHITE) ? (FigureColor.BLACK) : (FigureColor.WHITE);
 			CheckForMate ();
+			playWindow.matrix.ResetAllAttribures ();
 			playWindow.Cursor = Cursors.Default;
+
+
 		}
 
 		private void StartServer ()
@@ -288,7 +290,7 @@ namespace Chess.Core
 
 		}
 
-		public void SpotSelected (Position spotPos) 
+		public void SpotSelected (Position spotPos)
 		{
 			if (endGameLock || strokeLock)
 				return;
@@ -296,8 +298,9 @@ namespace Chess.Core
 			Program.Debug ("Square selected: " + spotPos.X + ' ' + spotPos.Y);
 
 			//action: move figure handler
-			if ( playWindow.matrix.IsHighlighted (spotPos) && spotPos != figurePos ) {
-				Program.Debug ("Move figure handler");
+			if (playWindow.matrix.IsHighlighted (spotPos) && spotPos != figurePos) {
+				string state = (figurePos == null) ? ("null") : ("non-null");
+				Program.Debug ("figurePos: " + state);
 				MoveFigure (figurePos, spotPos);
 				return;
 			}

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Chess.Core;
 
 namespace Chess
 {
-	namespace Figures
+    namespace Figures
 	{
 
 		public class Knight: Figure

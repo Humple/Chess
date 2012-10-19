@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Chess;
+using Chess.GUI;
 using Chess.Figures;
+using Chess.Core;
 
-namespace Chess
+namespace Chess.Core
 {
     public class CoreMatrix: ICloneable
     {

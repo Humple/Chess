@@ -8,8 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using Chess.Figures;
+using Chess.Core;
 
-namespace Chess
+namespace Chess.GUI
 {
     public partial class PlayWindow : Form
     {
@@ -23,7 +24,7 @@ namespace Chess
         private int offset { get; set; }   // отступ от края формы
         private BufferedGraphics graph = null;
         private System.Drawing.Pen pen = null;
-        private Chess.IGameControl control;
+        private IGameControl control;
         private bool formBusy = false;
 
         public bool NetworkEnabled  {
@@ -41,7 +42,7 @@ namespace Chess
 
         private delegate void DrawAsyncDelegate(object sender, EventArgs e);
 
-        public PlayWindow (Chess.IGameControl gameControl, string title, Chess.GuiMatrix guiMatrix)
+        public PlayWindow (IGameControl gameControl, string title, GuiMatrix guiMatrix)
 		{
 			this.Text = title;
 			InitializeComponent ();

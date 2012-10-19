@@ -1,7 +1,7 @@
 using System;
 using Chess.Figures;
 
-namespace Chess
+namespace Chess.Core
 {
 	public interface IGameControl
 	{

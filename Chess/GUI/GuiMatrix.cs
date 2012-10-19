@@ -4,8 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Chess.Figures;
+using Chess.Core;
 
-namespace Chess
+namespace Chess.GUI
 {
     public class Spot
     {

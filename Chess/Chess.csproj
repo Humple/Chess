@@ -50,6 +50,12 @@
   <ItemGroup>
     <Compile Include="Core\CoreMatrix.cs" />
     <Compile Include="Core\GameCore.cs" />
+    <Compile Include="GUI\FigureChoiceWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\FigureChoiceWindow.Designer.cs">
+      <DependentUpon>FigureChoiceWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GuiMatrix.cs" />
     <Compile Include="Core\IGameControl.cs" />
     <Compile Include="GUI\InviteWindow.cs">
@@ -68,6 +74,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\FigureChoiceWindow.resx">
+      <DependentUpon>FigureChoiceWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\InviteWindow.resx">
       <DependentUpon>InviteWindow.cs</DependentUpon>
     </EmbeddedResource>

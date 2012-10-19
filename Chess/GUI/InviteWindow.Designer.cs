@@ -1,4 +1,4 @@
-﻿namespace Chess
+﻿namespace Chess.GUI
 {
     partial class InviteWindow
     {

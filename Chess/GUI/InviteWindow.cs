@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace Chess
+namespace Chess.GUI
 {
     public partial class InviteWindow : Form
     {

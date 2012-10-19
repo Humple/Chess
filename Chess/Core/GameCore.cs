@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Chess;
+using Chess.Core;
+using Chess.GUI;
 using Chess.Figures;
 
-namespace Chess
+namespace Chess.Core
 {
 	class GameCore : IGameControl, INetworkSupport
 	{

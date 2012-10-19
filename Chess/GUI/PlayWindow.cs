@@ -135,12 +135,12 @@ namespace Chess.GUI
             graph.Graphics.DrawImage(img, p.X * sqSize + offset, p.Y * sqSize);
         }
         // Sync drawing
-        private void ReDraw()
+        public void ReDraw()
         {
             Draw(null, null);
         }
         // Manual sync/async drawing
-        private void ReDraw(bool async)
+        public void ReDraw(bool async)
         {
             if (async)
             {
@@ -151,7 +151,7 @@ namespace Chess.GUI
                 Draw(null, null);
         }
         //Асинхронная отрисовкай с задержкой на delay милисекунд
-        private void ReDraw(int delay)
+        public void ReDraw(int delay)
         {
             DrawAsyncDelegate d = new DrawAsyncDelegate(Draw);
             d.BeginInvoke(delay, new EventArgs(), null, null);
@@ -222,12 +222,6 @@ namespace Chess.GUI
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);
             }
-            //Point wpt = Cursor.Position;
-            //if (pt.X > 4) wpt.X -= 2 * sqSize;
-            //if (pt.Y > 4) wpt.Y -= 2 * sqSize;
-            //FigureChoiceWindow w = new FigureChoiceWindow(wpt, FigureColor.BLACK);
-            //w.ShowDialog(this);
-            //MessageBox.Show(w.Result.ToString());
             ReDraw(true);
         }
         //If window moved. Window events handlers
@@ -266,6 +260,13 @@ namespace Chess.GUI
             {
                 sendButton_Click(sender, e);
             }
+        }
+        public Point GetPosOnScreen(Position pt)
+        {
+            Point wpt = PointToScreen(new Point(pt.X*sqSize + sqSize / 2 + offset, pt.Y*sqSize + sqSize / 2));
+            if (pt.X > 4) wpt.X -= 2 * sqSize;
+            if (pt.Y > 4) wpt.Y -= 2 * sqSize;
+            return wpt;
         }
     }
 }

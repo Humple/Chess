@@ -20,7 +20,8 @@ namespace Chess.GUI
         //private bool formBusy = false;
         private Figure[] arr;
 
-        public Figure Result { get { return arr[FocusedSpot]; } }
+        private int result;
+        public Figure Result { get { return arr[result]; } }
 
         public FigureChoiceWindow(Point startPosition, FigureColor clr)
         {
@@ -36,6 +37,21 @@ namespace Chess.GUI
 
         private void FigureChoiceWindow_Click(object sender, EventArgs e)
         {
+            mouseTracker.Stop();
+            Point pt = PointToClient(Cursor.Position);
+            pt.X /= sqSize;
+            pt.Y /= sqSize;
+
+            if (pt.X < 1)
+            {
+                if (pt.Y < 1) result = 0;
+                else result = 2;
+            }
+            else
+            {
+                if (pt.Y < 1) result = 1;
+                else result = 3;
+            }
             this.Close();
         }
 
@@ -48,6 +64,7 @@ namespace Chess.GUI
 
             mouseTracker = new System.Windows.Forms.Timer();
             mouseTracker.Interval = 40;
+            mouseTracker.Tick -= new EventHandler(MouseTracking);
             mouseTracker.Tick += new EventHandler(MouseTracking);
             mouseTracker.Start();
 

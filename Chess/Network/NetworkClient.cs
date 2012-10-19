@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 
 
-namespace Chess
+namespace Chess.Network
 {
 	public class NetworkClient: BaseNetwork
 	{

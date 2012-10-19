@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Chess;
-using Chess.Core;
 using Chess.GUI;
 using Chess.Figures;
+using Chess.Network;
 
 namespace Chess.Core
 {

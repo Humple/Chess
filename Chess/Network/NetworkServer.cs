@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace Chess
+namespace Chess.Network
 {
 	public class NetworkServer: BaseNetwork
 	{

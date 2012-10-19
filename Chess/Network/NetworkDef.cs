@@ -1,6 +1,6 @@
 using System;
 
-namespace Chess
+namespace Chess.Network
 {
 	public class NetworkDef
 	{

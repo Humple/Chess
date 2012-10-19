@@ -5,7 +5,7 @@ using System.Threading;
 using Chess.Figures;
 using System.Collections.Generic;
 
-namespace Chess
+namespace Chess.Network
 {
 	public class BaseNetwork
 	{

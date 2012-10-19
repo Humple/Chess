@@ -1,7 +1,7 @@
 using System;
 using Chess.Figures;
 
-namespace Chess
+namespace Chess.Network
 {
 	public interface INetworkSupport
 	{

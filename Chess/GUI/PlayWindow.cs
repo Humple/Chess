@@ -206,7 +206,7 @@ namespace Chess.GUI
         }
 
         //Mouse down event handler
-        private void PlayWindow_LeftClick(object sender, MouseEventArgs e)
+        private void PlayWindow_Click(object sender, MouseEventArgs e)
         {
             Point pt = PointToClient(Cursor.Position);
 
@@ -224,7 +224,9 @@ namespace Chess.GUI
                 //invoke interface method
                 control.SpotSelected(mouseClickedPos);
             }
-
+            //FigureChoiceWindow w = new FigureChoiceWindow(Cursor.Position);
+            //w.ShowDialog(this);
+            //w.Dispose();
             ReDraw(true);
         }
         //If window moved. Window events handlers

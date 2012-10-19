@@ -124,7 +124,14 @@ namespace Chess.Core
 
 			sMatrix [newPos.X, newPos.Y] = sMatrix [oldPos.X, oldPos.Y];
 			sMatrix [oldPos.X, oldPos.Y] = null;
+		}		
+
+		public bool HasFigureAt (int x, int y)
+		{
+			return (sMatrix[x, y] !=null);
 		}
+
+
 
 		public bool HasFigureAt (Position pos)
 		{

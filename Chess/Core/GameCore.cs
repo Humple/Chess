@@ -97,7 +97,7 @@ namespace Chess.Core
 
 		private void CheckForMate ()
 		{
-			System.Console.WriteLine ("Checking state...");
+			Program.Debug ("Checking state...");
 			pState.ResetGameState ();
 
 			CheckForMate (FigureColor.BLACK);
@@ -173,6 +173,7 @@ namespace Chess.Core
 
 			} else { //simple figure move
 				//print message in system log console
+
 				if (runColor == FigureColor.WHITE) {
 					playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
 					playWindow.PrintToConsoleLn ("Player1 moved " + matrix.FigureAt (oldPos).ToString () + " from " +
@@ -185,8 +186,16 @@ namespace Chess.Core
 						(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (128, 64, 255));
 
 				}
+				Figure figure = matrix.FigureAt (newPos);
 				matrix.MoveFigure (oldPos, newPos);
-				matrix.FigureAt (newPos).ResetFirstStepFlag ();
+				figure.ResetFirstStepFlag ();
+
+				//checking pawn move gap
+				if( figure is Pawn )
+				{
+					((Pawn) figure).TwoStepState = ( Math.Abs( oldPos.Y - newPos.Y ) == 2 );
+				}
+
 				playWindow.matrix.MoveImage (oldPos, newPos);
 				
 			}
@@ -195,8 +204,6 @@ namespace Chess.Core
 			CheckForMate ();
 			playWindow.matrix.ResetAllAttribures ();
 			playWindow.Cursor = Cursors.Default;
-
-
 		}
 
 		private void StartServer ()

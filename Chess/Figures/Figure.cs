@@ -21,6 +21,7 @@ namespace Chess
 			}
 
             protected bool firstStepFlag = true;
+			public bool IsMoved{ get { return !firstStepFlag; } }
             public void ResetFirstStepFlag()
             {
                 firstStepFlag = false;
@@ -32,9 +33,6 @@ namespace Chess
 
 			//public static const string PREFIX="images/figures";
 
-			//figure is moved
-			protected bool moved;
-			public bool IsMoved { get; set;	}
 
 
 			//atack and move has differents directions
@@ -56,7 +54,6 @@ namespace Chess
             public Figure(FigureColor acolor)
 			{
 				this.color = acolor;
-				this.moved = false;
 				this.diff = true;
 			}
 

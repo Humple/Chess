@@ -11,7 +11,6 @@ namespace Chess
                 : base(color)
             {
                 diff = true;
-                moved = false;
                 LoadBitmap("pawn");
             }
 
@@ -35,7 +34,7 @@ namespace Chess
                 pos.Y = currentPos.Y + 1 * m;
                 available.Add(pos);
 
-                if (!IsMoved)
+                if (firstStepFlag)
                 {
                     Position pos2 = new Position();
                     pos2.X = currentPos.X;

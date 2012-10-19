@@ -13,7 +13,6 @@ namespace Chess
                 : base(color)
 			{
 				diff = false;
-				moved = false; 
 				LoadBitmap ("king");
 			}
 

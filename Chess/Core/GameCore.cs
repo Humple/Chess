@@ -66,7 +66,7 @@ namespace Chess.Core
 
 		private void CheckForMate (FigureColor kingColor)
 		{
-			if (King.IsShahState (matrix, kingColor)) {
+			if (King.IsCheckState (matrix, kingColor)) {
 				int solutionsCount = 0;
 
 				for (int i=0; i<8; i++)
@@ -76,7 +76,7 @@ namespace Chess.Core
 							Figure figure = matrix.FigureAt (curPos);
 
 							if (figure.Color == kingColor) {
-								solutionsCount += figure.GetAvailableOnShahPositons (curPos, matrix).Count;
+								solutionsCount += figure.GetAvailableOnCheckPositons (curPos, matrix).Count;
 							}
 						}
 					}
@@ -149,27 +149,51 @@ namespace Chess.Core
 		private void MoveFigure (Position oldPos, Position newPos)
 		{
 			//changing play window cursor
-			playWindow.Cursor =  Cursors.WaitCursor;
+			playWindow.Cursor = Cursors.WaitCursor;
 
-			if (runColor == FigureColor.WHITE) {
+			//rock change implementation
+			if ( newPos.Equals( matrix.GetKing (runColor) ) && !matrix.FigureAt( matrix.GetKing( runColor )).IsMoved) {
+
+				int dx = oldPos.X - newPos.X;
+				dx = ( dx > 0 )?(1):(-1);
+
+				Position kingPos = new Position(newPos.X + dx*2, newPos.Y);
+				Position rockPos = new Position(newPos.X + dx, newPos.Y);
+
+				matrix.MoveFigure( newPos, kingPos);
+				matrix.FigureAt( kingPos ).ResetFirstStepFlag();
+				playWindow.matrix.MoveImage (newPos, kingPos);
+
+				matrix.MoveFigure( oldPos, rockPos );
+				matrix.FigureAt( rockPos ).ResetFirstStepFlag();
+				playWindow.matrix.MoveImage (oldPos, rockPos );
+
+				//print message in system log console
+				playWindow.PrintToConsoleLn ("System: King-rock change", System.Drawing.Color.Green );
+
+			} else { //simple figure move
+				matrix.MoveFigure (oldPos, newPos);
+				matrix.FigureAt (newPos ).ResetFirstStepFlag();
+				playWindow.matrix.MoveImage (oldPos, newPos);
+
+				//print message in system log console
+				if (runColor == FigureColor.WHITE) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
 				playWindow.PrintToConsoleLn ("Player1 moved " + matrix.FigureAt (oldPos).ToString () + " from " +
 					(char)('A' + oldPos.X) + Convert.ToString (8 - oldPos.Y) + " to " +
 					(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (64, 128, 255));
-			} else {
+				} else {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
 				playWindow.PrintToConsoleLn ("Player2 moved " + matrix.FigureAt (oldPos).ToString () + " from " +
 					(char)('A' + oldPos.X) + Convert.ToString (8 - oldPos.Y) + " to " +
 					(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (128, 64, 255));
 			}
+			}
 
-			matrix.MoveFigure (oldPos, newPos);
-			playWindow.matrix.MoveImage (oldPos, newPos);
 			playWindow.matrix.ResetAllAttribures ();
-
+			//changing color changing
 			runColor = (runColor == FigureColor.WHITE) ? (FigureColor.BLACK) : (FigureColor.WHITE);
 			CheckForMate ();
-
 			playWindow.Cursor = Cursors.Default;
 		}
 
@@ -223,6 +247,7 @@ namespace Chess.Core
 			case OnChoiceEventArgs.ConnectionType.CLIENT:
 				StartClient (e.IP);
 				break;
+
 			case OnChoiceEventArgs.ConnectionType.EXIT:
 				Application.Exit ();
 				break;
@@ -268,20 +293,21 @@ namespace Chess.Core
 			if (endGameLock || strokeLock)
 				return;
 
-			Console.WriteLine ("Square selected: " + spotPos.X + ' ' + spotPos.Y);
-			//moving figure
-			if (playWindow.matrix.IsHighlighted (spotPos)) {
+			Program.Debug ("Square selected: " + spotPos.X + ' ' + spotPos.Y);
+
+			//action: move figure handler
+			if ( playWindow.matrix.IsHighlighted (spotPos) && spotPos != figurePos ) {
+				Program.Debug ("Move figure handler");
 				MoveFigure (figurePos, spotPos);
-				FigureMoved (figurePos, spotPos);
 				return;
 			}
 
-			//select a figure and highligt
+			//action: selecet figure and highlight spots handler
 			if (matrix.HasFigureAt (spotPos)) {
 				Figure figure = matrix.FigureAt (spotPos);
 
 				if (figure.Color == runColor && playWindow.matrix.SetSelected (spotPos)) {	
-					playWindow.matrix.SetHighlighted (figure.GetAvailableOnShahPositons (spotPos, matrix));
+					playWindow.matrix.SetHighlighted (figure.GetAvailableOnCheckPositons (spotPos, matrix));
 					figurePos = spotPos;
 				}
 			}

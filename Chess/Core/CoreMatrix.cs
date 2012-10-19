@@ -1,10 +1,14 @@
-﻿using System;
+﻿#define TEST
+#define ROCK_CHANGE
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Chess.GUI;
 using Chess.Figures;
 using Chess.Core;
+
 
 namespace Chess.Core
 {
@@ -19,8 +23,9 @@ namespace Chess.Core
 
         public CoreMatrix()
         {
-            //WHITE
-            sMatrix = new Figure[8, 8];
+			 sMatrix = new Figure[8, 8];
+#if !TEST
+            //WHITE          
 
             sMatrix[0, 7] = new Rock(FigureColor.WHITE);
             sMatrix[7, 7] = new Rock(FigureColor.WHITE);
@@ -33,8 +38,6 @@ namespace Chess.Core
 
             sMatrix[4, 7] = new King(FigureColor.WHITE);
             sMatrix[3, 7] = new Queen(FigureColor.WHITE);
-
-			KingWhite = new Position( 4, 7);
 
             for (int i = 0; i < 8; i++)
             {
@@ -54,12 +57,28 @@ namespace Chess.Core
             sMatrix[4, 0] = new King(FigureColor.BLACK);
             sMatrix[3, 0] = new Queen(FigureColor.BLACK);
 
-			KingBlack = new Position(4, 0);
-
             for (int i = 0; i < 8; i++)
             {
                 sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
             }
+#endif 
+
+#if ROCK_CHANGE
+		    sMatrix = new Figure[8, 8];
+
+            sMatrix[0, 7] = new Rock(FigureColor.WHITE);
+            sMatrix[7, 7] = new Rock(FigureColor.WHITE);
+
+            sMatrix[4, 7] = new King(FigureColor.WHITE);
+            sMatrix[3, 7] = new Queen(FigureColor.WHITE);
+
+			sMatrix[4, 0] = new King(FigureColor.BLACK);
+            sMatrix[3, 0] = new Queen(FigureColor.BLACK);
+#endif
+
+			KingBlack = new Position(4, 0);
+			KingWhite = new Position( 4, 7);
+
         }
         
 		public Figure FigureAt(Position pos)
@@ -90,7 +109,6 @@ namespace Chess.Core
 				}
 			}
 
-            sMatrix[oldPos.X, oldPos.Y].ResetFirstStepFlag();
 			sMatrix [newPos.X, newPos.Y] = sMatrix [oldPos.X, oldPos.Y];
 			sMatrix [oldPos.X, oldPos.Y] = null;
 		}

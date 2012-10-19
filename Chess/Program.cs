@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,5 +21,13 @@ namespace Chess
 			else if(arguments[0]=="server")
 				game.Initialize("0.0.0.0");
 		}
+
+		static public void Debug( string msg )
+		{
+#if DEBUG
+			System.Console.WriteLine( msg );
+#endif
+		}
+
     }
 }

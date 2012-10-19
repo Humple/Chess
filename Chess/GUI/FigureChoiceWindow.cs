@@ -17,9 +17,9 @@ namespace Chess.GUI
             this.Location = startPosition;
         }
 
-        private void FigureChoiceWindow_Load(object sender, EventArgs e)
+        private void FigureChoiceWindow_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

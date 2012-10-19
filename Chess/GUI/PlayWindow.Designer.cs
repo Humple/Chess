@@ -76,8 +76,8 @@ namespace Chess.GUI
             // 
             // PlayWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(984, 666);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.commandLine);
@@ -90,7 +90,7 @@ namespace Chess.GUI
             this.Activated += new System.EventHandler(this.PlayWindow_Activated);
             this.Deactivate += new System.EventHandler(this.PlayWindow_Deactivate);
             this.Shown += new System.EventHandler(this.PlayWindow_Shown);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PlayWindow_LeftClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PlayWindow_Click);
             this.Move += new System.EventHandler(this.PlayWindow_Move);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -34,15 +34,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(416, 301);
+            this.ClientSize = new System.Drawing.Size(160, 160);
             this.ControlBox = false;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FigureChoiceWindow";
-            this.Opacity = 0.8D;
+            this.Opacity = 0.95D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Figure Cohioce";
+            this.Load += new System.EventHandler(this.FigureChoiceWindow_Load);
             this.Click += new System.EventHandler(this.FigureChoiceWindow_Click);
             this.ResumeLayout(false);
 

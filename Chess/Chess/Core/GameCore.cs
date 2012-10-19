@@ -185,8 +185,15 @@ namespace Chess.Core
 						(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (128, 64, 255));
 
 				}
+				Figure someFigure = matrix.FigureAt (oldPos);
 				matrix.MoveFigure (oldPos, newPos);
-				matrix.FigureAt (newPos).ResetFirstStepFlag ();
+				someFigure.ResetFirstStepFlag ();
+
+				if( someFigure is Pawn )
+				{
+					( (Pawn) someFigure ).TwoStepState = ( Math.Abs ( oldPos.Y - newPos.Y ) == 2 );
+				}
+
 				playWindow.matrix.MoveImage (oldPos, newPos);
 				
 			}

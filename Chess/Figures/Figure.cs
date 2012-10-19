@@ -81,29 +81,30 @@ namespace Chess
 			}
 
 			//get all available positions for current figure in shah mode
-			public virtual List<Position> GetAvailableOnShahPositons (Position currentPos, CoreMatrix matrix)
+			public virtual List<Position> GetAvailableOnCheckPositons (Position currentPos, CoreMatrix matrix)
 			{
 				List<Position> availlablePos = GetAvailableAtackPositons (currentPos, matrix);
 				List<Position> validPos = new List<Position>();
 
 				CoreMatrix tmpMatrix;
+				tmpMatrix = (CoreMatrix) matrix.Clone (); 
 
 				foreach (Position pos in availlablePos) {
 
-					tmpMatrix = (CoreMatrix) matrix.Clone (); 
 					tmpMatrix.MoveFigure(currentPos, pos);
 
 					Position kingPos = tmpMatrix.GetKing(color);
 
-					if( !King.IsShahState(tmpMatrix, color) )
+					if( !King.IsCheckState(tmpMatrix, color) )
 						validPos.Add(pos);
 
+					tmpMatrix.MoveFigure( pos, currentPos );
 				}
 
 				return validPos;
 			}
 
-			public static bool IsShahState (CoreMatrix matrix, FigureColor color)
+			public static bool IsCheckState (CoreMatrix matrix, FigureColor color)
 			{
 				//get the king position
 				Position kingPos = matrix.GetKing (color);

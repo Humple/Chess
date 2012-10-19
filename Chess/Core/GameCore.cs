@@ -148,6 +148,8 @@ namespace Chess.Core
 
 		private void MoveFigure (Position oldPos, Position newPos)
 		{
+			//changing play window cursor
+			playWindow.Cursor =  Cursors.WaitCursor;
 
 			if (runColor == FigureColor.WHITE) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
@@ -167,6 +169,8 @@ namespace Chess.Core
 
 			runColor = (runColor == FigureColor.WHITE) ? (FigureColor.BLACK) : (FigureColor.WHITE);
 			CheckForMate ();
+
+			playWindow.Cursor = Cursors.Default;
 		}
 
 		private void StartServer ()

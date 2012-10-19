@@ -153,5 +153,9 @@ namespace Chess.Core
 
 			return clone;
 		}
+        public void SetFigure(Figure f, Position pos)
+        {
+            sMatrix[pos.X, pos.Y] = f;
+        }
 	}
 }

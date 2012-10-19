@@ -186,7 +186,7 @@ namespace Chess.Core
 						(char)('A' + newPos.X) + Convert.ToString (8 - newPos.Y), System.Drawing.Color.FromArgb (128, 64, 255));
 
 				}
-				Figure figure = matrix.FigureAt (newPos);
+				Figure figure = matrix.FigureAt (oldPos);
 				matrix.MoveFigure (oldPos, newPos);
 				figure.ResetFirstStepFlag ();
 
@@ -194,6 +194,16 @@ namespace Chess.Core
 				if( figure is Pawn )
 				{
 					((Pawn) figure).TwoStepState = ( Math.Abs( oldPos.Y - newPos.Y ) == 2 );
+
+                    //Проверка на замену пешки другой фигурой
+                    if ((runColor == FigureColor.WHITE && newPos.Y == 0) || (runColor == FigureColor.BLACK && newPos.Y == 7))
+                    {
+                        FigureChoiceWindow w = new FigureChoiceWindow(playWindow.GetPosOnScreen(newPos), runColor);
+                        w.ShowDialog(playWindow);
+                        matrix.SetFigure(w.Result, newPos);
+                        playWindow.matrix.SetImage(w.Result.image, oldPos);
+                        playWindow.ReDraw(true);
+                    }
 				}
 
 				playWindow.matrix.MoveImage (oldPos, newPos);

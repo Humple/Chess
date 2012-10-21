@@ -8,7 +8,7 @@ namespace Chess
         public class Pawn : Figure
         {
 			public bool TwoStepState = false;
-
+          
             public Pawn(FigureColor color)
                 : base(color)
             {
@@ -36,7 +36,7 @@ namespace Chess
                 pos.Y = currentPos.Y + 1 * m;
                 available.Add(pos);
 
-                if (firstStepFlag)
+                if (!IsMoved)
                 {
                     Position pos2 = new Position();
                     pos2.X = currentPos.X;
@@ -49,7 +49,7 @@ namespace Chess
 
             public override List<Position> GetAvailableAtackPositons(Position currentPos, CoreMatrix matrix)
             {
-                                List<Position> available = new List<Position>();
+                List<Position> available = new List<Position>();
                 int m;
 
                 //white figures below
@@ -67,7 +67,7 @@ namespace Chess
                 pos.Y = currentPos.Y + 1 * m;
                 available.Add(pos);
 
-                if (firstStepFlag)
+                if (!IsMoved)
                 {
                     Position pos2 = new Position();
                     pos2.X = currentPos.X;

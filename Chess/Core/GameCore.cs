@@ -161,11 +161,11 @@ namespace Chess.Core
 				Position rockPos = new Position (newPos.X + dx, newPos.Y);
 
 				matrix.MoveFigure (newPos, kingPos);
-				matrix.FigureAt (kingPos).ResetFirstStepFlag ();
+				matrix.FigureAt (kingPos).IncreaseSteps ();
 				playWindow.matrix.MoveImage (newPos, kingPos);
 
 				matrix.MoveFigure (oldPos, rockPos);
-				matrix.FigureAt (rockPos).ResetFirstStepFlag ();
+				matrix.FigureAt (rockPos).IncreaseSteps ();
 				playWindow.matrix.MoveImage (oldPos, rockPos);
 
 				//print message in system log console
@@ -189,7 +189,7 @@ namespace Chess.Core
 				}
 				Figure figure = matrix.FigureAt (oldPos);
 				matrix.MoveFigure (oldPos, newPos);
-				figure.ResetFirstStepFlag ();
+				figure.IncreaseSteps ();
 
 				//checking pawn move gap
 				if( figure is Pawn )

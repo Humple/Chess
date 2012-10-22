@@ -169,7 +169,8 @@ namespace Chess.Core
 				playWindow.matrix.MoveImage (oldPos, rockPos);
 
 				//print message in system log console
-				playWindow.PrintToConsoleLn ("System: King-rock change", System.Drawing.Color.Green);
+                playWindow.PrintToConsole("System: ", System.Drawing.Color.Red);
+                playWindow.PrintToConsoleLn("King-rock change", System.Drawing.Color.Green);
 
 			} else { //simple figure move
 				//print message in system log console

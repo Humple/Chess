@@ -20,12 +20,8 @@ namespace Chess.GUI
         //private bool formBusy = false;
         private Figure[] arr;
 
-<<<<<<< HEAD
-        public Figure Result { get { return arr[FocusedSpot]; } }
-=======
         private int result;
         public Figure Result { get { return arr[result]; } }
->>>>>>> pass
 
         public FigureChoiceWindow(Point startPosition, FigureColor clr)
         {

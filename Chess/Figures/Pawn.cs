@@ -8,16 +8,23 @@ namespace Chess
         public class Pawn : Figure
         {
 			public bool TwoStepState = false;
+            public Figure[] NeighborsFigures;
 
             public Pawn(FigureColor color)
                 : base(color)
             {
                 diff = true;
+
+                NeighborsFigures = new Figure[2];
+                NeighborsFigures[0] = null;
+                NeighborsFigures[1] = null;
+
                 LoadBitmap("pawn");
             }
 
             public override List<Position> GetAvailableMovePossitons(Position currentPos)
             {
+
                 List<Position> available = new List<Position>();
                 int m;
 

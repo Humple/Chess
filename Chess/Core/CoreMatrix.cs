@@ -96,11 +96,14 @@ namespace Chess.Core
         
 		public Figure FigureAt(Position pos)
         {
+         
             return sMatrix[pos.X, pos.Y];
         }
         
 		public Figure FigureAt(int x, int y)
         {
+            if (x > 7 || y > 7 || x < 0 || y < 0)
+                return null;
             return sMatrix[x, y];
         }
 
@@ -110,7 +113,7 @@ namespace Chess.Core
 				throw (new NullReferenceException ("I don't have figure at " + oldPos.X + ' ' + oldPos.Y));
 
 			//changing king position
-			if (FigureAt (oldPos).ToString() == "king") {
+			if (FigureAt (oldPos) is King) {
 
 				if(FigureAt (oldPos).Color == FigureColor.WHITE )
 				{
@@ -121,9 +124,16 @@ namespace Chess.Core
 					KingBlack = newPos;
 				}
 			}
+            else if( FigureAt(oldPos) is Pawn)  {
+                    ( (Pawn) FigureAt(oldPos) ).NeighborsFigures[1] = FigureAt(newPos.X+1, newPos.Y); 
+                    ( (Pawn) FigureAt(oldPos) ).NeighborsFigures[0] = FigureAt(newPos.X-1, newPos.Y);
+                
+            }
 
 			sMatrix [newPos.X, newPos.Y] = sMatrix [oldPos.X, oldPos.Y];
 			sMatrix [oldPos.X, oldPos.Y] = null;
+
+            
 		}
 
 		public bool HasFigureAt (Position pos)
@@ -133,6 +143,9 @@ namespace Chess.Core
 
         public bool HasFigureAt( int x, int y )
         {
+            if (x > 7 || y > 7 || x<0 || y<0)
+                return false;
+
             return (sMatrix[x, y] != null);
         }
   

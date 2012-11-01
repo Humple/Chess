@@ -56,7 +56,7 @@ namespace Chess
 
             public override List<Position> GetAvailableAtackPositons(Position currentPos, CoreMatrix matrix)
             {
-                                List<Position> available = new List<Position>();
+                List<Position> available = new List<Position>();
                 int m;
 
                 //white figures below
@@ -74,12 +74,38 @@ namespace Chess
                 pos.Y = currentPos.Y + 1 * m;
                 available.Add(pos);
 
-                if (!IsMoved)
+                if (!IsMoved && !matrix.HasFigureAt(pos))
                 {
                     Position pos2 = new Position();
                     pos2.X = currentPos.X;
                     pos2.Y = currentPos.Y + 2 * m;
                     available.Add(pos2);
+                }
+
+                //pawn pass implementation
+                foreach( int k in new int[]{1, -1}  )
+                    if ( matrix.HasFigureAt(pos.X + k, pos.Y-1)) {
+                        Figure neighFigure = matrix.FigureAt(pos.X + k, pos.Y-1);
+                        //in last move state neighbors figure is not Pawn
+                        if (!(NeighborsFigures[(k==-1)?0:1] is Pawn))
+                        {
+                            //now neighbors figure is Pawn
+                            if (neighFigure.Color != Color)
+                            {
+                                //It's enemy Pawn
+                                if (neighFigure is Pawn)
+                                {
+                                    //Enemy pawn moved two step
+                                    if (((Pawn)neighFigure).TwoStepState)
+                                    {
+                                        available.Add(new Position(pos.X + k, pos.Y));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                if (matrix.HasFigureAt(pos.X + 1, pos.Y)) {
                 }
 
                 return available;

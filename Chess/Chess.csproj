@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Core\CoreMatrix.cs" />
     <Compile Include="Core\GameCore.cs" />
+    <Compile Include="Core\User\Profile.cs" />
+    <Compile Include="Core\User\ProfileList.cs" />
     <Compile Include="Debug\Debug.cs">
       <SubType>Form</SubType>
     </Compile>

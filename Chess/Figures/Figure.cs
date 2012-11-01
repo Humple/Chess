@@ -9,30 +9,28 @@ namespace Chess
 	{
 		public class Figure: Object
 		{
+
 			//figure color
             protected FigureColor color;
-            //figure color
+
             public FigureColor Color
             {
 				get {
 					return color;
 				}
 			}
-            //step count field
-            private int stepCount = 0;
-            //step count property
-            public int StepCount { get { return stepCount; } }
-            //is moved flag
-			public bool IsMoved{ get { return stepCount != 0; } }
-            //increase steps method
+
+            protected int stepCount = 0;
+			public bool IsMoved{ get { return stepCount!=0; } }
+
             public void IncreaseSteps()
             {
                 stepCount++;
             }
+
 			//file splite
 			public const char SPLITER='/';
 			public const string PREFIX="images/figures";
-
 			//atack and move has differents directions
 			protected bool diff;
 			public bool HasDifferentDirections {

@@ -130,6 +130,11 @@ namespace Chess.Core
 		{
 			return (sMatrix[pos.X, pos.Y] !=null);
 		}
+
+        public bool HasFigureAt( int x, int y )
+        {
+            return (sMatrix[x, y] != null);
+        }
   
 		public Position GetKing (FigureColor color)
 		{

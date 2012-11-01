@@ -33,7 +33,7 @@ namespace Chess
 					if (matrix.FigureAt (i, currentPos.Y) == null)
 						available.Add (new Position (i, currentPos.Y));
 					else if (matrix.FigureAt (i, currentPos.Y).Color != this.Color ||
-						(matrix.FigureAt (i, currentPos.Y) is King && IsMoved)) {
+						(matrix.FigureAt (i, currentPos.Y) is King && !IsMoved)) {
 						available.Add (new Position (i, currentPos.Y));
 						break;
 					} else
@@ -43,8 +43,7 @@ namespace Chess
 					if (matrix.FigureAt (i, currentPos.Y) == null)
 						available.Add (new Position (i, currentPos.Y));
 					else if (matrix.FigureAt (i, currentPos.Y).Color != this.Color ||
-                        (matrix.FigureAt(i, currentPos.Y) is King && IsMoved))
-                    {
+						(matrix.FigureAt (i, currentPos.Y) is King && !IsMoved)) {
 						available.Add (new Position (i, currentPos.Y));
 						break;
 					} else
@@ -54,8 +53,7 @@ namespace Chess
 					if (!matrix.HasFigureAt (new Position (currentPos.X, j))) 
 						available.Add (new Position (currentPos.X, j));
 					else if (matrix.FigureAt (currentPos.X, j).Color != this.Color ||
-                        (matrix.FigureAt(currentPos.X, j) is King && IsMoved))
-                    {
+						(matrix.FigureAt (currentPos.X, j) is King && !IsMoved)) {
 						available.Add (new Position (currentPos.X, j));
 						break;
 					} else
@@ -65,8 +63,7 @@ namespace Chess
 					if (matrix.FigureAt (currentPos.X, j) == null)
 						available.Add (new Position (currentPos.X, j));
 					else if (matrix.FigureAt (currentPos.X, j).Color != this.Color ||
-                        (matrix.FigureAt(currentPos.X, j) is King && IsMoved))
-                    {
+						(matrix.FigureAt (currentPos.X, j) is King && !IsMoved)) {
 						available.Add (new Position (currentPos.X, j));
 						break;
 					} else

@@ -9,18 +9,14 @@ namespace Chess.Network
 	{
 		private Socket tcpListener;
 
-		public NetworkServer (INetworkSupport _iNetwork): base(_iNetwork)
+		public NetworkServer (): base()
 		{
 
 		}
 
 		public void StartServer()
 		{
-			tcpListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
-			tcpListener.Bind ( new IPEndPoint(IPAddress.Any, NetworkDef.PORT) );
-			tcpListener.Listen(1);
-
-			thread = new Thread(SocketIO);
+    		thread = new Thread(SocketIO);
 			thread.Name = "ServerThread";
 			thread.IsBackground = true;
 			thread.Priority = ThreadPriority.BelowNormal;
@@ -29,29 +25,22 @@ namespace Chess.Network
 
 		protected override void SocketIO ()
 		{
+            tcpListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            tcpListener.Bind(new IPEndPoint(IPAddress.Any, NetworkDef.PORT));
+            tcpListener.Listen(1);
+
 			socket = tcpListener.Accept ();
 			tcpListener.Close ();
 
 			SendCommand (NetworkDef.VERSION);
 
-			if (ReceiveCommand () == NetworkDef.OK) {
-				iNetwork.Connected ();
+			if ( ReceiveCommand ()[0] == NetworkDef.OK) {
 			} else {
-				Disconnect ();
+				
 				return;
 			}
-
-
-			while (socket.Connected) {
-				if(socket.Available > 0 )
-				{
-					ReceiveData();
-				}
-				else
-				{
-					SendCommand();
-				}
-			}
+ 
+            IOHandler();
 		}
 			
 }

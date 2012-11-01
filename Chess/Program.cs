@@ -13,6 +13,9 @@ namespace Chess
         static void Main(string[] arguments)
         {	
 			GameCore game = new GameCore();
+#if DEBUG
+            System.Console.WriteLine("Game initialization");
+#endif
 
 			if(arguments.Count () < 1)
 				game.Initialize();

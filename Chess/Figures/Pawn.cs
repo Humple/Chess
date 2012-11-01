@@ -36,7 +36,7 @@ namespace Chess
                 pos.Y = currentPos.Y + 1 * m;
                 available.Add(pos);
 
-                if (firstStepFlag)
+                if (IsMoved)
                 {
                     Position pos2 = new Position();
                     pos2.X = currentPos.X;
@@ -67,7 +67,7 @@ namespace Chess
                 pos.Y = currentPos.Y + 1 * m;
                 available.Add(pos);
 
-                if (firstStepFlag)
+                if (!IsMoved)
                 {
                     Position pos2 = new Position();
                     pos2.X = currentPos.X;

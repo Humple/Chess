@@ -7,7 +7,7 @@ using Chess.Network;
 
 namespace Chess.Core
 {
-	class GameCore : IGameControl, INetworkSupport
+	class GameCore : IGameControl
 	{
 		private PlayWindow playWindow;
 		private InviteWindow inviteWindow;
@@ -34,8 +34,9 @@ namespace Chess.Core
 			inviteWindow.OnChoice += new InviteWindow.OnChoiceEventHandler (InviteWindowMessageReceived);
 			inviteWindow.Show ();
 			Application.Run ();
-		}
+        }
 
+        //for console game start initialization
 		public void Initialize (string ip)
 		{
 
@@ -161,11 +162,11 @@ namespace Chess.Core
 				Position rockPos = new Position (newPos.X + dx, newPos.Y);
 
 				matrix.MoveFigure (newPos, kingPos);
-				matrix.FigureAt (kingPos).ResetFirstStepFlag ();
+				matrix.FigureAt (kingPos).IncreaseSteps ();
 				playWindow.matrix.MoveImage (newPos, kingPos);
 
 				matrix.MoveFigure (oldPos, rockPos);
-				matrix.FigureAt (rockPos).ResetFirstStepFlag ();
+				matrix.FigureAt (rockPos).IncreaseSteps ();
 				playWindow.matrix.MoveImage (oldPos, rockPos);
 
 				//print message in system log console
@@ -189,7 +190,7 @@ namespace Chess.Core
 				}
 				Figure figure = matrix.FigureAt (oldPos);
 				matrix.MoveFigure (oldPos, newPos);
-				figure.ResetFirstStepFlag ();
+				figure.IncreaseSteps ();
 
 				//checking pawn move gap
 				if( figure is Pawn )
@@ -217,17 +218,30 @@ namespace Chess.Core
 			playWindow.Cursor = Cursors.Default;
 		}
 
+        private void RegisterNetEventHandlers()
+        {
+            network.FigureMoved += FigureMovedHandler;
+            network.MessageReceived += MessageReceivedHandler;
+            network.GameEndedEvent += GameEnded;
+            network.ConnectionEstablishedEvent += ConnectedHandler;
+            network.DisconnectedEvent += Disconnectedhandler;
+        }
+
 		private void StartServer ()
 		{
 			playWindow.NetworkEnabled = true;
 			strokeLock = false;
 			endGameLock = false;
-			System.Console.WriteLine (this.ToString () + " InitServer() ");
+            Debug.NewMessage(this.ToString() + " server initialization");
+
 			try {
-				network = new NetworkServer (this);
+				network = new NetworkServer ();
+                RegisterNetEventHandlers();
+
 				((NetworkServer)network).StartServer ();
 			} catch (Exception e) {
 				MessageBox.Show (e.Message, "Server Error");
+                Debug.NewMessage(this.ToString() + e.Message);
 			}
 
 		}
@@ -238,14 +252,15 @@ namespace Chess.Core
 			strokeLock = false;
 			endGameLock = false;
 
-			System.Console.WriteLine ("Connecting to server: " + ip);
+            Debug.NewMessage(this.ToString() + " connecting to server " + ip);
 			try {
 				strokeLock = true;
-				network = new NetworkClient (this);
+				network = new NetworkClient ();
+                RegisterNetEventHandlers();
 				((NetworkClient)network).ConnetcToServer (ip);
 			} catch (Exception e) {
 				MessageBox.Show (e.Message, "Error");
-				Console.WriteLine (e.Message);
+                Debug.NewMessage(this.ToString() + " " + e.Message);
 			}
 		}
 
@@ -275,35 +290,46 @@ namespace Chess.Core
 		}
         #endregion
 
-        #region INetworkSupport implementation
-		public void ChessMoved (Position oldPos, Position newPos)
-		{
-			strokeLock = !strokeLock;
-			MoveFigure (oldPos, newPos);
-		}
+        #region Network base events handlers
+        public void MessageReceivedHandler( BaseNetwork.MessageReceivedEventArgs args )
+        {
+            Debug.NewMessage("Message received: " + args.Message);
+        }
 
-		public void Connected ()
-		{
-			System.Console.WriteLine (this.ToString () + ": Connected()");
-			if (inviteWindow != null) 
-				inviteWindow.Close ();
+        public void FigureMovedHandler( BaseNetwork.MoveFigureEventArgs args )
+        {
+            MoveFigure(args.OldPos, args.NewPos);
+        }
 
-			playWindow.Show ();
-		}
+        public void GameEnded()
+        {
+            EndGame();
+        }
 
-		public void Disconnected ()
-		{
-			System.Console.WriteLine (this.ToString () + ": Disconnected()");
-		}
+        public void Disconnectedhandler()
+        {
+            Debug.NewMessage(this.ToString() + " " + " disconnected");
+        }
 
-		public void MessageReceived (string mes)
-		{
-			playWindow.PrintToConsole ("Network message: " + mes, System.Drawing.Color.Green);
-		}
+        public void ConnectedHandler()
+        {
+            Debug.NewMessage(this.ToString() + " " + " connected");
+
+            if (playWindow.InvokeRequired)
+                playWindow.Invoke(new MethodInvoker(delegate
+                {
+                    playWindow.Show();
+                }
+            ));
+            else
+                playWindow.Show();                   
+           
+        }
+        
         #endregion
 
         #region IGameControl implementation
-		public void FigureMoved (Position oldPos, Position newPos)
+        public void FigureMoved (Position oldPos, Position newPos)
 		{
 
 		}

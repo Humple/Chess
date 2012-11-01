@@ -20,21 +20,17 @@ namespace Chess
 				}
 			}
 
-            protected bool firstStepFlag = true;
-			public bool IsMoved{ get { return !firstStepFlag; } }
-            public void ResetFirstStepFlag()
+            protected int stepCount = 0;
+			public bool IsMoved{ get { return stepCount!=0; } }
+
+            public void IncreaseSteps()
             {
-                firstStepFlag = false;
+                stepCount++;
             }
 
 			//file splite
 			public const char SPLITER='/';
 			public const string PREFIX="images/figures";
-
-			//public static const string PREFIX="images/figures";
-
-
-
 			//atack and move has differents directions
 			protected bool diff;
 			public bool HasDifferentDirections {

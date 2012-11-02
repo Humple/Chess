@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using Chess.Core.User;
 
 namespace Chess.GUI
 {
@@ -17,9 +18,11 @@ namespace Chess.GUI
         private bool choiceMade = false;
         private delegate void LoadingDelegate(int delay);
         private LoadingDelegate loading;
+        private ProfileCollection pCollection = null;
 
-        public InviteWindow()
+        public InviteWindow(ProfileCollection profileCollection)
         {
+            pCollection = profileCollection;
             InitializeComponent();
             label1.Visible = false;
             IPBox.Visible = false;
@@ -129,9 +132,28 @@ namespace Chess.GUI
                 OnChoice(this, new OnChoiceEventArgs(OnChoiceEventArgs.ConnectionType.EXIT, null));
             choiceMade = false;
         }
+
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            if (LoginButton.Text == "Login" && pCollection != null)
+            {
+                User.ProfileWindow pw = new User.ProfileWindow(pCollection);
+                pw.ShowDialog();
+                if (pw.rv != null)
+                {
+                    LoginButton.Text = "Logout";
+                    this.Text = "Chess: " + pw.rv.NickName;
+                }
+            }
+            else
+            {
+                this.Text = "Chess";
+                LoginButton.Text = "Login";
+            }
+        }
     }
 
-    public class OnChoiceEventArgs: Object
+    public class OnChoiceEventArgs: EventArgs
     {
         public enum ConnectionType { SERVER, CLIENT, OFFLINE, EXIT };
         private ConnectionType type;

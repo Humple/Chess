@@ -28,6 +28,11 @@ namespace Chess.Core.User
         {
             innerCol = new List<Profile>();
         }
+        public ProfileCollection(String path)
+        {
+            innerCol = new List<Profile>();
+            Load(path);
+        }
 
         // Adds an index to the collection. 
         public Profile this[int index]
@@ -95,7 +100,7 @@ namespace Chess.Core.User
             return innerCol.Remove(item);
         }
 
-        void Load(String filename)
+        public void Load(String filename)
         {
             innerCol.Clear();
             if (File.Exists(filename))
@@ -107,7 +112,7 @@ namespace Chess.Core.User
             }
         }
 
-        void Save(String filename)
+        public void Save(String filename)
         {
             Stream fs = File.Create(filename);
             BinaryFormatter bf = new BinaryFormatter();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Chess.GUI;
+using Chess.GUI.User;
+using Chess.Core.User;
 using Chess.Figures;
 using Chess.Network;
 
@@ -17,12 +19,14 @@ namespace Chess.Core
 		private PlayersState pState;
 		private bool endGameLock, strokeLock;
 		private BaseNetwork network;
+        private ProfileCollection pCollection = null;
 
 		public GameCore ()
 		{
 			Application.EnableVisualStyles ();
 			runColor = FigureColor.WHITE;
 			pState = new PlayersState ();
+            pCollection = new ProfileCollection("Users.db");
 		}
 
 		public void Initialize ()
@@ -30,7 +34,7 @@ namespace Chess.Core
 			matrix = new CoreMatrix ();
 			playWindow = new PlayWindow (this, "Chess", new GuiMatrix (matrix));
 			playWindow.FormClosed += new FormClosedEventHandler (PlayWindowClose);
-			inviteWindow = new InviteWindow ();
+			inviteWindow = new InviteWindow (pCollection);
 			inviteWindow.OnChoice += new InviteWindow.OnChoiceEventHandler (InviteWindowMessageReceived);
 			inviteWindow.Show ();
 			Application.Run ();
@@ -60,7 +64,7 @@ namespace Chess.Core
 			playWindow = new PlayWindow (this, "Chess", new GuiMatrix (matrix));
 			playWindow.FormClosed += new FormClosedEventHandler (PlayWindowClose);
 
-			inviteWindow = new InviteWindow ();
+			inviteWindow = new InviteWindow (pCollection);
 			inviteWindow.OnChoice += new InviteWindow.OnChoiceEventHandler (InviteWindowMessageReceived);
 			inviteWindow.Show ();
 		}

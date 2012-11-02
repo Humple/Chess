@@ -45,6 +45,7 @@
             // 
             this.ProfileData.AllowUserToAddRows = false;
             this.ProfileData.AllowUserToDeleteRows = false;
+            this.ProfileData.AllowUserToResizeRows = false;
             this.ProfileData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ProfileData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Nickname,
@@ -54,8 +55,10 @@
             this.Loss_count});
             this.ProfileData.Dock = System.Windows.Forms.DockStyle.Left;
             this.ProfileData.Location = new System.Drawing.Point(0, 0);
+            this.ProfileData.MultiSelect = false;
             this.ProfileData.Name = "ProfileData";
             this.ProfileData.ReadOnly = true;
+            this.ProfileData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ProfileData.Size = new System.Drawing.Size(614, 427);
             this.ProfileData.TabIndex = 0;
             // 
@@ -108,6 +111,7 @@
             this.AddButton.TabIndex = 1;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // DeleteButton
             // 
@@ -117,6 +121,7 @@
             this.DeleteButton.TabIndex = 2;
             this.DeleteButton.Text = "Delete";
             this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // SelectButton
             // 
@@ -126,6 +131,7 @@
             this.SelectButton.TabIndex = 3;
             this.SelectButton.Text = "Select";
             this.SelectButton.UseVisualStyleBackColor = true;
+            this.SelectButton.Click += new System.EventHandler(this.SelectButton_Click);
             // 
             // CancelButton
             // 
@@ -135,6 +141,7 @@
             this.CancelButton.TabIndex = 4;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // ProfileWindow
             // 
@@ -149,7 +156,9 @@
             this.Controls.Add(this.ProfileData);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "ProfileWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProfileWindow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProfileWindow_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.ProfileData)).EndInit();
             this.ResumeLayout(false);
 

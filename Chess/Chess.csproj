@@ -51,7 +51,7 @@
     <Compile Include="Core\CoreMatrix.cs" />
     <Compile Include="Core\GameCore.cs" />
     <Compile Include="Core\User\Profile.cs" />
-    <Compile Include="Core\User\ProfileList.cs" />
+    <Compile Include="Core\User\ProfileCollection.cs" />
     <Compile Include="Debug\Debug.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +68,18 @@
     </Compile>
     <Compile Include="GUI\InviteWindow.Designer.cs">
       <DependentUpon>InviteWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\User\CreateProfileWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\User\CreateProfileWindow.Designer.cs">
+      <DependentUpon>CreateProfileWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\User\ProfileWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\User\ProfileWindow.Designer.cs">
+      <DependentUpon>ProfileWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Network\NetworkServer.cs" />
     <Compile Include="GUI\PlayWindow.cs">
@@ -86,6 +98,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PlayWindow.resx">
       <DependentUpon>PlayWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\User\CreateProfileWindow.resx">
+      <DependentUpon>CreateProfileWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\User\ProfileWindow.resx">
+      <DependentUpon>ProfileWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

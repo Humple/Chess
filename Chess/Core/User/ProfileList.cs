@@ -1,11 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Chess.Core.User
 {
-    public class ProfileCollection : ICollection<Profile>, IEnumerable<Profile>
+    public class ProfileCollection : ICollection<Profile>
     {
         public IEnumerator<Profile> GetEnumerator()
         {
@@ -52,7 +54,6 @@ namespace Chess.Core.User
         public bool Contains(Profile item, EqualityComparer<Profile> comp)
         {
             bool found = false;
-
             foreach (Profile bx in innerCol)
             {
                 if (comp.Equals(bx, item))
@@ -60,7 +61,6 @@ namespace Chess.Core.User
                     found = true;
                 }
             }
-
             return found;
         }
 
@@ -92,9 +92,27 @@ namespace Chess.Core.User
 
         public bool Remove(Profile item)
         {
-            bool result = false;
+            return innerCol.Remove(item);
+        }
 
-            return result;
+        void Load(String filename)
+        {
+            innerCol.Clear();
+            if (File.Exists(filename))
+            {
+                Stream fs = File.OpenRead(filename);
+                BinaryFormatter bf = new BinaryFormatter();
+                innerCol = (List<Profile>)bf.Deserialize(fs);
+                fs.Close();
+            }
+        }
+
+        void Save(String filename)
+        {
+            Stream fs = File.Create(filename);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(fs, innerCol);
+            fs.Close();
         }
     }
 

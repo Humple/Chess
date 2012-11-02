@@ -23,7 +23,7 @@ namespace Chess.Core.User
         public UInt64 LossCount { get { return _loss_count; } }
         public DateTime PlayTime { get { return new DateTime((long)_playtime*(long)Math.Pow(10, 7)); } }
 
-        Profile( string NickName, string eMail )
+        public Profile( string NickName, string eMail )
         {
             _nickname = NickName;
             _email = eMail;
@@ -33,18 +33,18 @@ namespace Chess.Core.User
             _loss_count = 0;
         }
 
-        void IncrementScore()
+        public void IncrementScore()
         {
             _score++;
         }
 
-        void GameWon(uint time)
+        public void GameWon(uint time)
         {
             _playtime += time;
             _win_count++;
         }
 
-        void GameLost(uint time)
+        public void GameLost(uint time)
         {
             _playtime += time;
             _loss_count++;

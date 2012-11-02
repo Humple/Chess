@@ -91,7 +91,6 @@ namespace Chess.Core
 
 			KingBlack = new Position(4, 0);
 			KingWhite = new Position( 4, 7);
-
         }
         
 		public Figure FigureAt(Position pos)
@@ -124,16 +123,9 @@ namespace Chess.Core
 					KingBlack = newPos;
 				}
 			}
-            else if( FigureAt(oldPos) is Pawn)  {
-                    ( (Pawn) FigureAt(oldPos) ).NeighborsFigures[1] = FigureAt(newPos.X+1, newPos.Y); 
-                    ( (Pawn) FigureAt(oldPos) ).NeighborsFigures[0] = FigureAt(newPos.X-1, newPos.Y);
-                
-            }
 
 			sMatrix [newPos.X, newPos.Y] = sMatrix [oldPos.X, oldPos.Y];
-			sMatrix [oldPos.X, oldPos.Y] = null;
-
-            
+			sMatrix [oldPos.X, oldPos.Y] = null; 
 		}
 
 		public bool HasFigureAt (Position pos)

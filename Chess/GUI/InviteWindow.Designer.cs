@@ -40,6 +40,7 @@
             this.ConnectButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.status = new System.Windows.Forms.Label();
+            this.LoginButton = new System.Windows.Forms.Button();
             this.layoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,7 +94,7 @@
             this.layoutPanel.Controls.Add(this.ConnectButton);
             this.layoutPanel.Controls.Add(this.CancelButton);
             this.layoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.layoutPanel.Location = new System.Drawing.Point(27, 17);
+            this.layoutPanel.Location = new System.Drawing.Point(27, 26);
             this.layoutPanel.Name = "layoutPanel";
             this.layoutPanel.Size = new System.Drawing.Size(131, 126);
             this.layoutPanel.TabIndex = 5;
@@ -166,16 +167,28 @@
             // 
             this.status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.status.AutoSize = true;
-            this.status.Location = new System.Drawing.Point(1, 169);
+            this.status.Location = new System.Drawing.Point(1, 187);
             this.status.Name = "status";
             this.status.Size = new System.Drawing.Size(0, 13);
             this.status.TabIndex = 6;
+            // 
+            // LoginButton
+            // 
+            this.LoginButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.LoginButton.Location = new System.Drawing.Point(107, 177);
+            this.LoginButton.Name = "LoginButton";
+            this.LoginButton.Size = new System.Drawing.Size(75, 23);
+            this.LoginButton.TabIndex = 7;
+            this.LoginButton.Text = "Login";
+            this.LoginButton.UseVisualStyleBackColor = true;
+            this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
             // 
             // InviteWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(184, 184);
+            this.ClientSize = new System.Drawing.Size(184, 202);
+            this.Controls.Add(this.LoginButton);
             this.Controls.Add(this.status);
             this.Controls.Add(this.layoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -206,6 +219,7 @@
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Label status;
+        private System.Windows.Forms.Button LoginButton;
 
     }
 }

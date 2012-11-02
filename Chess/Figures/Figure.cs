@@ -20,12 +20,12 @@ namespace Chess
 				}
 			}
 
-            protected int stepCount = 0;
-			public bool IsMoved{ get { return stepCount!=0; } }
+            public int StepCount = 0;
+			public bool IsMoved{ get { return StepCount!=0; } }
 
             public void IncreaseSteps()
             {
-                stepCount++;
+                StepCount++;
             }
 
 			//file splite

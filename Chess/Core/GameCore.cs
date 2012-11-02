@@ -197,8 +197,7 @@ namespace Chess.Core
 				figure.IncreaseSteps ();
 
 				//checking pawn move gap
-				if( figure is Pawn )
-				{
+				if( figure is Pawn ) {
 					((Pawn) figure).TwoStepState = ( Math.Abs( oldPos.Y - newPos.Y ) == 2 );
 
                     //Проверка на замену пешки другой фигурой
@@ -210,10 +209,15 @@ namespace Chess.Core
                         playWindow.matrix.SetImage(w.Result.image, oldPos);
                         playWindow.ReDraw(true);
                     }
-				}
+
+                    GetInPass(oldPos, newPos);
+
+                    ((Pawn)matrix.FigureAt(newPos)).NeighborsFigures[1] = matrix.FigureAt(newPos.X + 1, newPos.Y);
+                    ((Pawn)matrix.FigureAt(newPos)).NeighborsFigures[0] = matrix.FigureAt(newPos.X - 1, newPos.Y);
+                }
 
 				playWindow.matrix.MoveImage (oldPos, newPos);
-				
+
 			}
 			//changing color changing
 			runColor = (runColor == FigureColor.WHITE) ? (FigureColor.BLACK) : (FigureColor.WHITE);
@@ -221,6 +225,42 @@ namespace Chess.Core
 			playWindow.matrix.ResetAllAttribures ();
 			playWindow.Cursor = Cursors.Default;
 		}
+
+        private void GetInPass(Position oldPos, Position newPos)
+        {
+            int k = newPos.X - oldPos.X;
+           
+            if (matrix.HasFigureAt(oldPos.X+k, oldPos.Y))
+            {
+                Position neighPos = new Position(oldPos.X + k, oldPos.Y);
+                Figure neighFigure = matrix.FigureAt(neighPos);
+                Pawn ourPawn = matrix.FigureAt(newPos) as Pawn;
+                //neighbors figure - enemy figure
+                if (neighFigure.Color != matrix.FigureAt(newPos).Color )
+                {
+                    //last state neighbors figure is not Pawn
+                    // if k == -1 - it is left neighbors
+                    // if k == 1 - it is right neighbors
+                    int neighborsIndex = (k == -1) ? 0 : 1;
+
+                    if (ourPawn.NeighborsFigures[neighborsIndex] == null ||
+                        (ourPawn.NeighborsFigures[neighborsIndex] != null &&
+                        !(ourPawn.NeighborsFigures[neighborsIndex] is Pawn)))
+                    {
+                        //It's enemy Pawn
+                        if (neighFigure is Pawn)
+                        {
+                            //Enemy pawn moved two step
+                            if (((Pawn)neighFigure).TwoStepState && (neighFigure).StepCount == 1)
+                            {
+                                matrix.SetFigure(null, neighPos);
+                                playWindow.matrix.SetImage(null, neighPos);
+                            }
+                        }
+                    }
+                }
+        }
+        }
 
         private void RegisterNetEventHandlers()
         {

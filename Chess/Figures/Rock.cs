@@ -81,9 +81,6 @@ namespace Chess
 				tmpMatrix = (CoreMatrix)matrix.Clone (); 
 
 				foreach (Position pos in availlablePos) {
-
-
-
 					Position kingPos = tmpMatrix.GetKing (color);
 
 					if( kingPos.Equals( pos ) ) {

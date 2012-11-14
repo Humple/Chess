@@ -65,17 +65,12 @@ namespace Chess.Core
 #if TEST
 		    sMatrix = new Figure[8, 8];
 
-            sMatrix[0, 7] = new Rock(FigureColor.WHITE);
-            sMatrix[7, 7] = new Rock(FigureColor.WHITE);
-
             sMatrix[4, 7] = new King(FigureColor.WHITE);
             sMatrix[3, 7] = new Queen(FigureColor.WHITE);
 
 			sMatrix[4, 0] = new King(FigureColor.BLACK);
-            sMatrix[3, 0] = new Queen(FigureColor.BLACK);
+            sMatrix[1, 1] = new Queen(FigureColor.WHITE);
 
-			sMatrix[0, 0] = new Rock(FigureColor.BLACK);
-            sMatrix[7, 0] = new Rock(FigureColor.BLACK);
 
 			for (int i = 0; i < 4; i++)
             {
@@ -83,7 +78,7 @@ namespace Chess.Core
             }
 
 
-			for (int i = 3; i < 8; i++)
+			for (int i = 2; i < 4; i++)
             {
                 sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
             }
@@ -105,6 +100,7 @@ namespace Chess.Core
                 return null;
             return sMatrix[x, y];
         }
+
 
 		public void MoveFigure (Position oldPos, Position newPos)
 		{
@@ -163,6 +159,7 @@ namespace Chess.Core
 
 			return clone;
 		}
+        
         public void SetFigure(Figure f, Position pos)
         {
             sMatrix[pos.X, pos.Y] = f;

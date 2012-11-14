@@ -80,19 +80,15 @@ namespace Chess
 				List<Position> validPos = new List<Position>();
 
 				CoreMatrix tmpMatrix;
-				tmpMatrix = (CoreMatrix) matrix.Clone (); 
-
+				
 				foreach (Position pos in availlablePos) {
-
-					tmpMatrix.MoveFigure(currentPos, pos);
-
-					Position kingPos = tmpMatrix.GetKing(color);
+                    tmpMatrix = (CoreMatrix)matrix.Clone(); 
+                    Position kingPos = tmpMatrix.GetKing(color);
+                    tmpMatrix.MoveFigure(currentPos, pos);
 
 					if( !King.IsCheckState(tmpMatrix, color) )
 						validPos.Add(pos);
-
-					tmpMatrix.MoveFigure( pos, currentPos );
-				}
+                }
 
 				return validPos;
 			}

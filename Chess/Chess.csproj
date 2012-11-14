@@ -49,6 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\CoreMatrix.cs" />
+    <Compile Include="GUI\InfoWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\InfoWindow.Designer.cs">
+      <DependentUpon>InfoWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\GameCore.cs" />
     <Compile Include="Core\User\Profile.cs" />
     <Compile Include="Core\User\ProfileCollection.cs" />
@@ -90,6 +96,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\InfoWindow.resx">
+      <DependentUpon>InfoWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\FigureChoiceWindow.resx">
       <DependentUpon>FigureChoiceWindow.cs</DependentUpon>
     </EmbeddedResource>

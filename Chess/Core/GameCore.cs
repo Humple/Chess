@@ -22,6 +22,7 @@ namespace Chess.Core
         private bool networkGame;
 		private BaseNetwork network;
         private ProfileCollection pCollection = null;
+        private System.Windows.Forms.Timer PlayerClock;
 
 		public GameCore ()
 		{
@@ -36,6 +37,11 @@ namespace Chess.Core
 			matrix = new CoreMatrix ();
 			playWindow = new PlayWindow (this, "Chess", new GuiMatrix (matrix));
 			playWindow.FormClosed += new FormClosedEventHandler (PlayWindowClose);
+
+            PlayerClock = new System.Windows.Forms.Timer();
+            PlayerClock.Tick += new EventHandler(PlayerClock_Tick);
+            PlayerClock.Interval = 1000;
+
 			inviteWindow = new InviteWindow (pCollection);
 			inviteWindow.OnChoice += new InviteWindow.OnChoiceEventHandler (InviteWindowMessageReceived);
 			inviteWindow.Show ();
@@ -50,12 +56,17 @@ namespace Chess.Core
 			playWindow = new PlayWindow (this, "Chess", new GuiMatrix (matrix));
 			playWindow.FormClosed += new FormClosedEventHandler (PlayWindowClose);
 
+            PlayerClock = new System.Windows.Forms.Timer();
+            PlayerClock.Tick += new EventHandler(PlayerClock_Tick);
+            PlayerClock.Interval = 1000;
+
 
 			if (ip == "0.0.0.0")
 				StartServer ();
 			else
 				StartClient (ip);
 
+            PlayerClock.Start();
             playWindow.Show();
 
             Debug.NewMessage("play window show");
@@ -63,6 +74,11 @@ namespace Chess.Core
 
 			Application.Run ();
 		}
+
+        public void PlayerClock_Tick(Object sender, EventArgs e)
+        {
+            playWindow.PlayerClock_Tick(runColor);
+        }
 
 		private void ReInitialize ()
 		{
@@ -120,19 +136,25 @@ namespace Chess.Core
 			if (black == PlayerState.CHECK) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
 				playWindow.PrintToConsoleLn ("Player 2: check!", System.Drawing.Color.Black);
+                if (network != null && pCollection.Current != null) pCollection.Current.IncrementScore();
 			} else if (black == PlayerState.CHECKMATE) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
 				playWindow.PrintToConsoleLn ("Player 2: mate!", System.Drawing.Color.Black);
+                if (network != null && pCollection.Current != null && runColor == FigureColor.BLACK) pCollection.Current.GameWon(0);
+                if (network != null && pCollection.Current != null && runColor == FigureColor.WHITE) pCollection.Current.GameLost(0);
                 MessageBox.Show("Player 2 mate!");
 			}
 
 			if (white == PlayerState.CHECK) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
 				playWindow.PrintToConsoleLn ("Player 2: check!", System.Drawing.Color.Black);
+                if (network != null && pCollection.Current != null) pCollection.Current.IncrementScore();
 			} else if (white == PlayerState.CHECKMATE) {
 				playWindow.PrintToConsole ("System: ", System.Drawing.Color.Red);
 				playWindow.PrintToConsoleLn ("Player 1: mate!", System.Drawing.Color.Black);
-                MessageBox.Show("Player 2 mate!");
+                if (network != null && pCollection.Current != null && runColor == FigureColor.WHITE) pCollection.Current.GameWon(0);
+                if (network != null && pCollection.Current != null && runColor == FigureColor.BLACK) pCollection.Current.GameLost(0);
+                MessageBox.Show("Player 1 mate!");
             }
 
 			if (pState.GetState (FigureColor.BLACK) == PlayerState.CHECKMATE ||
@@ -146,6 +168,7 @@ namespace Chess.Core
 			strokeLock = false;
 			endGameLock = false;
             networkGame = false;
+            PlayerClock.Start();
 			playWindow.Show ();
 		}
 
@@ -291,6 +314,7 @@ namespace Chess.Core
 			endGameLock = false;
             playWindow.Text = "Chess - Server";
             networkGame = true;
+            PlayerClock.Start();
             playWindow.Show();
 
 			try {
@@ -315,6 +339,7 @@ namespace Chess.Core
 			endGameLock = false;
             networkGame = true;
             playWindow.Text = "Chess - Client";
+            PlayerClock.Start();
             playWindow.Show();
 
             Debug.NewMessage(this.ToString() + " connecting to server " + ip);

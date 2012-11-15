@@ -26,6 +26,7 @@ namespace Chess.GUI
         private System.Drawing.Pen pen = null;
         private IGameControl control;
         private bool formBusy = false;
+        private int p1Time = 0, p2Time = 0;
 
         public bool NetworkEnabled  {
             set  {
@@ -171,6 +172,23 @@ namespace Chess.GUI
             mouseTracker.Start();
 
             ReDraw(50);
+        }
+        public void PlayerClock_Tick(Chess.Figures.FigureColor clr)
+        {
+            if (clr == FigureColor.WHITE)
+            {
+                p1Time++;
+                Player1Time.Text = ((int)(p1Time / 60) < 10) ? '0' + Convert.ToString((int)(p1Time / 60)) : Convert.ToString((int)(p1Time / 60));
+                Player1Time.Text += ':';
+                Player1Time.Text += ((p1Time / 60.0 - (int)(p1Time / 60)) * 60 < 10) ? '0' + Convert.ToString((p1Time / 60.0 - (int)(p1Time / 60)) * 60) : Convert.ToString((p1Time / 60.0 - (int)(p1Time / 60)) * 60);
+            }
+            else
+            {
+                p2Time++;
+                Player2Time.Text = ((int)(p2Time / 60) < 10) ? '0' + Convert.ToString((int)(p2Time / 60)) : Convert.ToString((int)(p2Time / 60));
+                Player2Time.Text += ':';
+                Player2Time.Text += ((p2Time / 60.0 - (int)(p2Time / 60)) * 60 < 10) ? '0' + Convert.ToString((p2Time / 60.0 - (int)(p2Time / 60)) * 60) : Convert.ToString((p2Time / 60.0 - (int)(p2Time / 60)) * 60);
+            }
         }
         //Cursor moved event
         private void PlayWindow_MouseTracking(object sender, EventArgs e)

@@ -9,6 +9,13 @@ namespace Chess.Core.User
 {
     public class ProfileCollection : ICollection<Profile>
     {
+        private int currentIndex = -1;
+        public Profile Current {
+            get {
+                if (currentIndex >= 0) return innerCol[currentIndex];
+                else return null;
+            }
+        }
         public IEnumerator<Profile> GetEnumerator()
         {
             return new ProfileEnumerator(this);
@@ -110,6 +117,7 @@ namespace Chess.Core.User
                 innerCol = (List<Profile>)bf.Deserialize(fs);
                 fs.Close();
             }
+            currentIndex = -1;
         }
 
         public void Save(String filename)

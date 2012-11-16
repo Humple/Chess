@@ -20,21 +20,17 @@ namespace Chess
 				}
 			}
 
-            protected bool firstStepFlag = true;
-			public bool IsMoved{ get { return !firstStepFlag; } }
-            public void ResetFirstStepFlag()
+            public int StepCount = 0;
+			public bool IsMoved{ get { return StepCount!=0; } }
+
+            public void IncreaseSteps()
             {
-                firstStepFlag = false;
+                StepCount++;
             }
 
 			//file splite
 			public const char SPLITER='/';
 			public const string PREFIX="images/figures";
-
-			//public static const string PREFIX="images/figures";
-
-
-
 			//atack and move has differents directions
 			protected bool diff;
 			public bool HasDifferentDirections {
@@ -84,19 +80,15 @@ namespace Chess
 				List<Position> validPos = new List<Position>();
 
 				CoreMatrix tmpMatrix;
-				tmpMatrix = (CoreMatrix) matrix.Clone (); 
-
+				
 				foreach (Position pos in availlablePos) {
-
-					tmpMatrix.MoveFigure(currentPos, pos);
-
-					Position kingPos = tmpMatrix.GetKing(color);
+                    tmpMatrix = (CoreMatrix)matrix.Clone(); 
+                    Position kingPos = tmpMatrix.GetKing(color);
+                    tmpMatrix.MoveFigure(currentPos, pos);
 
 					if( !King.IsCheckState(tmpMatrix, color) )
 						validPos.Add(pos);
-
-					tmpMatrix.MoveFigure( pos, currentPos );
-				}
+                }
 
 				return validPos;
 			}

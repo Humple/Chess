@@ -5,14 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Chess.Core;
+using System.Threading;
 
 namespace Chess
 {
     static class Program
     {
         static void Main(string[] arguments)
-        {	
+        {
+
+            Thread.CurrentThread.Name = "MainThread";
+
 			GameCore game = new GameCore();
+#if DEBUG
+            System.Console.WriteLine("Game initialization");
+#endif
 
 			if(arguments.Count () < 1)
 				game.Initialize();

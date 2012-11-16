@@ -65,17 +65,12 @@ namespace Chess.Core
 #if TEST
 		    sMatrix = new Figure[8, 8];
 
-            sMatrix[0, 7] = new Rock(FigureColor.WHITE);
-            sMatrix[7, 7] = new Rock(FigureColor.WHITE);
-
             sMatrix[4, 7] = new King(FigureColor.WHITE);
             sMatrix[3, 7] = new Queen(FigureColor.WHITE);
 
 			sMatrix[4, 0] = new King(FigureColor.BLACK);
-            sMatrix[3, 0] = new Queen(FigureColor.BLACK);
+            sMatrix[1, 1] = new Queen(FigureColor.WHITE);
 
-			sMatrix[0, 0] = new Rock(FigureColor.BLACK);
-            sMatrix[7, 0] = new Rock(FigureColor.BLACK);
 
 			for (int i = 0; i < 4; i++)
             {
@@ -83,7 +78,7 @@ namespace Chess.Core
             }
 
 
-			for (int i = 3; i < 8; i++)
+			for (int i = 2; i < 4; i++)
             {
                 sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
             }
@@ -91,18 +86,21 @@ namespace Chess.Core
 
 			KingBlack = new Position(4, 0);
 			KingWhite = new Position( 4, 7);
-
         }
         
 		public Figure FigureAt(Position pos)
         {
+         
             return sMatrix[pos.X, pos.Y];
         }
         
 		public Figure FigureAt(int x, int y)
         {
+            if (x > 7 || y > 7 || x < 0 || y < 0)
+                return null;
             return sMatrix[x, y];
         }
+
 
 		public void MoveFigure (Position oldPos, Position newPos)
 		{
@@ -110,7 +108,7 @@ namespace Chess.Core
 				throw (new NullReferenceException ("I don't have figure at " + oldPos.X + ' ' + oldPos.Y));
 
 			//changing king position
-			if (FigureAt (oldPos).ToString() == "king") {
+			if (FigureAt (oldPos) is King) {
 
 				if(FigureAt (oldPos).Color == FigureColor.WHITE )
 				{
@@ -123,13 +121,21 @@ namespace Chess.Core
 			}
 
 			sMatrix [newPos.X, newPos.Y] = sMatrix [oldPos.X, oldPos.Y];
-			sMatrix [oldPos.X, oldPos.Y] = null;
+			sMatrix [oldPos.X, oldPos.Y] = null; 
 		}
 
 		public bool HasFigureAt (Position pos)
 		{
 			return (sMatrix[pos.X, pos.Y] !=null);
 		}
+
+        public bool HasFigureAt( int x, int y )
+        {
+            if (x > 7 || y > 7 || x<0 || y<0)
+                return false;
+
+            return (sMatrix[x, y] != null);
+        }
   
 		public Position GetKing (FigureColor color)
 		{
@@ -153,6 +159,7 @@ namespace Chess.Core
 
 			return clone;
 		}
+        
         public void SetFigure(Figure f, Position pos)
         {
             sMatrix[pos.X, pos.Y] = f;

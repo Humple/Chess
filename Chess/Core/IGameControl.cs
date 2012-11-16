@@ -8,6 +8,7 @@ namespace Chess.Core
 		void FigureMoved(Position oldPos, Position newPos);
 		void SpotSelected(Position spotPos);
         bool SpotFocused(Position spotPos);
+        void MessageReceived(String message);
 	}
 }
 

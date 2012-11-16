@@ -471,9 +471,12 @@ namespace Chess.Core
             if (playWindow.matrix.IsHighlighted(spotPos) && spotPos != figurePos)
             {
                 //send network message to client\server
-                if (networkGame) 
+                if (networkGame)
+                {
                     network.Add_MoveFigure(figurePos, spotPos);
-                     MoveFigure(figurePos, spotPos);
+                    strokeLock = true;
+                }
+                MoveFigure(figurePos, spotPos);
                 return;
             }
 
@@ -501,6 +504,10 @@ namespace Chess.Core
                 return true;
             else
                 return false;
+        }
+
+        public void MessageReceived(String message)
+        {
         }
 
         #endregion

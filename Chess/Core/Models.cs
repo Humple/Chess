@@ -1,4 +1,5 @@
 using System;
+using Chess.Core;
 
 namespace Chess
 {
@@ -43,11 +44,15 @@ namespace Chess
 					return x;
 				}
 				set {
-					if (value < 8 && value >= 0) {
-						x = value;
-						errFlag = false;
-					} else
-						errFlag = true;
+                    if (value < 8 && value >= 0)
+                    {
+                        x = value;
+                        errFlag = false;
+                    }
+                    else
+                    {
+                        errFlag = true;
+                    }
 				}
 			}
 

@@ -331,7 +331,7 @@ namespace Chess.Core
             endGameLock = false;
             playWindow.Text = "Chess - Server";
             networkGame = true;
-            PlayerClock.Start();
+            
             playWindow.Show();
 
             try
@@ -359,7 +359,6 @@ namespace Chess.Core
             endGameLock = false;
             networkGame = true;
             playWindow.Text = "Chess - Client";
-            PlayerClock.Start();
             playWindow.Show();
 
             Debug.NewMessage(this.ToString() + " connecting to server " + ip);
@@ -438,6 +437,7 @@ namespace Chess.Core
             inviteWindow.Invoke(new MethodInvoker(delegate
             {
                 inviteWindow.Show();
+                PlayerClock.Stop();
             }));
 
         }
@@ -448,6 +448,7 @@ namespace Chess.Core
             inviteWindow.Invoke(new MethodInvoker(delegate
             {
                 inviteWindow.Close();
+                PlayerClock.Start();
             }));
 
         }

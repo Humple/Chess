@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 
-
 namespace Chess
 {
     class Debug: Form
@@ -27,10 +26,12 @@ namespace Chess
             Debug dbg = GetInstance();
             if (dbg.InvokeRequired)
             {
+#if DEBUG
                 dbg.Invoke(new MethodInvoker(delegate
                 {
                     debug.Show();
                 }));
+#endif
             }
             else
                 dbg.Show();

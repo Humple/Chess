@@ -11,7 +11,7 @@ namespace Chess.Network
 
 		public NetworkServer (): base()
 		{
-
+            type = NetWorkType.SERVER;
 		}
 
 		public void StartServer()

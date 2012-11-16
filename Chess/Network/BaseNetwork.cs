@@ -4,9 +4,13 @@ using System.Net.Sockets;
 using System.Threading;
 using Chess.Figures;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 
 namespace Chess.Network
 {
+    public enum NetWorkType { SERVER, CLIENT };
+
 	public class BaseNetwork
 	{
 		//out stack 
@@ -23,8 +27,12 @@ namespace Chess.Network
         public bool IsWork = true;
         //buffer
         protected byte[] buffer;
+        //network type
+        public NetWorkType type;
+
         #region  events implementation
         //event - Figure Moved
+        
         public delegate void MoveFigureEventHandler(MoveFigureEventArgs args);
 
         public event MoveFigureEventHandler FigureMoved;
@@ -172,23 +180,35 @@ namespace Chess.Network
 
 				if(received.StartsWith(NetworkDef.MOVE))
 				{
-					Position oldPos = new Position(0, 0);
-					Position newPos = new Position(0, 0);
+                    string pattern = NetworkDef.MOVE + "\\s(\\d)\\s(\\d)\\s(\\d)\\s(\\d)";
+                    string[] parsed = Regex.Split(received, pattern);
+                    
+					Position oldPos = new Position( int.Parse(parsed[1]), int.Parse(parsed[2]));
+                    Position newPos = new Position(int.Parse(parsed[3]), int.Parse(parsed[4]));
                     
                     if (FigureMoved != null)
                         FigureMoved(new MoveFigureEventArgs(oldPos, newPos));
-				}
+				    
+                    Console.WriteLine(Thread.CurrentThread.Name +" " + "figure moved" );
+                }
 				else if(received.StartsWith(NetworkDef.MSG))
 				{
-                    string msg = null; //TODO: parse 
+                    string pattern = NetworkDef.MSG + "\\s(.*)";
+                    string[] parsed = Regex.Split(received, pattern);
+
                     if (MessageReceived != null)
-                        MessageReceived(new MessageReceivedEventArgs(msg));
+                        MessageReceived(new MessageReceivedEventArgs(parsed[1]));
 				}
 				else if(received.StartsWith(NetworkDef.END))
 				{
+
                     if (GameEndedEvent != null)
                         GameEndedEvent();
 				}
+                else if (received.StartsWith(NetworkDef.OK))
+                {
+
+                }
 		}
        
         #region work with queue

@@ -162,7 +162,7 @@ namespace Chess.Core
 		private void MoveFigure (Position oldPos, Position newPos)
 		{
 			//changing play window cursor
-			playWindow.Cursor = Cursors.WaitCursor;
+    	    playWindow.Cursor = Cursors.WaitCursor;
 
 			//rock change implementation
 			if (newPos.Equals (matrix.GetKing (runColor)) && !matrix.FigureAt (matrix.GetKing (runColor)).IsMoved) {
@@ -358,12 +358,21 @@ namespace Chess.Core
         #region Network base events handlers
         public void MessageReceivedHandler( BaseNetwork.MessageReceivedEventArgs args )
         {
+            playWindow.Invoke(new MethodInvoker(delegate
+            {
+                //MoveFigure(args.OldPos, args.NewPos);
+            }));
             Debug.NewMessage("Message received: " + args.Message);
         }
 
         public void FigureMovedHandler( BaseNetwork.MoveFigureEventArgs args )
         {
-            MoveFigure(args.OldPos, args.NewPos);
+            playWindow.Invoke(new MethodInvoker(delegate
+            {
+                MoveFigure(args.OldPos, args.NewPos);
+                Console.WriteLine("Figure moved handler called");
+            }));
+
             Debug.NewMessage("Figure moved called by " + Thread.CurrentThread.Name);
         }
 

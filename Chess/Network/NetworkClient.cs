@@ -13,6 +13,7 @@ namespace Chess.Network
 
 		public NetworkClient (): base()
 		{
+            type = NetWorkType.CLIENT;
 		}
 		public void ConnetcToServer (string ip)
 		{

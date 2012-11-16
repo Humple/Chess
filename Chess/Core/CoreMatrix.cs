@@ -63,25 +63,37 @@ namespace Chess.Core
 #endif 
 
 #if TEST
-		    sMatrix = new Figure[8, 8];
+             //WHITE          
 
-            sMatrix[4, 7] = new King(FigureColor.WHITE);
-            sMatrix[3, 7] = new Queen(FigureColor.WHITE);
-
-			sMatrix[4, 0] = new King(FigureColor.BLACK);
-            sMatrix[1, 1] = new Queen(FigureColor.WHITE);
+             sMatrix[0, 7] = new Rock(FigureColor.WHITE);
+             sMatrix[7, 7] = new Rock(FigureColor.WHITE);
 
 
-			for (int i = 0; i < 4; i++)
-            {
-                sMatrix[i, 6] = new Pawn(FigureColor.WHITE);
-            }
+             sMatrix[4, 7] = new King(FigureColor.WHITE);
 
 
-			for (int i = 2; i < 4; i++)
-            {
-                sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
-            }
+             for (int i = 0; i < 8; i++)
+             {
+                 sMatrix[i, 6] = new Pawn(FigureColor.WHITE);
+             }
+
+             //BLACK
+             sMatrix[0, 0] = new Rock(FigureColor.BLACK);
+             sMatrix[7, 0] = new Rock(FigureColor.BLACK);
+
+             sMatrix[6, 0] = new Knight(FigureColor.BLACK);
+             sMatrix[1, 0] = new Knight(FigureColor.BLACK);
+
+             sMatrix[2, 0] = new Bishop(FigureColor.BLACK);
+             sMatrix[5, 0] = new Bishop(FigureColor.BLACK);
+
+             sMatrix[4, 0] = new King(FigureColor.BLACK);
+             sMatrix[3, 0] = new Queen(FigureColor.BLACK);
+
+             for (int i = 0; i < 8; i++)
+             {
+                 sMatrix[i, 1] = new Pawn(FigureColor.BLACK);
+             }
 #endif
 
 			KingBlack = new Position(4, 0);

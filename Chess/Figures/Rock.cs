@@ -29,41 +29,90 @@ namespace Chess
 			public override List<Position> GetAvailableAtackPositons (Position currentPos, CoreMatrix matrix)
 			{
 				List<Position> available = new List<Position> ();
+                //by X
 				for (int i = currentPos.X + 1; i < 8; i++) {
 					if (matrix.FigureAt (i, currentPos.Y) == null)
 						available.Add (new Position (i, currentPos.Y));
-					else if (matrix.FigureAt (i, currentPos.Y).Color != this.Color ||
-						(matrix.FigureAt (i, currentPos.Y) is King && !IsMoved)) {
-						available.Add (new Position (i, currentPos.Y));
-						break;
-					} else
+					else if (matrix.FigureAt (i, currentPos.Y).Color != this.Color) {
+                        available.Add(new Position(i, currentPos.Y));
+                        break;
+                    }
+                    else if(matrix.FigureAt(i, currentPos.Y) is King && !IsMoved && !matrix.FigureAt(i, currentPos.Y).IsMoved) {
+                        CoreMatrix tmpMatrix;
+                        bool can = true;
+                        for (int x = currentPos.X + 1; x <= i; x++)
+                        {
+                            tmpMatrix = (CoreMatrix)matrix.Clone();
+                            Position kingPos = tmpMatrix.GetKing(color);
+                            tmpMatrix.MoveFigure(kingPos, new Position(x, currentPos.Y));
+
+                            if (King.IsCheckState(tmpMatrix, color))
+                            {
+                                can = false;
+                                break;
+                            }
+                        }
+
+                        //figure is not by atack 
+                        if (can)
+                            available.Add(new Position(i, currentPos.Y));
+                        break;
+                    }
+                    else
 						break;
 				}
+
+                //by X
 				for (int i = currentPos.X - 1; i >= 0; i--) {
 					if (matrix.FigureAt (i, currentPos.Y) == null)
 						available.Add (new Position (i, currentPos.Y));
-					else if (matrix.FigureAt (i, currentPos.Y).Color != this.Color ||
-						(matrix.FigureAt (i, currentPos.Y) is King && !IsMoved)) {
-						available.Add (new Position (i, currentPos.Y));
+					else if (matrix.FigureAt (i, currentPos.Y).Color != this.Color) {
+                        available.Add (new Position (i, currentPos.Y));
 						break;
+                    }
+                    else if(matrix.FigureAt(i, currentPos.Y) is King && !IsMoved && !matrix.FigureAt(i, currentPos.Y).IsMoved)
+                    {
+                        CoreMatrix tmpMatrix;
+                        bool can = true;
+                        for (int x = currentPos.X - 1; x <= i; x-- )
+                        {
+                            tmpMatrix = (CoreMatrix)matrix.Clone();
+                            Position kingPos = tmpMatrix.GetKing(color);
+                            tmpMatrix.MoveFigure(kingPos, new Position(x, currentPos.Y));
+
+                            if (King.IsCheckState(tmpMatrix, color))
+                            {
+                                can = false;
+                                break;
+                            }
+                        }
+
+                        //figure is not by atack 
+                        if (can)
+                            available.Add(new Position(i, currentPos.Y));
+                        break;
 					} else
 						break;
 				}
+                //by Y
 				for (int j = currentPos.Y + 1; j < 8; j++) {
 					if (!matrix.HasFigureAt (new Position (currentPos.X, j))) 
 						available.Add (new Position (currentPos.X, j));
 					else if (matrix.FigureAt (currentPos.X, j).Color != this.Color ||
-						(matrix.FigureAt (currentPos.X, j) is King && !IsMoved)) {
+                        (matrix.FigureAt(currentPos.X, j) is King && !IsMoved && !matrix.FigureAt(currentPos.X, j).IsMoved))
+                    {
 						available.Add (new Position (currentPos.X, j));
 						break;
 					} else
 						break;
 				}
+                //by Y
 				for (int j = currentPos.Y - 1; j >= 0; j--) { 
 					if (matrix.FigureAt (currentPos.X, j) == null)
 						available.Add (new Position (currentPos.X, j));
 					else if (matrix.FigureAt (currentPos.X, j).Color != this.Color ||
-						(matrix.FigureAt (currentPos.X, j) is King && !IsMoved)) {
+                        (matrix.FigureAt(currentPos.X, j) is King && !IsMoved && !matrix.FigureAt(currentPos.X, j).IsMoved))
+                    {
 						available.Add (new Position (currentPos.X, j));
 						break;
 					} else

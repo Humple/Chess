@@ -18,6 +18,7 @@ namespace Chess
 				this.x = x;
 				this.y = y;
 				errFlag = false;
+                if (x > 10 || y > 10) throw new WrongPositionException(this);
 			}
 
 			public Position ()

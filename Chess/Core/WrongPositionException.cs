@@ -16,11 +16,11 @@ namespace Chess.Core
                 return pos;
             }
         }
-        WrongPositionException()
+        public WrongPositionException()
         {
             pos = null;
         }
-        WrongPositionException(Position position)
+        public WrongPositionException(Position position)
         {
             pos = position;
         }

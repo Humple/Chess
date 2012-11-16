@@ -20,6 +20,13 @@ namespace Chess.GUI
         public GuiMatrix matrix = null;
         public readonly Color ColorSelected = Color.PaleGoldenrod;
 
+        public enum MessageOwner
+        {
+            Player1,
+            Player2,
+            System
+        };
+
         private System.Windows.Forms.Timer mouseTracker;
 
         private BufferedGraphics graph = null;
@@ -180,14 +187,14 @@ namespace Chess.GUI
                 p1Time++;
                 Player1Time.Text = ((int)(p1Time / 60) < 10) ? '0' + Convert.ToString((int)(p1Time / 60)) : Convert.ToString((int)(p1Time / 60));
                 Player1Time.Text += ':';
-                Player1Time.Text += ((p1Time / 60.0 - (int)(p1Time / 60)) * 60 < 10) ? '0' + Convert.ToString((p1Time / 60.0 - (int)(p1Time / 60)) * 60) : Convert.ToString((p1Time / 60.0 - (int)(p1Time / 60)) * 60);
+                Player1Time.Text += ((int)((p1Time / 60.0 - (int)(p1Time / 60)) * 60) < 10) ? '0' + Convert.ToString((int)((p1Time / 60.0 - (int)(p1Time / 60)) * 60)) : Convert.ToString((int)((p1Time / 60.0 - (int)(p1Time / 60)) * 60));
             }
             else
             {
                 p2Time++;
                 Player2Time.Text = ((int)(p2Time / 60) < 10) ? '0' + Convert.ToString((int)(p2Time / 60)) : Convert.ToString((int)(p2Time / 60));
                 Player2Time.Text += ':';
-                Player2Time.Text += ((p2Time / 60.0 - (int)(p2Time / 60)) * 60 < 10) ? '0' + Convert.ToString((p2Time / 60.0 - (int)(p2Time / 60)) * 60) : Convert.ToString((p2Time / 60.0 - (int)(p2Time / 60)) * 60);
+                Player2Time.Text += ((int)((p2Time / 60.0 - (int)(p2Time / 60)) * 60) < 10) ? '0' + Convert.ToString((int)((p2Time / 60.0 - (int)(p2Time / 60)) * 60)) : Convert.ToString((int)((p2Time / 60.0 - (int)(p2Time / 60)) * 60));
             }
         }
         //Cursor moved event
@@ -220,7 +227,26 @@ namespace Chess.GUI
             else gameConsole.AppendText(str);
             gameConsole.ScrollToCaret();
         }
+        void PrintMessage(string str, MessageOwner owner)
+        {
+            switch (owner)
+            {
+                case MessageOwner.Player1:
+                    PrintToConsole("Player1: ", Color.Green);
+                    PrintToConsoleLn(str, Color.FromArgb(64, 128, 255));
+                    break;
 
+                case MessageOwner.Player2:
+                    PrintToConsole("Player2: ", Color.Green);
+                    PrintToConsoleLn(str, Color.FromArgb(128, 64, 255));
+                    break;
+
+                case MessageOwner.System:
+                    PrintToConsole("System: ", Color.Red);
+                    PrintToConsoleLn(str, Color.Black);
+                    break;
+            }
+        }
         //Mouse down event handler
         private void PlayWindow_Click(object sender, MouseEventArgs e)
         {

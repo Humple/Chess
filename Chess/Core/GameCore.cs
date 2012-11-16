@@ -255,11 +255,14 @@ namespace Chess.Core
                     //Проверка на замену пешки другой фигурой
                     if ((runColor == FigureColor.WHITE && newPos.Y == 0) || (runColor == FigureColor.BLACK && newPos.Y == 7))
                     {
-                        FigureChoiceWindow w = new FigureChoiceWindow(playWindow.GetPosOnScreen(newPos), runColor);
-                        w.ShowDialog(playWindow);
-                        matrix.SetFigure(w.Result, newPos);
-                        playWindow.matrix.SetImage(w.Result.image, newPos);
-                        playWindow.ReDraw(true);
+                        if ((network.type == NetWorkType.SERVER && runColor == FigureColor.WHITE) || (network.type == NetWorkType.CLIENT && runColor == FigureColor.BLACK))
+                        {
+                            FigureChoiceWindow w = new FigureChoiceWindow(playWindow.GetPosOnScreen(newPos), runColor);
+                            w.ShowDialog(playWindow);
+                            matrix.SetFigure(w.Result, newPos);
+                            playWindow.matrix.SetImage(w.Result.image, newPos);
+                            playWindow.ReDraw(true);
+                        }
                     }
                     else
                     {

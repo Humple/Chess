@@ -277,6 +277,7 @@ namespace Chess.Core
             CheckForMate();
             playWindow.matrix.ResetAllAttribures();
             playWindow.Cursor = Cursors.Default;
+            playWindow.Redraw();
         }
 
         private void GetInPass(Position oldPos, Position newPos)
@@ -331,7 +332,7 @@ namespace Chess.Core
             endGameLock = false;
             playWindow.Text = "Chess - Server";
             networkGame = true;
-            PlayerClock.Start();
+            
             playWindow.Show();
 
             try
@@ -359,7 +360,6 @@ namespace Chess.Core
             endGameLock = false;
             networkGame = true;
             playWindow.Text = "Chess - Client";
-            PlayerClock.Start();
             playWindow.Show();
 
             Debug.NewMessage(this.ToString() + " connecting to server " + ip);
@@ -438,8 +438,11 @@ namespace Chess.Core
             inviteWindow.Invoke(new MethodInvoker(delegate
             {
                 inviteWindow.Show();
+
                 playWindow.Close();
                 MessageBox.Show("Network", "Disconnected");
+
+                PlayerClock.Stop();
             }));
 
         }
@@ -455,6 +458,7 @@ namespace Chess.Core
                     strokeLock = false;
 
                 inviteWindow.Close();
+                PlayerClock.Start();
             }));
 
         }

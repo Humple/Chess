@@ -327,7 +327,7 @@ namespace Chess.Core
         private void StartServer()
         {
             playWindow.NetworkEnabled = true;
-            strokeLock = false;
+            strokeLock = true;
             endGameLock = false;
             playWindow.Text = "Chess - Server";
             networkGame = true;
@@ -438,6 +438,8 @@ namespace Chess.Core
             inviteWindow.Invoke(new MethodInvoker(delegate
             {
                 inviteWindow.Show();
+                playWindow.Close();
+                MessageBox.Show("Network", "Disconnected");
             }));
 
         }
@@ -445,8 +447,13 @@ namespace Chess.Core
         public void ConnectedHandler()
         {
             Debug.NewMessage(this.ToString() + " " + " connected " + Thread.CurrentThread.Name);
+            
             inviteWindow.Invoke(new MethodInvoker(delegate
             {
+                //accept for move figure
+                if (network.type == NetWorkType.SERVER)
+                    strokeLock = false;
+
                 inviteWindow.Close();
             }));
 
@@ -508,6 +515,7 @@ namespace Chess.Core
 
         public void MessageReceived(String message)
         {
+            network.Add_Message(message);
         }
 
         #endregion

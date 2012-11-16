@@ -107,6 +107,8 @@ namespace Chess.Network
                 //sending data via socket
                 if (outCommands.Count != 0)
                     SendCommand();
+                if (!socket.Connected)
+                    Disconnect();
                 //waiting new data
                 Thread.Sleep(10);
             }

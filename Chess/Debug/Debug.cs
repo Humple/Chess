@@ -23,15 +23,16 @@ namespace Chess
 
         public static void NewMessage(string msg)
         {
+#if DEBUG_MSG
             Debug dbg = GetInstance();
             if (dbg.InvokeRequired)
             {
-#if DEBUG
+
                 dbg.Invoke(new MethodInvoker(delegate
                 {
                     debug.Show();
                 }));
-#endif
+
             }
             else
                 dbg.Show();
@@ -42,6 +43,7 @@ namespace Chess
                 } ) );
             } else
                 debug.textBox.Text += "\n " + DateTime.Now +" "+ msg;
+#endif
         }
 
         public static Debug GetInstance()

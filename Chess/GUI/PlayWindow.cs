@@ -305,6 +305,7 @@ namespace Chess.GUI
             PrintToConsole("Player1: ", Color.Green);
             PrintToConsoleLn(commandLine.Text, Color.FromArgb(64, 128, 255));
             commandLine.Text = "";
+            control.MessageReceived(commandLine.Text);
         }
 
         private void commandLine_KeyDown(object sender, KeyEventArgs e)

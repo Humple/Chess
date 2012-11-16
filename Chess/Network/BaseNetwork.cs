@@ -224,6 +224,17 @@ namespace Chess.Network
 				outCommands.Enqueue(command);
 			}
 		}
+        //add change figure
+        public void Add_ChangeFigure(Position pos, Figure figure, FigureColor color)
+        {
+            string command = NetworkDef.CHANGE + ' ' + pos.X + ' ' + pos.Y
+                + ' ' + figure.ToString();
+
+            lock (outCommands)
+            {
+                outCommands.Enqueue(command);
+            }
+        }
         //add send message command to queue
 		public void Add_Message (string mes)
 		{

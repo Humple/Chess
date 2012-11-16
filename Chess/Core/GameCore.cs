@@ -277,7 +277,7 @@ namespace Chess.Core
             CheckForMate();
             playWindow.matrix.ResetAllAttribures();
             playWindow.Cursor = Cursors.Default;
-            playWindow.Redraw();
+            playWindow.ReDraw();
         }
 
         private void GetInPass(Position oldPos, Position newPos)
